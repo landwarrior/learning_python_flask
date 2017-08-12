@@ -8,22 +8,23 @@ from flask import session
 from flask import request
 from flask import redirect
 from flask import url_for
+from FlaskWebProject1 import views_login
 from FlaskWebProject1 import app
 
 
-@app.before_request
-def before_request():
-    # セッションにusernameが保存されている（= ログイン済み）
-    if session.get('username') is not None:
-        return None
-    ## リクエストがログインに関するもの
-    if request.path == '/login':
-        return None
-    ## よく分からんので確認用
-    if request.path == '/home':
-        return None
-    ## ログインされていなければリダイレクト
-    return redirect(url_for('login'))
+#@app.before_request
+#def before_request():
+#    # セッションにusernameが保存されている（= ログイン済み）
+#    if session.get('username') is not None:
+#        return None
+#    ## リクエストがログインに関するもの
+#    if request.path == '/login':
+#        return None
+#    ## よく分からんので確認用
+#    if request.path == '/home':
+#        return None
+#    ## ログインされていなければリダイレクト
+#    return redirect(url_for('login'))
 
 
 @app.route('/')
@@ -54,25 +55,4 @@ def about():
         title='About',
         year=datetime.now().year,
         message='Your application description page.'
-    )
-
-@app.route('/login', methods=['GET'])
-def login():
-    """Renders the login page."""
-    return render_template(
-        'login.html',
-        title='Login',
-        year=datetime.now().year,
-    )
-
-@app.route('/login', methods=['POST'])
-def try_login():
-    """Try login"""
-    return render_template(
-        'login.html',
-        title='Login',
-        ispost=True,
-        userid=request.form.get('userid'),
-        ignitionkey=request.form.get('ignitionkey'),
-        year=datetime.now().year,
     )
