@@ -1,0 +1,2 @@
+# learning_python_flask
+Flaskの勉強のため作ったやつ
