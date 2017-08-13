@@ -1,3 +1,4 @@
 .vs/
 obj/
 env/
+__pycache__/

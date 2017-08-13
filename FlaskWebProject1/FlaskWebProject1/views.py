@@ -31,6 +31,10 @@ from FlaskWebProject1 import app
 @app.route('/home')
 def home():
     """Renders the home page."""
+
+    if _check_login() is not None:
+        return _check_login()
+
     return render_template(
         'index.html',
         title='Home Page',
@@ -40,6 +44,10 @@ def home():
 @app.route('/contact')
 def contact():
     """Renders the contact page."""
+
+    if _check_login() is not None:
+        return _check_login()
+
     return render_template(
         'contact.html',
         title='Contact',
@@ -50,9 +58,20 @@ def contact():
 @app.route('/about')
 def about():
     """Renders the about page."""
+
+    if _check_login() is not None:
+        return _check_login()
+
     return render_template(
         'about.html',
         title='About',
         year=datetime.now().year,
         message='Your application description page.'
     )
+
+
+def _check_login():
+    if session.get('username') is not None:
+        return
+    else:
+        return redirect(url_for('login'))
