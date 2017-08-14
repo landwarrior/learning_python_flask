@@ -1,4 +1,4 @@
 .vs/
 obj/
 env/
-__pycache__/
+/FlaskWebProject1/FlaskWebProject1/__pycache__/

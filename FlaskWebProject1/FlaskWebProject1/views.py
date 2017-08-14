@@ -8,6 +8,7 @@ from flask import session
 from flask import request
 from flask import redirect
 from flask import url_for
+from flask import escape
 from FlaskWebProject1 import views_login
 from FlaskWebProject1 import app
 
@@ -27,7 +28,7 @@ from FlaskWebProject1 import app
 #    return redirect(url_for('login'))
 
 
-@app.route('/')
+#@app.route('/')
 @app.route('/home')
 def home():
     """Renders the home page."""
@@ -36,8 +37,9 @@ def home():
         return _check_login()
 
     return render_template(
-        'index.html',
+        'home.html',
         title='Home Page',
+        username=escape(session.get('username')),
         year=datetime.now().year,
     )
 
