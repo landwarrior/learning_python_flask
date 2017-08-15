@@ -28,7 +28,7 @@ from FlaskWebProject1 import app
 #    return redirect(url_for('login'))
 
 
-#@app.route('/')
+@app.route('/')
 @app.route('/home')
 def home():
     """Renders the home page."""
@@ -37,7 +37,7 @@ def home():
         return _check_login()
 
     return render_template(
-        'home.html',
+        'index.html',
         title='Home Page',
         username=escape(session.get('username')),
         year=datetime.now().year,
