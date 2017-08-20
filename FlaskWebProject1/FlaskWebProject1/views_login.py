@@ -11,7 +11,7 @@ from flask import redirect
 from flask import url_for
 from flask import escape
 from FlaskWebProject1 import app
-
+from FlaskWebProject1 import models
 
 @app.route('/login', methods=['GET'])
 def login():
