@@ -25,19 +25,31 @@ def login():
 @app.route('/login', methods=['POST'])
 def try_login():
     """Try login"""
-
-    session['username'] = request.form.get('userid')
-    
-
-    return redirect(url_for('home'))
-    #return render_template(
-    #    'login.html',
-    #    title='Login',
-    #    ispost=True,
-    #    userid=request.form.get('userid'),
-    #    ignitionkey=request.form.get('ignitionkey'),
-    #    year=datetime.now().year,
-    #)
+    user_name = request.form.get('userid')
+    db_data = models.User.get_data(user_name)
+    if db_data is not None:
+        password = request.form.get('ignitionkey')
+        if db_data.password == password:
+            session['username'] = user_name
+            return redirect(url_for('home'))
+        else:
+            return render_template(
+            'login.html',
+            title='Login',
+            ispost=True,
+            userid=request.form.get('userid'),
+            ignitionkey=request.form.get('ignitionkey'),
+            year=datetime.now().year,
+        )
+    else:
+        return render_template(
+            'login.html',
+            title='Login',
+            ispost=True,
+            userid=request.form.get('userid'),
+            ignitionkey=request.form.get('ignitionkey'),
+            year=datetime.now().year
+        )
 
 
 @app.route('/logout')
