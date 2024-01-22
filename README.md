@@ -1,10 +1,10 @@
 # learning_python_flask
-Flaskの勉強のため作ったやつ。
-Visual Studio 2017 Communityで生成したものからスタートしてます。
+
+Flaskの勉強のため作ったやつ。  
+Visual Studio 2017 Communityで生成したものからやろうかと思ったが、うまくいかなくて放置してたら時間がたちすぎたので改めて作り直す。
 
 # 環境
-* Python 3.6.2
-* Flask 0.12.2
-* SQLAlchemy 1.1.13
 
-環境は適宜追加になるかも。
+- Python 3.12.1
+
+あとは requirements.txt とかを参照。

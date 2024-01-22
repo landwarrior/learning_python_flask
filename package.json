@@ -1,0 +1,17 @@
+{
+  "name": "learning_python_flask",
+  "version": "1.0.0",
+  "description": "Flaskの勉強のため作ったやつ。  \r Visual Studio 2017 Communityで生成したものからやろうかと思ったが、うまくいかなくて放置してたら時間がたちすぎたので改めて作り直す。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-plugin-vue": "^9.20.1",
+    "htmlhint": "^1.1.4"
+  }
+}
