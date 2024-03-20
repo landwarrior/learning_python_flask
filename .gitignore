@@ -3,3 +3,6 @@
 .venv
 node_modules
 package-lock.json
+local-mode-cache
+chef_guid
+localhost.json

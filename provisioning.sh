@@ -22,3 +22,12 @@ SCRIPT_DIR=$(cd $(dirname $0);pwd)
 
 # chef 実行
 sudo echo yes | chef-client -z -c /vagrant/chef-repo/solo.rb -j /vagrant/chef-repo/nodes/flask_app.json
+
+
+# docker swarm init 実行 NOTE: Vagrantfile に記載された IP アドレスと同じものを指定する
+if ! [[ $(docker node ls -q) ]]; then
+    echo "  - docker swarm init"
+    docker swarm init --advertise-addr 192.168.33.33
+else
+    echo "  * skip docker swarm init"
+fi
