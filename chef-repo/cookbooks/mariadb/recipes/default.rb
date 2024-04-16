@@ -19,6 +19,18 @@ template '/etc/my.cnf.d/client.cnf' do
     action :create
 end
 
+# create directory
+%w[
+    /var/log/mysql
+].each do |path|
+    directory path do
+        owner 'root'
+        group 'root'
+        mode '0777'
+        action :create
+    end
+end
+
 service 'mariadb' do
   action [:enable, :start]
 end

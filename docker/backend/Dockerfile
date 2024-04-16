@@ -6,3 +6,5 @@ RUN apt update
 RUN apt install -y gcc
 COPY requirements.txt /var/app/flask/
 RUN pip install -r /var/app/flask/requirements.txt
+
+EXPOSE 5000
