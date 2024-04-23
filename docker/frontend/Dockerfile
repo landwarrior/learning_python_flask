@@ -7,4 +7,6 @@ RUN apt install -y gcc
 COPY requirements.txt /var/app/flask/
 RUN pip install -r /var/app/flask/requirements.txt
 
-EXPOSE 80
+EXPOSE 8080
+
+CMD ["uwsgi", "--ini", "/var/app/flask/frontend/uwsgi.ini"]

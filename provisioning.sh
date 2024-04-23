@@ -46,7 +46,12 @@ if ! docker images | grep -q backend; then
     docker build -t backend /vagrant/docker/backend
 fi
 
-# docker stack deployコマンド
-if ! docker stack ls | grep -q keijiban; then
-    docker stack deploy -c /vagrant/docker/docker-stack-local.yml keijiban
+if ! docker images | grep -q mynginx; then
+    echo "  - docker build mynginx"
+    docker build -t mynginx /vagrant/docker/nginx
+fi
+
+# docker stack deploy
+if ! docker stack ls | grep -q test; then
+    docker stack deploy -c /vagrant/docker/docker-stack-local.yml test
 fi

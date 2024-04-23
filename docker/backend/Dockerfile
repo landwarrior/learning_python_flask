@@ -8,3 +8,5 @@ COPY requirements.txt /var/app/flask/
 RUN pip install -r /var/app/flask/requirements.txt
 
 EXPOSE 5000
+
+CMD ["uwsgi", "--ini", "/var/app/flask/backend/uwsgi.ini"]
