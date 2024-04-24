@@ -1,5 +1,6 @@
 import logging
 import time
+import uuid
 
 from api import api_bp
 from flask import Flask, Response, g, request
@@ -7,11 +8,25 @@ from flask import Flask, Response, g, request
 app = Flask(__name__)
 
 
+class UniqueKeyFormatter(logging.Formatter):
+    """カスタムログフォーマット."""
+
+    def format(self, record):
+        """ログフォーマットに unique_key を追加して出力できるようにする."""
+        try:
+            record.unique_key = g.unique_key
+        except Exception:
+            record.unique_key = ""
+        return super().format(record)
+
+
 def prepare_logging(app: Flask):
     app.logger.handlers = []
     app.logger.setLevel(logging.DEBUG)
     handler = logging.StreamHandler()
-    formatter = logging.Formatter("%(asctime)s [%(levelname)s](%(name)s) %(message)s [in %(pathname)s:%(lineno)d]")
+    formatter = UniqueKeyFormatter(
+        "%(asctime)s [%(levelname)s](%(name)s)[%(unique_key)s] | %(message)s [in %(pathname)s:%(lineno)d]"
+    )
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
 
@@ -27,6 +42,8 @@ def home():
 @app.before_request
 def before_request():
     g.start_time = time.time()
+    # UUID4 を 16 進数にして、 7 文字分だけ使う
+    g.unique_key = uuid.uuid4().hex[0:7]
     data = request.get_json(silent=True)
     header = str(request.headers).strip().replace("\r", "").replace("\n", ", ")
     app.logger.info(f"[URL] {request.method} {request.url} [DATA] {data} [HEADER] {header}")
