@@ -39,13 +39,13 @@ end
 execute 'create database if not exists mydb' do
     command 'mysql -uroot -e"create database if not exists mydb"'
 end
-# cookbook_file "/#{Chef::Config[:file_cache_path]}/init.sql" do
-#     source 'init.sql'
-#     mode 0644
-#     owner 'root'
-#     group 'root'
-#     action :create
-# end
-# execute 'initializing mydb' do
-#     command "mysql -uroot -Dmydb < #{Chef::Config[:file_cache_path]}/init.sql"
-# end
+cookbook_file "/#{Chef::Config[:file_cache_path]}/init.sql" do
+    source 'init.sql'
+    mode 0644
+    owner 'root'
+    group 'root'
+    action :create
+end
+execute 'initializing mydb' do
+    command "mysql -uroot -Dmydb < #{Chef::Config[:file_cache_path]}/init.sql"
+end
