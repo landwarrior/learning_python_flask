@@ -25,7 +25,7 @@ def prepare_logging(app: Flask):
     app.logger.setLevel(logging.DEBUG)
     handler = logging.StreamHandler()
     formatter = UniqueKeyFormatter(
-        "%(asctime)s [%(levelname)s](%(name)s)[%(unique_key)s] | %(message)s [in %(pathname)s:%(lineno)d]"
+        "%(asctime)s [%(levelname)-7s](%(name)s)[%(unique_key)s] | %(message)s [in %(pathname)s:%(lineno)d]"
     )
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
