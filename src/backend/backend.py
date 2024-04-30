@@ -3,6 +3,7 @@ import time
 import uuid
 
 from api import api_bp
+from config import get_config
 from flask import Flask, Response, g, request
 
 app = Flask(__name__)
@@ -24,13 +25,12 @@ def prepare_logging(app: Flask):
     app.logger.handlers = []
     app.logger.setLevel(logging.DEBUG)
     handler = logging.StreamHandler()
-    formatter = UniqueKeyFormatter(
-        "%(asctime)s [%(levelname)-7s](%(name)s)[%(unique_key)s] | %(message)s [in %(pathname)s:%(lineno)d]"
-    )
+    formatter = UniqueKeyFormatter(app.config.get("LOG_FORMAT", ""))
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
 
 
+app.config.from_object(get_config())
 prepare_logging(app)
 
 
