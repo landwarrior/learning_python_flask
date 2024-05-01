@@ -5,7 +5,7 @@ import uuid
 from api import api_bp
 from config import get_config
 from flask import Flask, Response, g, request
-from models import Base, Database, initialize_engine
+from models import Database
 
 app = Flask(__name__)
 
@@ -32,13 +32,10 @@ def prepare_logging(app: Flask) -> None:
 
 
 def prepare_db(app: Flask) -> None:
-    engine = initialize_engine(app.config.get("SQLALCHEMY_DATABASE_URI", ""))
-    Base.prepare(autoload_with=engine)
     if not hasattr(app, "db"):
-        app.db = Database()
-    app.db.Base = Base
-    app.db.engine = engine
-    app.db.mst_user = Base.classes.mst_user
+        app.db = Database(app.config.get("SQLALCHEMY_DATABASE_URI", ""))
+    app.db.Base.prepare(autoload_with=app.db.engine)
+    app.db.mst_user = app.db.Base.classes.mst_user
 
 
 app.config.from_object(get_config())

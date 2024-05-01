@@ -3,21 +3,7 @@ from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
-
-Base = automap_base()
-
-
-def initialize_engine(connection_string):
-    """データベースエンジンを初期化する関数です。
-
-    Args:
-        connection_string (str): データベースへの接続文字列。
-
-    Returns:
-        Engine: SQLAlchemy Engine インスタンス。
-    """
-    return create_engine(connection_string)
-
+from sqlalchemy.pool import NullPool
 
 # engine の初期化は外部から行う
 # 例: engine = initialize_engine("mysql+mysqlconnector://myaccount:myaccount@host/mydb")
@@ -59,7 +45,7 @@ def session_scope(engine):
 class Database:
     """Flask の app に登録するためのクラス."""
 
-    def __init__(self):
-        self.engine = None
-        self.Base = None
+    def __init__(self, connection_string: str):
+        self.engine = create_engine(connection_string, poolclass=NullPool)
+        self.Base = automap_base()
         self.mst_user = None
