@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,10 +15,15 @@
   <script defer src="{{ url_for_with_mtime('assets/axios.min.js') }}"></script>
   <script defer src="{{ url_for_with_mtime('assets/js/app.js') }}"></script>
   <title>{% block title %}{% endblock %}</title>
+  {% block scripts %}{% endblock %}
 </head>
+
 <body>
+  {% include 'header.jinja' %}
   {% block content %}
   <h1>Hello, Flask!</h1>
   {% endblock %}
+  {% include 'footer.jinja' %}
 </body>
+
 </html>
