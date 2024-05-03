@@ -22,7 +22,6 @@ class Config:
     SESSION_COOKIE_NAME = "SONY信者"
     SESSION_COOKIE_SAMESITE = "Strict"
     PERMANENT_SESSION_LIFETIME = datetime.timedelta(hours=4)
-    LOG_FORMAT = "%(asctime)s [%(levelname)-7s](%(name)s)[%(unique_key)s] | %(message)s [in %(pathname)s:%(lineno)d]"
 
 
 class LocalConfig(Config):

@@ -5,32 +5,24 @@ import uuid
 
 from config import get_config
 from flask import Flask, Response, g, render_template, request, session, url_for
+from flask_minify import Minify
+from mylogger import UniqueKeyFormatter
 
 app = Flask(__name__)
-
-
-class UniqueKeyFormatter(logging.Formatter):
-    """カスタムログフォーマット."""
-
-    def format(self, record):
-        """ログフォーマットに unique_key を追加して出力できるようにする."""
-        try:
-            record.unique_key = g.unique_key
-        except Exception:
-            record.unique_key = ""
-        return super().format(record)
 
 
 def prepare_logging(app: Flask):
     app.logger.handlers = []
     app.logger.setLevel(logging.DEBUG)
     handler = logging.StreamHandler()
-    formatter = UniqueKeyFormatter(app.config.get("LOG_FORMAT", ""))
+    formatter = UniqueKeyFormatter()
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
 
 
 app.config.from_object(get_config())
+app.json.ensure_ascii = False
+Minify(app=app, html=True, js=True, cssless=True)
 prepare_logging(app)
 
 

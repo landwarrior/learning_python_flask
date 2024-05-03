@@ -17,7 +17,6 @@ def get_config():
 class Config:
 
     SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://myaccount:myaccount@192.168.33.33/mydb"
-    LOG_FORMAT = "%(asctime)s [%(levelname)-7s](%(name)s)[%(unique_key)s] | %(message)s [in %(pathname)s:%(lineno)d]"
 
 
 class LocalConfig(Config):

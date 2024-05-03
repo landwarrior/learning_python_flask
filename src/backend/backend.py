@@ -6,27 +6,16 @@ from api import api_bp
 from config import get_config
 from flask import Flask, Response, g, request
 from models import Database
+from mylogger import UniqueKeyFormatter
 
 app = Flask(__name__)
-
-
-class UniqueKeyFormatter(logging.Formatter):
-    """カスタムログフォーマット."""
-
-    def format(self, record):
-        """ログフォーマットに unique_key を追加して出力できるようにする."""
-        try:
-            record.unique_key = g.unique_key
-        except Exception:
-            record.unique_key = ""
-        return super().format(record)
 
 
 def prepare_logging(app: Flask) -> None:
     app.logger.handlers = []
     app.logger.setLevel(logging.DEBUG)
     handler = logging.StreamHandler()
-    formatter = UniqueKeyFormatter(app.config.get("LOG_FORMAT", ""))
+    formatter = UniqueKeyFormatter()
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
 
@@ -39,6 +28,7 @@ def prepare_db(app: Flask) -> None:
 
 
 app.config.from_object(get_config())
+app.json.ensure_ascii = False
 prepare_logging(app)
 prepare_db(app)
 

@@ -5,16 +5,6 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import NullPool
 
-# engine の初期化は外部から行う
-# 例: engine = initialize_engine("mysql+mysqlconnector://myaccount:myaccount@host/mydb")
-
-# reflect the tables
-# Base.prepare(autoload_with=engine) は engine が初期化された後に呼び出す必要がある
-
-# mapped classes are now created with names by default
-# matching that of the table name.
-# mst_user = Base.classes.mst_user は Base が準備された後にアクセスする
-
 
 @contextmanager
 def session_scope(engine):
