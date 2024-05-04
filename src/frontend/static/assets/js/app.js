@@ -2,17 +2,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     const theme = localStorage.getItem('theme') || systemTheme;
     document.documentElement.setAttribute('data-bs-theme', theme);
+    if (theme === 'light') {
+        document.getElementById('logo_dark').classList.add('d-none');
+        document.getElementById('logo_dark').classList.remove('d-inline-block');
+        document.getElementById('logo_light').classList.remove('d-none');
+        document.getElementById('logo_light').classList.add('d-inline-block');
+    } else {
+        document.getElementById('logo_light').classList.remove('d-inline-block');
+        document.getElementById('logo_light').classList.add('d-none');
+        document.getElementById('logo_dark').classList.remove('d-none');
+        document.getElementById('logo_dark').classList.add('d-inline-block');
+    }
 
     document.getElementById('theme-switch').addEventListener('click', (e) => {
         e.preventDefault();
-        const theme = e.target.dataset.theme;
+        let theme = e.target.dataset.theme;
         if (theme === 'auto') {
-            updateTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        } else {
-            updateTheme(theme);
+            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
-        const cls = e.target.querySelector('i').classList;
-        document.getElementById('current-theme').classList = cls;
+        updateTheme(theme);
+        document.getElementById('current-theme').classList = e.target.querySelector('i').classList;
+        if (theme === 'light') {
+            document.getElementById('logo_dark').classList.add('d-none');
+            document.getElementById('logo_dark').classList.remove('d-inline-block');
+            document.getElementById('logo_light').classList.remove('d-none');
+            document.getElementById('logo_light').classList.add('d-inline-block');
+        } else {
+            document.getElementById('logo_light').classList.remove('d-inline-block');
+            document.getElementById('logo_light').classList.add('d-none');
+            document.getElementById('logo_dark').classList.remove('d-none');
+            document.getElementById('logo_dark').classList.add('d-inline-block');
+        }
     });
 });
 
