@@ -1,15 +1,16 @@
-:root[data-bs-theme="dark"] {
+:root[data-bs-theme='dark'] {
     --bs-body-color: #d0d0d0;
     --bs-body-bg: #252525;
 }
-:root[data-bs-theme="light"] {
+:root[data-bs-theme='light'] {
     --bs-body-color: #4e5253;
     --bs-body-bg: #e0e0e0;
 }
 
-html, body {
+html,
+body {
     /* フォントはいつもの */
-    font-family: "Nunito Sans", "Noto Sans JP", sans-serif;
+    font-family: 'Nunito Sans', 'Noto Sans JP', sans-serif;
     letter-spacing: 0.06rem;
     background-color: var(--bs-body-bg);
     color: var(--bs-body-color);
