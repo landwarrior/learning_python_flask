@@ -16,7 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleIcon(selectedTheme);
 
     document.getElementById('theme-switch').addEventListener('click', (e) => {
+        // なぜか画面描画しなおすので動作を無効化
         e.preventDefault();
+        if (e.target.localName !== 'a') {
+            // イベントを発生させたタグが a でなければ無視
+            return;
+        }
         let theme = e.target.dataset.theme;
         localStorage.setItem('theme', theme);
         if (theme === 'auto') {
@@ -25,6 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-bs-theme', theme);
         document.getElementById('current-theme').classList = e.target.querySelector('i').classList;
         toggleLogo(theme);
+    });
+
+    const system = window.matchMedia('(prefers-color-scheme: dark)');
+    system.addEventListener('change', (e) => {
+        if (localStorage.getItem('theme') === 'auto') {
+            document.documentElement.setAttribute('data-bs-theme', e.matches ? 'dark' : 'light');
+            toggleLogo(e.matches ? 'dark' : 'light');
+        }
     });
 });
 
