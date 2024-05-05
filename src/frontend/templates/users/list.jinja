@@ -5,7 +5,62 @@
 {% block content %}
 <div class="container">
   <h1>社員情報一覧</h1>
-  <p>ここにページ固有の内容を記述します。</p>
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <div><i class="bi bi-search"></i> 検索</div>
+      <button class="btn btn-sm collapse-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#search_body" aria-expanded="false" aria-controls="search_body">
+        <i class="bi bi-dash"></i>
+      </button>
+    </div>
+    <div id="search_body" class="collapse show">
+      <div class="card-body">
+        <div class="row gy-3">
+          <div class="col-lg-4 col-md-6">
+            <label for="user_name" class="form-label d-none d-md-block">社員名</label>
+            <input type="text" class="form-control" id="user_name" placeholder="社員名">
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <label for="user_name_kana" class="form-label d-none d-md-block">社員名カナ</label>
+            <input type="text" class="form-control" id="user_name_kana" placeholder="社員名カナ">
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <label for="email" class="form-label d-none d-md-block">メールアドレス</label>
+            <input type="text" class="form-control" id="email" placeholder="メールアドレス">
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <label for="birth_day_from" class="form-label d-none d-md-block">生年月日FROM</label>
+            <input type="text" class="form-control" id="birth_day_from" placeholder="生年月日FROM">
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <label for="birth_day_to" class="form-label d-none d-md-block">生年月日TO</label>
+            <input type="text" class="form-control" id="birth_day_to" placeholder="生年月日TO">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Contact</button>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">これはHomeです</div>
+        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">これはProfileです</div>
+        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">これはContactです</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
