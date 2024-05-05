@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-bs-theme="auto">
 
 <head>
   <meta charset="UTF-8">
@@ -12,21 +12,12 @@
   <link rel="stylesheet" href="{{ url_for_with_mtime('assets/css/app.css') }}">
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="{{ url_for('static', filename='assets/bootstrap/icons/font/bootstrap-icons.min.css') }}">
-  <script>
-    const selectedTheme = localStorage.getItem('theme') || 'auto';
-    let theme = selectedTheme;
-    if (selectedTheme === 'auto') {
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-bs-theme', theme);
-  </script>
+  <script src="{{ url_for_with_mtime('assets/js/color-modes.js') }}"></script>
   <script defer src="{{ url_for_with_mtime('assets/vue.global.prod.js') }}"></script>
   <!-- Bootstrap JS (Popper.js も含まれると思う) -->
   <script defer src="{{ url_for_with_mtime('assets/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <!-- Axios -->
   <script defer src="{{ url_for_with_mtime('assets/axios.min.js') }}"></script>
-  <!-- アプリ本体 -->
-  <script defer src="{{ url_for_with_mtime('assets/js/app.js') }}"></script>
   <title>{% block title %}{% endblock %}｜Flaskアプリのサンプル</title>
   {% block scripts %}{% endblock %}
 </head>

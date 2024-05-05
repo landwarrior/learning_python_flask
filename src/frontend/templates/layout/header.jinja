@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg sticky-top bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
-        <img src="{{ url_for('static', filename='assets/yu_mark.svg') }}" alt="Logo" width="30" id="logo_light" class="d-none align-text-top">
+        <img src="{{ url_for('static', filename='assets/yu_mark.svg') }}" alt="Logo" width="30" id="logo_light" class="d-inline-block align-text-top">
         <img src="{{ url_for('static', filename='assets/yu_mark_hanten.svg') }}" alt="Logo" width="30" id="logo_dark" class="d-none align-text-top">
         Flaskアプリのサンプル
       </a>
@@ -16,7 +16,7 @@
               人事
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/users"><i class="bi bi-people-fill"></i> 社員情報一覧</a></li>
+              <li><a class="dropdown-item" href="/users/list"><i class="bi bi-people-fill"></i> 社員情報一覧</a></li>
               <li><a class="dropdown-item" href="/users/regist"><i class="bi bi-person-fill-add"></i> 社員情報登録</a></li>
               <li><a class="dropdown-item" href="/users/edit"><i class="bi bi-person-fill-lock"></i> あとなんか</a></li>
             </ul>
@@ -51,14 +51,26 @@
             <hr class="d-lg-none">
           </li>
           <li class="nav-item dropdown">
-            <button class="btn btn-link nav-link px-lg-2 dropdown-toggle d-flex align-items-center" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+            <button class="btn btn-link nav-link px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (auto)">
               <i id="current-theme" class="bi bi-circle-half"></i>
               <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end" id="theme-switch" aria-labelledby="bd-theme-text">
-              <li><a class="dropdown-item" href="#" data-theme="auto"><i class="bi bi-circle-half"></i> Auto</a></li>
-              <li><a class="dropdown-item" href="#" data-theme="light"><i class="bi bi-brightness-high-fill"></i> Light</a></li>
-              <li><a class="dropdown-item" href="#" data-theme="dark"><i class="bi bi-moon-stars-fill"></i> Dark</a></li>
+              <li>
+                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                  <i class="bi bi-circle-half"></i> Auto
+                </button>
+              </li>
+              <li>
+                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                  <i class="bi bi-brightness-high-fill"></i> Light
+                </button>
+              </li>
+              <li>
+                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                  <i class="bi bi-moon-stars-fill"></i> Dark
+                </button>
+              </li>
             </ul>
           </li>
         </ul>
