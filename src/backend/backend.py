@@ -1,10 +1,11 @@
 import logging
 import time
+import traceback
 import uuid
 
 from api import api_bp
 from config import get_config
-from flask import Flask, Response, g, request
+from flask import Flask, Response, g, jsonify, request
 from models import Database
 from mylogger import UniqueKeyFormatter
 
@@ -55,6 +56,25 @@ def after_request(response: Response):
     if "application/json" in response.content_type:
         response.headers["Content-Type"] = "application/json; charset=utf-8"
     return response
+
+
+@app.errorhandler(Exception)
+def handle_exception_error(e):
+    app.logger.error(traceback.format_exc())
+    app.logger.info(f"Unhandled exception: {e}")
+    return jsonify({"code": 500, "message": "Internal Server Error"}), 500
+
+
+@app.errorhandler(500)
+def handle_500_error(e):
+    app.logger.info(f"error response: {e}")
+    return jsonify({"code": 500, "message": "Internal Server Error"}), 500
+
+
+@app.errorhandler(502)
+def handle_502_error(e):
+    app.logger.info(f"error response: {e}")
+    return jsonify({"code": 502, "message": "Internal Server Error"}), 502
 
 
 app.register_blueprint(api_bp)
