@@ -4,9 +4,12 @@ import time
 import uuid
 
 from config import get_config
-from flask import Flask, Response, g, render_template, request, session, url_for
+from flask import Flask, Response, g, request, url_for
 from flask_minify import Minify
+from flask_wtf.csrf import CSRFProtect
 from mylogger import UniqueKeyFormatter
+from views.top import top_bp
+from views.users import users_bp
 
 app = Flask(__name__)
 
@@ -24,6 +27,7 @@ app.config.from_object(get_config())
 app.json.ensure_ascii = False
 Minify(app=app, html=True, js=True, cssless=True)
 prepare_logging(app)
+CSRFProtect(app)
 
 
 def static_file_with_mtime(filename):
@@ -62,11 +66,8 @@ def after_request(response: Response):
         return response
 
 
-@app.route("/")
-def home():
-    session["hoge"] = "fuga"
-    return render_template("index.jinja")
-
+app.register_blueprint(top_bp)
+app.register_blueprint(users_bp)
 
 if __name__ == "__main__":
     app.run(debug=True)

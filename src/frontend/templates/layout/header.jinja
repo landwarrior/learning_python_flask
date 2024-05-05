@@ -2,8 +2,8 @@
   <nav class="navbar navbar-expand-lg sticky-top bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
-        <img src="{{ url_for('static', filename='assets/yu_mark.svg') }}" alt="Logo" width="30" id="logo_light" class="d-inline-block align-text-top">
-        <img src="{{ url_for('static', filename='assets/yu_mark_hanten.svg') }}" alt="Logo" width="30" id="logo_dark" class="d-inline-block align-text-top">
+        <img src="{{ url_for('static', filename='assets/yu_mark.svg') }}" alt="Logo" width="30" id="logo_light" class="d-none align-text-top">
+        <img src="{{ url_for('static', filename='assets/yu_mark_hanten.svg') }}" alt="Logo" width="30" id="logo_dark" class="d-none align-text-top">
         Flaskアプリのサンプル
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav" aria-controls="menuNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,9 +16,9 @@
               人事
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#"><i class="bi bi-people-fill"></i> 社員情報一覧</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-person-fill-add"></i> 社員情報登録</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-person-fill-lock"></i> あとなんか</a></li>
+              <li><a class="dropdown-item" href="/users"><i class="bi bi-people-fill"></i> 社員情報一覧</a></li>
+              <li><a class="dropdown-item" href="/users/regist"><i class="bi bi-person-fill-add"></i> 社員情報登録</a></li>
+              <li><a class="dropdown-item" href="/users/edit"><i class="bi bi-person-fill-lock"></i> あとなんか</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">

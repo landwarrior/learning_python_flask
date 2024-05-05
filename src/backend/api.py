@@ -1,6 +1,6 @@
 import datetime
 
-from flask import Blueprint, Response, abort, current_app, jsonify, request
+from flask import Blueprint, Response, current_app, jsonify, request
 from models import mst_user
 
 api_bp = Blueprint("api", __name__)

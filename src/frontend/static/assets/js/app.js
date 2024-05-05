@@ -5,13 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
         theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
     document.documentElement.setAttribute('data-bs-theme', theme);
-    if (theme === 'light') {
-        document.getElementById('logo_dark').classList.toggle('d-inline-block');
-        document.getElementById('logo_dark').classList.toggle('d-none');
-    } else {
-        document.getElementById('logo_light').classList.toggle('d-inline-block');
-        document.getElementById('logo_light').classList.toggle('d-none');
-    }
     toggleLogo(theme);
     toggleIcon(selectedTheme);
 
