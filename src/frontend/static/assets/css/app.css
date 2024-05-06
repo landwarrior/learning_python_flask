@@ -1,0 +1,75 @@
+:root[data-bs-theme='dark'] {
+    --bs-body-color: #d0d0d0;
+    --bs-body-bg: #252525;
+    --shadow-lt: #444444;
+    --shadow-rb: #191919;
+    --bs-table-color: var(--bs-body-color);
+    --bs-emphasis-color: var(--bs-body-color);
+}
+:root[data-bs-theme='light'] {
+    --bs-body-color: #4e5253;
+    --bs-body-bg: #e0e0e0;
+    --bs-border-color: #b8b8b8;
+    --shadow-lt: #f3f3f3;
+    --shadow-rb: #bebebe;
+    --bs-table-color: var(--bs-body-color);
+    --bs-emphasis-color: var(--bs-body-color);
+}
+
+html,
+body {
+    /* フォントはいつもの */
+    font-family: 'Nunito Sans', 'Noto Sans JP', sans-serif;
+    letter-spacing: 0.06rem;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+}
+.nav-space {
+    height: 60px;
+}
+header > nav {
+    backdrop-filter: blur(10px);
+}
+.card {
+    box-shadow: 0.3vw 0.25vw 0.6vw var(--shadow-rb), -0.3vw -0.25vw 0.6vw var(--shadow-lt);
+    margin: 1.5vw 0;
+    border: none;
+}
+.no-border {
+    border: none;
+}
+.btn-outline-search {
+    --bs-btn-color: #00a3c4;
+    --bs-btn-border-color: #00a3c4;
+    --bs-btn-hover-color: var(--bs-body-color);
+    --bs-btn-hover-bg: #00a3c4;
+    --bs-btn-hover-border-color: #00a3c4;
+    --bs-btn-focus-shadow-rgb: 13, 202, 240;
+    --bs-btn-active-color: var(--bs-body-color);
+    --bs-btn-active-bg: #00a3c4;
+    --bs-btn-active-border-color: #00a3c4;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #00a3c4;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #00a3c4;
+    --bs-gradient: none;
+}
+.btn-outline-inputgroup {
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-border-color: var(--bs-border-color);
+    --bs-btn-hover-color: var(--bs-body-bg);
+    --bs-btn-hover-bg: var(--bs-body-color);
+    --bs-btn-hover-border-color: var(--bs-border-color);
+    --bs-btn-focus-shadow-rgb: 13, 202, 240;
+    --bs-btn-active-color: var(--bs-body-color);
+    --bs-btn-active-bg: var(--bs-body-color);
+    --bs-btn-active-border-color: var(--bs-border-color);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: var(--bs-body-color);
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: var(--bs-border-color);
+    --bs-gradient: none;
+}
+[v-cloak] {
+    display: none;
+}

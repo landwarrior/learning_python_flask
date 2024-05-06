@@ -1,0 +1,99 @@
+{% extends "layout/base.jinja" %}
+
+{% block title %}社員情報一覧{% endblock %}
+
+{% block scripts %}
+<link rel="stylesheet" href="{{ url_for_with_mtime('assets/flatpickr/flatpickr.min.css') }}">
+<script defer src="{{ url_for_with_mtime('assets/flatpickr/flatpickr.min.js') }}"></script>
+<script defer src="{{ url_for_with_mtime('assets/flatpickr/l10n/ja.js') }}"></script>
+<script defer type="module" src="{{ url_for_with_mtime('assets/js/list.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container" id="list_hoge" v-cloak>
+  <h1>社員情報一覧</h1>
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <div class="lead"><i class="bi bi-search"></i> 検索</div>
+      <button class="btn btn-sm collapse-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#search_body" aria-expanded="false" aria-controls="search_body">
+        <i class="bi bi-dash"></i>
+      </button>
+    </div>
+    <form id="search_body" class="collapse show" v-cloak>
+      <div class="card-body">
+        <div class="row gy-3">
+          <div class="col-lg-4 col-md-6" v-for="item in search_items" :key="item.id">
+            <label :for="item.id" class="form-label d-none d-md-block">${ item.label }</label>
+            <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value" v-if="item.type == 'text'">
+            <div class="input-group flatpickr" v-if="item.type == 'date'">
+              <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value">
+              <button class="btn btn-outline-inputgroup" type="button" title="clear" data-clear><i class="bi bi-x-lg"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button type="button" class="btn btn-outline-search" @click="search"><i class="bi bi-search"></i> 検索</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="lead"><i class="bi bi-list"></i> 検索結果一覧</div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-sm table-hover align-middle" style="table-layout: fixed">
+          <thead>
+            <tr>
+              <th style="width: 170px">社員ID</th>
+              <th style="width: 140px">社員名</th>
+              <th class="d-none d-lg-table-cell" style="width: 150px">社員名カナ</th>
+              <th class="d-none d-md-table-cell" style="width: 150px">email</th>
+              <th class="d-none d-xl-table-cell" style="width: 60px">性別</th>
+              <th class="d-none d-md-table-cell" style="width: 100px">生年月日</th>
+              <th class="d-none d-lg-table-cell" style="width: 60px">血液型</th>
+              <th style="width: 100px">都道府県</th>
+              <th class="d-none d-xl-table-cell">カレーの食べ方</th>
+            </tr>
+          </thead>
+          <tbody>
+            {# <user-list-result-comp :result_items="result_items"></user-list-result-comp> #}
+            {# <tr v-for="item in result_items">
+              <td>{{ item.user_id }}</td>
+              <td>{{ item.user_name }}</td>
+              <td class="d-none d-lg-table-cell">{{ item.user_name_kana }}</td>
+              <td class="d-none d-md-table-cell text-truncate">{{ item.email }}</td>
+              <td class="d-none d-xl-table-cell">{{ item.gender }}</td>
+              <td class="d-none d-md-table-cell">{{ item.age }}</td>
+              <td class="d-none d-lg-table-cell">{{ item.blood_type }}</td>
+              <td>{{ item.prefecture }}</td>
+              <td class="d-none d-xl-table-cell text-truncate">{{ item.curry }}</td>
+            </tr> #}
+            <tr v-for="item in result_items">
+              <td class="text-truncate">${ item.user_id }</td>
+              <td class="text-truncate">${ item.user_name }</td>
+              <td class="d-none d-lg-table-cell text-truncate">${ item.user_name_kana }</td>
+              <td class="d-none d-md-table-cell text-truncate">${ item.email }</td>
+              <td class="d-none d-xl-table-cell">${ item.gender }</td>
+              <td class="d-none d-md-table-cell">${ item.age }</td>
+              <td class="d-none d-lg-table-cell">${ item.blood_type }</td>
+              <td>${ item.prefecture }</td>
+              <td class="d-none d-xl-table-cell text-truncate">${ item.curry }</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block bodyscripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    axios.defaults.headers.common["X-CSRFToken"] = "{{ csrf_token() }}";
+  });
+</script>
+{% endblock %}

@@ -1,4 +1,7 @@
-.vs/
-obj/
-env/
-/FlaskWebProject1/FlaskWebProject1/__pycache__/
+.vagrant
+.venv
+node_modules
+package-lock.json
+local-mode-cache
+chef_guid
+localhost.json

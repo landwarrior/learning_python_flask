@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  nginx:
+    image: mynginx:latest
+    ports:
+      - "80:80"
+      - "5050:5050"
+    deploy:
+      mode: global
+  frontend:
+    image: frontend:latest
+    deploy:
+      mode: global
+    ports:
+      - "8080:8080"
+    command: uwsgi --ini /var/app/flask/frontend/uwsgi.ini
+    volumes:
+      - /var/app/flask/frontend:/var/app/flask/frontend
+  backend:
+    image: backend:latest
+    deploy:
+      mode: global
+    ports:
+      - "5000:5000"
+    command: uwsgi --ini /var/app/flask/backend/uwsgi.ini
+    volumes:
+      - /var/app/flask/backend:/var/app/flask/backend

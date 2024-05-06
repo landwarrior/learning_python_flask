@@ -1,0 +1,82 @@
+<header>
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <img src="{{ url_for('static', filename='assets/yu_mark.svg') }}" alt="Logo" width="30" id="logo_light" class="d-inline-block align-text-top">
+        <img src="{{ url_for('static', filename='assets/yu_mark_hanten.svg') }}" alt="Logo" width="30" id="logo_dark" class="d-none align-text-top">
+        Flaskアプリのサンプル
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNav" aria-controls="menuNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-between" id="menuNav">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <button class="btn btn-link nav-link px-lg-2 dropdown-toggle d-flex align-items-center" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+              人事
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/users/list"><i class="bi bi-people-fill"></i> 社員情報一覧</a></li>
+              <li><a class="dropdown-item" href="/users/regist"><i class="bi bi-person-fill-add"></i> 社員情報登録</a></li>
+              <li><a class="dropdown-item" href="/users/edit"><i class="bi bi-person-fill-lock"></i> あとなんか</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <button class="btn btn-link nav-link px-lg-2 dropdown-toggle d-flex align-items-center" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static">
+              社内申請
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#"><i class="bi bi-card-list"></i> 社内申請一覧</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-file-spreadsheet"></i> 経費精算申請</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-train-front"></i> 交通費精算申請</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">メニューほげ</a>
+          </li>
+        </ul>
+        <hr class="d-lg-none">
+        <ul class="dropdown d-flex navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#">部署とか</a>
+          </li>
+          <li class="nav-item">
+            <div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">ユーザー名とか</a>
+          </li>
+          <li class="nav-item">
+            <div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
+            <hr class="d-lg-none">
+          </li>
+          <li class="nav-item dropdown">
+            {# ここの部分は color-modes.js とセットになっている #}
+            <button class="btn btn-link nav-link px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (auto)">
+              <i id="current-theme" class="bi bi-circle-half"></i>
+              <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" id="theme-switch" aria-labelledby="bd-theme-text">
+              <li>
+                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                  <i class="bi bi-circle-half"></i> Auto
+                </button>
+              </li>
+              <li>
+                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                  <i class="bi bi-brightness-high-fill"></i> Light
+                </button>
+              </li>
+              <li>
+                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                  <i class="bi bi-moon-stars-fill"></i> Dark
+                </button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </div>
+  </nav>
+</header>
