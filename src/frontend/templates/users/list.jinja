@@ -3,6 +3,9 @@
 {% block title %}社員情報一覧{% endblock %}
 
 {% block scripts %}
+<link rel="stylesheet" href="{{ url_for_with_mtime('assets/flatpickr/flatpickr.min.css') }}">
+<script defer src="{{ url_for_with_mtime('assets/flatpickr/flatpickr.min.js') }}"></script>
+<script defer src="{{ url_for_with_mtime('assets/flatpickr/l10n/ja.js') }}"></script>
 <script defer src="{{ url_for_with_mtime('assets/js/list.js') }}"></script>
 {% endblock %}
 

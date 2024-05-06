@@ -31,4 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }).mount('#search_body');
     // こっちはドキュメントに載ってたのにうまく使えない
     // app.config.compilerOptions.delimiters = ['${', '}'];
+
+    flatpickr('#birth_day_from', { dateFormat: 'Y/m/d', locale: 'ja' });
+    flatpickr('#birth_day_to', { dateFormat: 'Y/m/d', locale: 'ja' });
 });
