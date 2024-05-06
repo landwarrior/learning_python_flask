@@ -24,7 +24,11 @@
         <div class="row gy-3">
           <div class="col-lg-4 col-md-6" v-for="item in search_items" :key="item.id">
             <label :for="item.id" class="form-label d-none d-md-block">${ item.label }</label>
-            <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value">
+            <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value" v-if="item.type == 'text'">
+            <div class="input-group flatpickr" v-if="item.type == 'date'">
+              <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value">
+              <button class="btn btn-outline-inputgroup" type="button" title="clear" data-clear><i class="bi bi-x-lg"></i></button>
+            </div>
           </div>
         </div>
       </div>
