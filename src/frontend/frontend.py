@@ -1,12 +1,13 @@
 import logging
 import os
 import time
+import traceback
 import uuid
 
 from config import get_config
-from flask import Flask, Response, g, request, url_for
+from flask import Flask, Response, g, jsonify, request, session, url_for
 from flask_minify import Minify
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFError, CSRFProtect
 from mylogger import UniqueKeyFormatter
 from views.top import top_bp
 from views.users import users_bp
@@ -64,6 +65,14 @@ def after_request(response: Response):
         pass
     finally:
         return response
+
+
+@app.errorhandler(CSRFError)
+def handle_exception_error(e):
+    app.logger.error(traceback.format_exc())
+    app.logger.info(f"session: {session}")
+    app.logger.info(f"Unhandled exception: {e}")
+    return jsonify({"code": 500, "message": "Internal Server Error"}), 500
 
 
 app.register_blueprint(top_bp)
