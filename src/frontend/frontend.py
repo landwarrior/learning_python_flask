@@ -28,7 +28,6 @@ app.config.from_object(get_config())
 app.json.ensure_ascii = False
 Minify(app=app, html=True, js=True, cssless=True)
 prepare_logging(app)
-CSRFProtect(app)
 
 
 def static_file_with_mtime(filename):
@@ -65,6 +64,9 @@ def after_request(response: Response):
         pass
     finally:
         return response
+
+
+CSRFProtect(app)
 
 
 @app.errorhandler(CSRFError)
