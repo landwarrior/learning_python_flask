@@ -11,7 +11,7 @@ def home():
     return render_template("users/list.jinja", **common_data)
 
 
-@users_bp.route("/api/list", methods=["GET", "POST"])
+@users_bp.route("/api/list", methods=["POST"])
 def api_list():
     json_data = request.get_json(silent=True)
     current_app.logger.info(json_data)
