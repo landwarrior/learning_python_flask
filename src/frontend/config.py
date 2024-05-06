@@ -25,6 +25,7 @@ class Config:
     WTF_CSRF_ENABLED = True
     WTF_CSRF_SECRET_KEY = secrets.token_hex(16)
     WTF_CSRF_METHODS = ["POST", "PUT", "PATCH", "DELETE"]
+    BACKEND_URL = "http://backend:5050"
 
 
 class LocalConfig(Config):

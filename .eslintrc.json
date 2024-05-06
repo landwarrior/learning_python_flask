@@ -9,7 +9,10 @@
         "ecmaVersion": "latest"
     },
     "plugins": [],
-    "globals": {},
+    "globals": {
+        "Vue": false,
+        "axios": false
+    },
     "rules": {
         "semi": "error",
         "arrow-body-style": "error",
