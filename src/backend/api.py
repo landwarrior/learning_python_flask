@@ -37,7 +37,7 @@ def get_users() -> Response:
             {
                 "user_id": cols.user_id,
                 "user_name": cols.user_name,
-                "user_name_kan": cols.user_name_kana,
+                "user_name_kana": cols.user_name_kana,
                 "email": cols.email,
                 "gender": cols.gender,
                 "age": cols.age,

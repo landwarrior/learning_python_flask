@@ -1,3 +1,5 @@
+import userListResultComp from './userListResultComp.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     Vue.createApp({
         data() {
@@ -12,23 +14,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     { id: 'prefecture', value: '', label: '都道府県', type: 'text' },
                     { id: 'curry', value: '', label: 'カレーの食べ方', type: 'text' },
                 ],
+                result_items: [],
             };
         },
         methods: {
             search() {
+                const cond_param = {};
+                for (const item of this.search_items) {
+                    if (item.value !== '' && item.type === 'date') {
+                        cond_param[item.id] = item.value.replace(/\//g, '');
+                    } else if (item.value !== '') {
+                        cond_param[item.id] = item.value;
+                    }
+                }
                 axios
-                    .post('/users/api/list')
+                    .post('/users/api/list', cond_param)
                     .then((response) => {
-                        console.log(response);
+                        this.result_items = response.data.data;
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
             },
         },
+        components: {
+            userListResultComp,
+        },
         // デリミタを、ES6 テンプレートの文字列スタイルに変更する。
         delimiters: ['${', '}'],
-    }).mount('#search_body');
+    }).mount('#list_hoge');
     // こっちはドキュメントに載ってたのにうまく使えない
     // app.config.compilerOptions.delimiters = ['${', '}'];
 

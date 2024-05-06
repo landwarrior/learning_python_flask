@@ -14,7 +14,6 @@ def home():
 @users_bp.route("/api/list", methods=["POST"])
 def api_list():
     json_data = request.get_json(silent=True)
-    current_app.logger.info(json_data)
-    data = requests.get(current_app.config["BACKEND_URL"] + "/users").json()
+    data = requests.get(current_app.config["BACKEND_URL"] + "/users", params=json_data).json()
 
     return jsonify(data)
