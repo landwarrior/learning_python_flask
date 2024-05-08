@@ -1,5 +1,3 @@
-import userListResultComp from './userListResultComp.js';
-
 document.addEventListener('DOMContentLoaded', () => {
     Vue.createApp({
         data() {
@@ -14,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     { id: 'prefecture', value: '', label: '都道府県', type: 'text' },
                     { id: 'curry', value: '', label: 'カレーの食べ方', type: 'text' },
                 ],
+                search_current_items: [],
                 result_items: [],
             };
         },
@@ -37,13 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
             },
         },
-        components: {
-            userListResultComp,
-        },
         // デリミタを、ES6 テンプレートの文字列スタイルに変更する。
         delimiters: ['${', '}'],
     }).mount('#list_hoge');
-    // こっちはドキュメントに載ってたのにうまく使えない
+    // こっちはドキュメントに載ってたのにうまく使えない（app は Vue.createApp の戻り値を受け取る変数）
     // app.config.compilerOptions.delimiters = ['${', '}'];
 
     // flatpickr のクリアボタンは bootstrap と Bing での回答の合わせ技

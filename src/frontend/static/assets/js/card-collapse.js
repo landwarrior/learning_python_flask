@@ -1,8 +1,7 @@
 (() => {
-    const collapseToggle = document.querySelectorAll('.collapse-toggle');
-
     // カードの展開と折りたたみのアイコンを変更する
-    document.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', () => {
+        const collapseToggle = document.querySelectorAll('.collapse-toggle');
         collapseToggle.forEach((toggle) => {
             toggle.parentNode.parentNode.querySelector('.collapse').addEventListener('shown.bs.collapse', () => {
                 toggle.querySelector('i').classList.toggle('bi-dash');
@@ -15,7 +14,8 @@
         });
     });
     // こっちは card-header の border を消すためのもの
-    document.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', () => {
+        const collapseToggle = document.querySelectorAll('.collapse-toggle');
         collapseToggle.forEach((toggle) => {
             toggle.parentNode.parentNode.querySelector('.collapse').addEventListener('show.bs.collapse', () => {
                 toggle.parentNode.classList.toggle('no-border');

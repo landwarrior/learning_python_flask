@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{{ url_for_with_mtime('assets/flatpickr/flatpickr.min.css') }}">
 <script defer src="{{ url_for_with_mtime('assets/flatpickr/flatpickr.min.js') }}"></script>
 <script defer src="{{ url_for_with_mtime('assets/flatpickr/l10n/ja.js') }}"></script>
-<script defer type="module" src="{{ url_for_with_mtime('assets/js/list.js') }}"></script>
+<script defer src="{{ url_for_with_mtime('assets/js/list.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,7 @@
         <i class="bi bi-dash"></i>
       </button>
     </div>
-    <form id="search_body" class="collapse show" v-cloak>
+    <form id="search_body" class="collapse show">
       <div class="card-body">
         <div class="row gy-3">
           <div class="col-lg-4 col-md-6" v-for="item in search_items" :key="item.id">
@@ -59,18 +59,6 @@
             </tr>
           </thead>
           <tbody>
-            {# <user-list-result-comp :result_items="result_items"></user-list-result-comp> #}
-            {# <tr v-for="item in result_items">
-              <td>{{ item.user_id }}</td>
-              <td>{{ item.user_name }}</td>
-              <td class="d-none d-lg-table-cell">{{ item.user_name_kana }}</td>
-              <td class="d-none d-md-table-cell text-truncate">{{ item.email }}</td>
-              <td class="d-none d-xl-table-cell">{{ item.gender }}</td>
-              <td class="d-none d-md-table-cell">{{ item.age }}</td>
-              <td class="d-none d-lg-table-cell">{{ item.blood_type }}</td>
-              <td>{{ item.prefecture }}</td>
-              <td class="d-none d-xl-table-cell text-truncate">{{ item.curry }}</td>
-            </tr> #}
             <tr v-for="item in result_items">
               <td class="text-truncate">${ item.user_id }</td>
               <td class="text-truncate">${ item.user_name }</td>
