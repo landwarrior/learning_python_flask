@@ -19,7 +19,26 @@ document.addEventListener('DOMContentLoaded', () => {
         methods: {
             search() {
                 const cond_param = {};
-                for (const item of this.search_items) {
+                this.search_current_items = this.search_items;
+                for (const item of this.search_current_items) {
+                    if (item.value !== '' && item.type === 'date') {
+                        cond_param[item.id] = item.value.replace(/\//g, '');
+                    } else if (item.value !== '') {
+                        cond_param[item.id] = item.value;
+                    }
+                }
+                axios
+                    .post('/users/api/list', cond_param)
+                    .then((response) => {
+                        this.result_items = response.data.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            search_current() {
+                const cond_param = {};
+                for (const item of this.search_current_items) {
                     if (item.value !== '' && item.type === 'date') {
                         cond_param[item.id] = item.value.replace(/\//g, '');
                     } else if (item.value !== '') {

@@ -52,6 +52,7 @@ def get_users() -> Response:
 
 
 def _param_to_condition():
+    user_id = request.args.get("user_id", default="", type=str)
     user_name = request.args.get("user_name", default="", type=str)
     user_name_kana = request.args.get("user_name_kana", default="", type=str)
     email = request.args.get("email", default="", type=str)
@@ -65,6 +66,8 @@ def _param_to_condition():
     curry = request.args.get("curry", default="", type=str)
     condition = {}
     try:
+        if user_id:
+            condition["user_id"] = user_id
         if user_name:
             condition["user_name"] = user_name
         if user_name_kana:
