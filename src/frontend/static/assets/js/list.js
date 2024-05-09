@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ],
                 search_current_items: [],
                 result_items: [],
+                searching: false,
             };
         },
         methods: {
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         cond_param[item.id] = item.value;
                     }
                 }
+                this.searching = true;
                 axios
                     .post('/users/api/list', cond_param)
                     .then((response) => {
@@ -34,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                     .catch(function (error) {
                         console.log(error);
+                    })
+                    .finally(() => {
+                        this.searching = false;
                     });
             },
             search_current() {
@@ -52,6 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                     .catch(function (error) {
                         console.log(error);
+                    })
+                    .finally(() => {
+                        this.searching = false;
                     });
             },
         },

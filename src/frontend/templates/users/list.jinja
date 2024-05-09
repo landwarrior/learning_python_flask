@@ -33,7 +33,13 @@
         </div>
       </div>
       <div class="card-footer">
-        <button type="button" class="btn btn-outline-search" @click="search"><i class="bi bi-search"></i> 検索</button>
+        <button type="button" class="btn btn-outline-search" @click="search" v-if="!searching">
+          <i class="bi bi-search"></i> 検索
+        </button>
+        <button class="btn btn-outline-search" type="button" disabled v-if="searching">
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          検索
+        </button>
       </div>
     </form>
   </div>
