@@ -6,11 +6,12 @@
 <link rel="stylesheet" href="{{ url_for_with_mtime('assets/flatpickr/flatpickr.min.css') }}">
 <script defer src="{{ url_for_with_mtime('assets/flatpickr/flatpickr.min.js') }}"></script>
 <script defer src="{{ url_for_with_mtime('assets/flatpickr/l10n/ja.js') }}"></script>
+<script defer src="{{ url_for_with_mtime('assets/js/alertShow.js') }}"></script>
 <script defer src="{{ url_for_with_mtime('assets/js/list.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-<div class="container" id="list_hoge" v-cloak>
+<div class="container" id="user_list" v-cloak>
   <h1>社員情報一覧</h1>
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
@@ -33,16 +34,20 @@
         </div>
       </div>
       <div class="card-footer">
-        <button type="button" class="btn btn-outline-search" @click="search" v-if="!searching">
-          <i class="bi bi-search"></i> 検索
-        </button>
+        {# こっちはスピナーを表示してボタンは非活性 #}
         <button class="btn btn-outline-search" type="button" disabled v-if="searching">
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           検索
         </button>
+        {# こっちは機能する検索ボタン #}
+        <button type="button" class="btn btn-outline-search" @click="search" v-else>
+          <i class="bi bi-search"></i> 検索
+        </button>
       </div>
     </form>
   </div>
+  {# トーストが思ってた挙動とは違ったので、アラートを試してみる #}
+  <div id="alert-area"></div>
 
   <div class="card">
     <div class="card-header">
@@ -81,6 +86,19 @@
       </div>
     </div>
   </div>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Launch static backdrop modal
+  </button>
+  <button type="button" class="btn btn-outline-primary" @click="showTaost">show toast</button>
+  <button type="button" class="btn btn-outline-danger" @click="showAlert">アラートを表示させてみるボタン</button>
+  <button type="button" class="btn btn-outline-primary" @click="showAlert2">アラートを表示させてみるボタン</button>
+  <button type="button" class="btn btn-outline-secondary" @click="showAlert3">アラートを表示させてみるボタン</button>
+  <button type="button" class="btn btn-outline-info" @click="showAlert4">アラートを表示させてみるボタン</button>
+  <button type="button" class="btn btn-outline-success" @click="showAlert5">アラートを表示させてみるボタン</button>
+  <button type="button" class="btn btn-outline-warning" @click="showAlert6">アラートを表示させてみるボタン</button>
+{% include 'components/modalComp.jinja' %}
+{# トーストは思ってた挙動と違った #}
+{% include 'components/toastComp.jinja' %}
 </div>
 {% endblock %}
 

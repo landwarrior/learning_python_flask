@@ -19,8 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         methods: {
             search() {
-                const cond_param = {};
                 this.search_current_items = this.search_items;
+                this.searching = true;
+                this.execute_search();
+            },
+            search_current() {
+                this.execute_search();
+            },
+            execute_search() {
+                const cond_param = {};
                 for (const item of this.search_current_items) {
                     if (item.value !== '' && item.type === 'date') {
                         cond_param[item.id] = item.value.replace(/\//g, '');
@@ -28,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         cond_param[item.id] = item.value;
                     }
                 }
-                this.searching = true;
                 axios
                     .post('/users/api/list', cond_param)
                     .then((response) => {
@@ -36,36 +42,48 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                     .catch(function (error) {
                         console.log(error);
+                        const alertArea = document.getElementById('alert-area');
+                        showAlert(alertArea, 'danger', 'データ取得に失敗しました。', 5000);
                     })
                     .finally(() => {
                         this.searching = false;
                     });
             },
-            search_current() {
-                const cond_param = {};
-                for (const item of this.search_current_items) {
-                    if (item.value !== '' && item.type === 'date') {
-                        cond_param[item.id] = item.value.replace(/\//g, '');
-                    } else if (item.value !== '') {
-                        cond_param[item.id] = item.value;
-                    }
+            showTaost() {
+                const toastElList = document.querySelectorAll('.toast');
+                const toastList = [...toastElList].map((toastEl) => new bootstrap.Toast(toastEl, {}));
+                for (const toast of toastList) {
+                    toast.show();
                 }
-                axios
-                    .post('/users/api/list', cond_param)
-                    .then((response) => {
-                        this.result_items = response.data.data;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                    .finally(() => {
-                        this.searching = false;
-                    });
+            },
+            showAlert() {
+                const alertArea = document.getElementById('alert-area');
+                showAlert(alertArea, 'danger', 'データ取得に失敗しました。', 5000);
+            },
+            showAlert2() {
+                const alertArea = document.getElementById('alert-area');
+                showAlert(alertArea, 'primary', 'primary の動作確認', 5000);
+            },
+            showAlert3() {
+                const alertArea = document.getElementById('alert-area');
+                showAlert(alertArea, 'secondary', 'secondary の動作確認', 5000);
+            },
+            showAlert4() {
+                const alertArea = document.getElementById('alert-area');
+                showAlert(alertArea, 'info', 'info の動作確認', 5000);
+            },
+            showAlert5() {
+                const alertArea = document.getElementById('alert-area');
+                showAlert(alertArea, 'success', 'success の動作確認', 5000);
+            },
+            showAlert6() {
+                const alertArea = document.getElementById('alert-area');
+                showAlert(alertArea, 'warning', 'warning の動作確認', 5000);
             },
         },
         // デリミタを、ES6 テンプレートの文字列スタイルに変更する。
         delimiters: ['${', '}'],
-    }).mount('#list_hoge');
+    }).mount('#user_list');
     // こっちはドキュメントに載ってたのにうまく使えない（app は Vue.createApp の戻り値を受け取る変数）
     // app.config.compilerOptions.delimiters = ['${', '}'];
 

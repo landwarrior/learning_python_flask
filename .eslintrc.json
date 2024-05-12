@@ -11,9 +11,11 @@
       },
     "plugins": [],
     "globals": {
+        "bootstrap": false,
         "Vue": false,
         "axios": false,
-        "flatpickr": false
+        "flatpickr": false,
+        "showAlert": false
     },
     "rules": {
         "semi": "error",
