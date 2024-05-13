@@ -93,7 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 modal.show();
             },
             clearInputValue(clearButton) {
-                const parentDiv = clearButton.parentNode;
+                let parentDiv = '';
+                if (clearButton.tagName.toLowerCase() === 'button') {
+                    parentDiv = clearButton.parentNode;
+                } else {
+                    // i 要素がイベント元になっているので、2階層上がる
+                    parentDiv = clearButton.parentNode.parentNode;
+                }
                 const inputElement = parentDiv.querySelector('.form-control');
                 if (!parentDiv.classList.contains('flatpickr') && inputElement) {
                     // input要素が属するデータオブジェクト内の対応するプロパティを空にする
