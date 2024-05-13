@@ -155,7 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dateFormat: 'Y/m/d',
         locale: 'ja',
         onReady: (_, __, instance) => {
-            instance.input.parentNode.querySelector('button').addEventListener('click', function () {
+            // フローティングラベルにしたので親要素を2階層上がる必要がある
+            instance.input.parentNode.parentNode.querySelector('button').addEventListener('click', function () {
                 instance.clear();
             });
         },
@@ -164,7 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dateFormat: 'Y/m/d',
         locale: 'ja',
         onReady: (_, __, instance) => {
-            instance.input.parentNode.querySelector('button').addEventListener('click', function () {
+            // フローティングラベルにしたので親要素を2階層上がる必要がある
+            instance.input.parentNode.parentNode.querySelector('button').addEventListener('click', function () {
                 instance.clear();
             });
         },
