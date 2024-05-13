@@ -74,7 +74,7 @@ def handle_exception_error(e):
     app.logger.error(traceback.format_exc())
     app.logger.info(f"session: {session}")
     app.logger.info(f"Unhandled exception: {e}")
-    return jsonify({"code": 500, "message": "Internal Server Error"}), 500
+    return jsonify({"code": 401, "message": "Unauthorized"}), 401
 
 
 app.register_blueprint(top_bp)

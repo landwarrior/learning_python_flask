@@ -66,30 +66,21 @@ def _param_to_condition():
     curry = request.args.get("curry", default="", type=str)
     condition = {}
     try:
-        if user_id:
-            condition["user_id"] = user_id
-        if user_name:
-            condition["user_name"] = user_name
-        if user_name_kana:
-            condition["user_name_kana"] = user_name_kana
-        if email:
-            condition["email"] = email
-        if gender:
-            condition["gender"] = gender
-        if age:
-            condition["age"] = int(age)
-        if birth_day:
-            condition["birth_day"] = datetime.datetime.strptime(birth_day, "%Y%m%d").date()
-        if birth_day_from:
-            condition["birth_day_from"] = datetime.datetime.strptime(birth_day_from, "%Y%m%d").date()
-        if birth_day_to:
-            condition["birth_day_to"] = datetime.datetime.strptime(birth_day_to, "%Y%m%d").date()
-        if blood_type:
-            condition["blood_type"] = blood_type
-        if prefecture:
-            condition["prefecture"] = prefecture
-        if curry:
-            condition["curry"] = curry
+        params = {
+            "user_id": user_id,
+            "user_name": user_name,
+            "user_name_kana": user_name_kana,
+            "email": email,
+            "gender": gender,
+            "age": int(age) if age else None,
+            "birth_day": datetime.datetime.strptime(birth_day, "%Y%m%d").date() if birth_day else None,
+            "birth_day_from": datetime.datetime.strptime(birth_day_from, "%Y%m%d").date() if birth_day_from else None,
+            "birth_day_to": datetime.datetime.strptime(birth_day_to, "%Y%m%d").date() if birth_day_to else None,
+            "blood_type": blood_type,
+            "prefecture": prefecture,
+            "curry": curry,
+        }
+        condition = {k: v for k, v in params.items() if v}
     except Exception as e:
         current_app.logger.info(f"invalid parameter: {e}")
         raise e from e

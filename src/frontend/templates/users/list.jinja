@@ -25,7 +25,10 @@
         <div class="row gy-3">
           <div class="col-lg-4 col-md-6" v-for="item in search_items" :key="item.id">
             <label :for="item.id" class="form-label d-none d-md-block">${ item.label }</label>
-            <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value" v-if="item.type == 'text'">
+            <div class="input-group" v-if="item.type == 'text'">
+              <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value">
+              <button class="btn btn-outline-inputgroup" type="button" title="clear" @click="clearInputValue($event.target)"><i class="bi bi-x-lg"></i></button>
+            </div>
             <div class="input-group flatpickr" v-if="item.type == 'date'">
               <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value">
               <button class="btn btn-outline-inputgroup" type="button" title="clear" data-clear><i class="bi bi-x-lg"></i></button>
@@ -55,6 +58,23 @@
     </div>
     <div class="card-body">
       <div class="table-responsive">
+        <nav aria-label="Page navigation example" v-if="result_items.length > 0">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
         <table class="table table-sm table-hover align-middle" style="table-layout: fixed">
           <thead>
             <tr>
@@ -70,7 +90,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in result_items">
+            <tr v-for="item in result_items" @click="showModal(item.user_id)">
               <td class="text-truncate">${ item.user_id }</td>
               <td class="text-truncate">${ item.user_name }</td>
               <td class="d-none d-lg-table-cell text-truncate">${ item.user_name_kana }</td>
@@ -86,19 +106,35 @@
       </div>
     </div>
   </div>
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    Launch static backdrop modal
-  </button>
-  <button type="button" class="btn btn-outline-primary" @click="showTaost">show toast</button>
-  <button type="button" class="btn btn-outline-danger" @click="showAlert">アラートを表示させてみるボタン</button>
-  <button type="button" class="btn btn-outline-primary" @click="showAlert2">アラートを表示させてみるボタン</button>
-  <button type="button" class="btn btn-outline-secondary" @click="showAlert3">アラートを表示させてみるボタン</button>
-  <button type="button" class="btn btn-outline-info" @click="showAlert4">アラートを表示させてみるボタン</button>
-  <button type="button" class="btn btn-outline-success" @click="showAlert5">アラートを表示させてみるボタン</button>
-  <button type="button" class="btn btn-outline-warning" @click="showAlert6">アラートを表示させてみるボタン</button>
-{% include 'components/modalComp.jinja' %}
-{# トーストは思ってた挙動と違った #}
-{% include 'components/toastComp.jinja' %}
+  <div class="row">
+    <div class="col-3 text-center">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">js なしでモーダルを表示するボタン</button>
+    </div>
+    <div class="col-3 text-center">
+      <button type="button" class="btn btn-outline-primary" @click="showTaost">show toast</button>
+    </div>
+    <div class="col-3 text-center">
+      <button type="button" class="btn btn-outline-danger" @click="showAlert">アラートを表示させてみるボタン</button>
+    </div>
+    <div class="col-3 text-center">
+      <button type="button" class="btn btn-outline-primary" @click="showAlert2">アラートを表示させてみるボタン</button>
+    </div>
+    <div class="col-3 text-center">
+      <button type="button" class="btn btn-outline-secondary" @click="showAlert3">アラートを表示させてみるボタン</button>
+    </div>
+    <div class="col-3 text-center">
+      <button type="button" class="btn btn-outline-info" @click="showAlert4">アラートを表示させてみるボタン</button>
+    </div>
+    <div class="col-3 text-center">
+      <button type="button" class="btn btn-outline-success" @click="showAlert5">アラートを表示させてみるボタン</button>
+    </div>
+    <div class="col-3 text-center">
+      <button type="button" class="btn btn-outline-warning" @click="showAlert6">アラートを表示させてみるボタン</button>
+    </div>
+  </div>
+  {% include 'components/modalComp.jinja' %}
+  {# トーストは思ってた挙動と違った #}
+  {% include 'components/toastComp.jinja' %}
 </div>
 {% endblock %}
 
