@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (const item of this.result_items) {
                     if (item.user_id === user_id) {
                         this.focus_item = item;
+                        this.focus_item.birth_day = item.birth_day.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3');
                         break;
                     }
                 }
