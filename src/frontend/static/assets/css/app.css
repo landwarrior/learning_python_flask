@@ -73,3 +73,10 @@ header > nav {
 [v-cloak] {
     display: none;
 }
+.container-fluid {
+    --bs-gutter-x: calc(5px + 1.5vw);
+
+    .container {
+        --bs-gutter-x: 0;
+    }
+}

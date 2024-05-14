@@ -11,48 +11,50 @@
 {% endblock %}
 
 {% block content %}
-<div class="container" id="user_list" v-cloak>
-  <h1>社員情報一覧</h1>
-  <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <div class="lead"><i class="bi bi-search"></i> 検索</div>
-      <button class="btn btn-sm collapse-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#search_body" aria-expanded="false" aria-controls="search_body">
-        <i class="bi bi-dash"></i>
-      </button>
-    </div>
-    <form id="search_body" class="collapse show">
-      <div class="card-body">
-        <div class="row gy-3">
-          <div class="col-lg-4 col-md-6" v-for="item in search_items" :key="item.id">
-            <div class="input-group" v-if="item.type == 'text'">
-              <div class="form-floating">
-                <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value">
-                <label :for="item.id">${ item.label }</label>
+<div class="container-fluid" id="user_list" v-cloak>
+  <h1 class="text-center">社員情報一覧</h1>
+  <div class="container">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="lead"><i class="bi bi-search"></i> 検索</div>
+        <button class="btn btn-sm collapse-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#search_body" aria-expanded="false" aria-controls="search_body">
+          <i class="bi bi-dash"></i>
+        </button>
+      </div>
+      <form id="search_body" class="collapse show">
+        <div class="card-body">
+          <div class="row gy-3">
+            <div class="col-lg-4 col-md-6" v-for="item in search_items" :key="item.id">
+              <div class="input-group" v-if="item.type == 'text'">
+                <div class="form-floating">
+                  <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value">
+                  <label :for="item.id">${ item.label }</label>
+                </div>
+                <button class="btn btn-outline-inputgroup" type="button" title="clear" @click="clearInputValue($event.target)"><i class="bi bi-x-lg"></i></button>
               </div>
-              <button class="btn btn-outline-inputgroup" type="button" title="clear" @click="clearInputValue($event.target)"><i class="bi bi-x-lg"></i></button>
-            </div>
-            <div class="input-group flatpickr" v-if="item.type == 'date'">
-              <div class="form-floating">
-                <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value">
-                <label :for="item.id">${ item.label }</label>
+              <div class="input-group flatpickr" v-if="item.type == 'date'">
+                <div class="form-floating">
+                  <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value">
+                  <label :for="item.id">${ item.label }</label>
+                </div>
+                <button class="btn btn-outline-inputgroup" type="button" title="clear" data-clear><i class="bi bi-x-lg"></i></button>
               </div>
-              <button class="btn btn-outline-inputgroup" type="button" title="clear" data-clear><i class="bi bi-x-lg"></i></button>
             </div>
           </div>
         </div>
-      </div>
-      <div class="card-footer">
-        {# こっちはスピナーを表示してボタンは非活性 #}
-        <button class="btn btn-outline-search" type="button" disabled v-if="searching">
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          検索
-        </button>
-        {# こっちは機能する検索ボタン #}
-        <button type="button" class="btn btn-outline-search" @click="search" v-else>
-          <i class="bi bi-search"></i> 検索
-        </button>
-      </div>
-    </form>
+        <div class="card-footer">
+          {# こっちはスピナーを表示してボタンは非活性 #}
+          <button class="btn btn-outline-search" type="button" disabled v-if="searching">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            検索
+          </button>
+          {# こっちは機能する検索ボタン #}
+          <button type="button" class="btn btn-outline-search" @click="search" v-else>
+            <i class="bi bi-search"></i> 検索
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
   {# トーストが思ってた挙動とは違ったので、アラートを試してみる #}
   <div id="alert-area"></div>
@@ -80,17 +82,17 @@
             </li>
           </ul>
         </nav>
-        <table class="table table-sm table-hover align-middle" style="table-layout: fixed">
+        <table class="table table-sm table-hover align-middle">
           <thead>
             <tr>
               <th style="width: 170px">社員ID</th>
               <th style="width: 140px">社員名</th>
-              <th class="d-none d-lg-table-cell" style="width: 150px">社員名カナ</th>
-              <th class="d-none d-md-table-cell" style="width: 150px">email</th>
-              <th class="d-none d-xl-table-cell" style="width: 60px">性別</th>
-              <th class="d-none d-md-table-cell" style="width: 100px">生年月日</th>
-              <th class="d-none d-lg-table-cell" style="width: 60px">血液型</th>
-              <th style="width: 100px">都道府県</th>
+              <th class="d-none d-lg-table-cell">社員名カナ</th>
+              <th class="d-none d-md-table-cell">email</th>
+              <th class="d-none d-xl-table-cell">性別</th>
+              <th class="d-none d-md-table-cell">年齢</th>
+              <th class="d-none d-lg-table-cell">血液型</th>
+              <th>都道府県</th>
               <th class="d-none d-xl-table-cell">カレーの食べ方</th>
             </tr>
           </thead>
