@@ -25,17 +25,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 page: 1,
                 per_page: 10,
                 total: 0,
+                // モーダルに表示するための情報
+                modal_settings: [],
             };
         },
         methods: {
+            /**
+             * 検索ボタンをクリックしたときの動作
+             */
             search() {
                 this.search_current_items = this.search_items;
                 this.searching = true;
                 this.execute_search();
             },
-            search_current() {
-                this.execute_search();
-            },
+            /**
+             * 検索を実行する（他のメソッドからも呼ばれるつもり）
+             */
             execute_search() {
                 const cond_param = {};
                 for (const item of this.search_current_items) {
@@ -81,6 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         this.searching = false;
                     });
             },
+            /**
+             * モーダルを表示する
+             * @param {string} user_id 社員ID
+             */
             showModal(user_id) {
                 for (const item of this.result_items) {
                     if (item.user_id === user_id) {
@@ -92,6 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const modal = new bootstrap.Modal(modalEl, {});
                 modal.show();
             },
+            /**
+             * 入力値をクリアする
+             * @param {HTMLElement} clearButton クリアボタンのエレメント
+             */
             clearInputValue(clearButton) {
                 let parentDiv = '';
                 if (clearButton.tagName.toLowerCase() === 'button') {
@@ -112,6 +125,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             },
+            /**
+             * トーストを表示する
+             */
             showTaost() {
                 const toastElList = document.querySelectorAll('.toast');
                 const toastList = [...toastElList].map((toastEl) => new bootstrap.Toast(toastEl, {}));
@@ -119,6 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     toast.show();
                 }
             },
+            /**
+             * アラートを表示する
+             * @param {string} msg メッセージ
+             */
             showAlert(msg) {
                 const alertArea = document.getElementById('alert-area');
                 showAlert(alertArea, 'danger', msg, 5000);
@@ -143,6 +163,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 const alertArea = document.getElementById('alert-area');
                 showAlert(alertArea, 'warning', 'warning の動作確認', 5000);
             },
+            initModalSettings() {
+                // user_id は適当に hoge を渡す
+                axios
+                    .post('/users/api/modal/showable/hoge')
+                    .then((response) => {
+                        this.modal_settings = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                        const alertArea = document.getElementById('alert-area');
+                        showAlert(alertArea, 'danger', 'モーダルに表示するための情報の取得に失敗しました。', 5000);
+                    });
+            },
+        },
+        /**
+         * マウントされたら即時実行
+         */
+        mounted() {
+            // モーダルに表示するための情報を取得する
+            this.initModalSettings();
         },
         // デリミタを、ES6 テンプレートの文字列スタイルに変更する。
         delimiters: ['${', '}'],

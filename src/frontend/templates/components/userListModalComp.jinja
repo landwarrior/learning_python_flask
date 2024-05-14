@@ -7,9 +7,9 @@
       </div>
       <div class="modal-body">
         <table class="table  table-sm align-middle">
-          <tr v-for="(value, key) in focus_item" :key="key">
-            <th>${ key }</th>
-            <td>${ value }</td>
+          <tr v-for="setting in modal_settings" :key="setting.target">
+            <th>${ setting.label }</th>
+            <td>${ focus_item[setting.target] }</td>
           </tr>
         </table>
       </div>
