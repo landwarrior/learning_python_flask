@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 focus_item: {},
                 // ページング
                 currentPage: 1,
+                maxPage: 0,
                 itemsPerPage: 25,
                 total: 0,
                 // モーダルに表示するための情報
@@ -55,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     .post('/users/api/list', cond_param)
                     .then((response) => {
                         this.result_items = response.data.data;
+                        this.total = response.data.total;
                     })
                     .catch(function (error) {
                         if (error.response.status === 500) {
@@ -183,8 +185,28 @@ document.addEventListener('DOMContentLoaded', () => {
                         showAlert(alertArea, 'danger', 'モーダルに表示するための情報の取得に失敗しました。', 5000);
                     });
             },
+            /**
+             * ページを変更する
+             * @param {number} pageNumber ページ番号
+             */
             changePage(pageNumber) {
                 this.currentPage = pageNumber; // ページ番号をクリックしたらそのページに切り替え
+            },
+            /**
+             * ページを戻る
+             */
+            backPage() {
+                if (this.currentPage > 1) {
+                    this.currentPage--;
+                }
+            },
+            /**
+             * ページを進める
+             */
+            nextPage() {
+                if (this.currentPage < this.maxPage) {
+                    this.currentPage++;
+                }
             },
         },
         /**
@@ -204,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             paginatedResultItems() {
                 const startIndex = (this.currentPage - 1) * this.itemsPerPage;
                 const endIndex = startIndex + this.itemsPerPage;
+                this.maxPage = Math.ceil(this.total / this.itemsPerPage);
                 return this.result_items.slice(startIndex, endIndex);
             },
         },
