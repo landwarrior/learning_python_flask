@@ -70,9 +70,9 @@
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" @click="changePage(1)" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" @click="changePage(2)" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" @click="changePage(3)" href="#">3</a></li>
             <li class="page-item">
               <a class="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
@@ -95,7 +95,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in result_items" @click="showModal(item.user_id)">
+            <tr v-for="item in paginatedResultItems" @click="showModal(item.user_id)">
               <td class="text-truncate">${ item.user_id }</td>
               <td class="text-truncate">${ item.user_name }</td>
               <td class="d-none d-lg-table-cell text-truncate">${ item.user_name_kana }</td>
@@ -108,6 +108,23 @@
             </tr>
           </tbody>
         </table>
+        <nav aria-label="Page navigation example" v-if="result_items.length > 0">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" @click="changePage(1)" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" @click="changePage(2)" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" @click="changePage(3)" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>

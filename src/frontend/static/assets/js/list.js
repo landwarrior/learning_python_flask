@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 選択中の社員
                 focus_item: {},
                 // ページング
-                page: 1,
-                per_page: 10,
+                currentPage: 1,
+                itemsPerPage: 25,
                 total: 0,
                 // モーダルに表示するための情報
                 modal_settings: [],
@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
              * 検索ボタンをクリックしたときの動作
              */
             search() {
+                this.currentPage = 1; // 検索ボタンをクリックしたら1ページ目にリセット
                 this.search_current_items = this.search_items;
                 this.searching = true;
                 this.execute_search();
@@ -163,6 +164,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const alertArea = document.getElementById('alert-area');
                 showAlert(alertArea, 'warning', 'warning の動作確認', 5000);
             },
+            /**
+             * モーダルに表示するための情報を取得する
+             */
             initModalSettings() {
                 // user_id は適当に hoge を渡す
                 axios
@@ -178,6 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         showAlert(alertArea, 'danger', 'モーダルに表示するための情報の取得に失敗しました。', 5000);
                     });
             },
+            changePage(pageNumber) {
+                this.currentPage = pageNumber; // ページ番号をクリックしたらそのページに切り替え
+            },
         },
         /**
          * マウントされたら即時実行
@@ -185,6 +192,19 @@ document.addEventListener('DOMContentLoaded', () => {
         mounted() {
             // モーダルに表示するための情報を取得する
             this.initModalSettings();
+        },
+        /**
+         * 算出プロパティは data に対して処理を行った結果を HTML で利用するための定義
+         */
+        computed: {
+            /**
+             * ページングされたリストを返す
+             */
+            paginatedResultItems() {
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = startIndex + this.itemsPerPage;
+                return this.result_items.slice(startIndex, endIndex);
+            },
         },
         // デリミタを、ES6 テンプレートの文字列スタイルに変更する。
         delimiters: ['${', '}'],
