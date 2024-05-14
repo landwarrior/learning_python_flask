@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
              * 検索ボタンをクリックしたときの動作
              */
             search() {
+                this.result_items = [];
                 this.currentPage = 1; // 検索ボタンをクリックしたら1ページ目にリセット
                 this.search_current_items = this.search_items;
                 this.searching = true;

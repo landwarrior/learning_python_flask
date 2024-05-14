@@ -64,25 +64,25 @@
       <div class="lead"><i class="bi bi-list"></i> 検索結果一覧</div>
     </div>
     <div class="card-body">
+      <nav aria-label="Page navigation example" v-if="result_items.length > 0">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous" @click.prevent="backPage">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item" :class="page == currentPage ? 'active' : ''" v-for="page in maxPage">
+            <a class="page-link" @click.prevent="changePage(page)" v-if="page != currentPage" href="#">${ page }</a>
+            <span class="page-link" v-if="page == currentPage">${ page }</span>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next" @click.prevent="nextPage">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
       <div class="table-responsive">
-        <nav aria-label="Page navigation example" v-if="result_items.length > 0">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous" @click.prevent="backPage">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item" :class="page == currentPage ? 'active' : ''" v-for="page in maxPage">
-              <a class="page-link" @click.prevent="changePage(page)" v-if="page != currentPage" href="#">${ page }</a>
-              <span class="page-link" v-if="page == currentPage">${ page }</span>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next" @click.prevent="nextPage">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
         <table class="table table-sm table-hover align-middle">
           <thead>
             <tr>
@@ -111,25 +111,25 @@
             </tr>
           </tbody>
         </table>
-        <nav aria-label="Page navigation example" v-if="result_items.length > 0">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous" @click.prevent="backPage">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            <li class="page-item" :class="page == currentPage ? 'active' : ''" v-for="page in maxPage">
-              <a class="page-link" @click.prevent="changePage(page)" v-if="page != currentPage" href="#">${ page }</a>
-              <span class="page-link" v-if="page == currentPage">${ page }</span>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next" @click.prevent="nextPage">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
       </div>
+      <nav aria-label="Page navigation example" v-if="result_items.length > 0">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous" @click.prevent="backPage">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item" :class="page == currentPage ? 'active' : ''" v-for="page in maxPage">
+            <a class="page-link" @click.prevent="changePage(page)" v-if="page != currentPage" href="#">${ page }</a>
+            <span class="page-link" v-if="page == currentPage">${ page }</span>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next" @click.prevent="nextPage">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
   <div class="row">
