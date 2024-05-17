@@ -241,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
     flatpickr('#birth_day_from', {
         dateFormat: 'Y/m/d',
         locale: 'ja',
+        allowInput: true,
         onReady: (_, __, instance) => {
             // フローティングラベルにしたので親要素を2階層上がる必要がある
             instance.input.parentNode.parentNode.querySelector('button').addEventListener('click', function () {
@@ -251,6 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     flatpickr('#birth_day_to', {
         dateFormat: 'Y/m/d',
         locale: 'ja',
+        allowInput: true,
         onReady: (_, __, instance) => {
             // フローティングラベルにしたので親要素を2階層上がる必要がある
             instance.input.parentNode.parentNode.querySelector('button').addEventListener('click', function () {
