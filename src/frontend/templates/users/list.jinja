@@ -34,7 +34,7 @@
               </div>
               <div class="input-group flatpickr" v-if="item.type == 'date'">
                 <div class="form-floating">
-                  <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value">
+                  <input type="text" class="form-control" :id="item.id" :placeholder="item.label" v-model="item.value" maxlength="10">
                   <label :for="item.id">${ item.label }</label>
                 </div>
                 <button class="btn btn-outline-inputgroup" type="button" title="clear" data-clear><i class="bi bi-x-lg"></i></button>

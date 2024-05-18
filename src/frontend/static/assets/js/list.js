@@ -237,6 +237,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // こっちはドキュメントに載ってたのにうまく使えない（app は Vue.createApp の戻り値を受け取る変数）
     // app.config.compilerOptions.delimiters = ['${', '}'];
 
+    const formatBirthDay = (target) => {
+        let birthDay = target.value.replace(/\D/g, '');
+        if (birthDay.length === 8) {
+            birthDay = birthDay.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3');
+            target.value = birthDay;
+        }
+    };
+
+    document.getElementById('birth_day_from').addEventListener('input', (e) => {
+        formatBirthDay(e.target);
+    });
+    document.getElementById('birth_day_to').addEventListener('input', (e) => {
+        formatBirthDay(e.target);
+    });
+
     // flatpickr のクリアボタンは bootstrap と Bing での回答の合わせ技
     flatpickr('#birth_day_from', {
         dateFormat: 'Y/m/d',
@@ -244,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
         allowInput: true,
         onReady: (_, __, instance) => {
             // フローティングラベルにしたので親要素を2階層上がる必要がある
-            instance.input.parentNode.parentNode.querySelector('button').addEventListener('click', function () {
+            instance.input.parentNode.parentNode.querySelector('button').addEventListener('click', () => {
                 instance.clear();
             });
         },
@@ -255,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         allowInput: true,
         onReady: (_, __, instance) => {
             // フローティングラベルにしたので親要素を2階層上がる必要がある
-            instance.input.parentNode.parentNode.querySelector('button').addEventListener('click', function () {
+            instance.input.parentNode.parentNode.querySelector('button').addEventListener('click', () => {
                 instance.clear();
             });
         },
