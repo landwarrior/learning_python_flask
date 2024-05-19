@@ -20,10 +20,10 @@
     },
     "peacock.color": "#dd0531",
     "python.analysis.extraPaths": [
-        "D:\\program_src\\GitHub\\learning_python_flask\\src\\common"
+        "src\\common"
     ],
     "python.autoComplete.extraPaths": [
-        "D:\\program_src\\GitHub\\learning_python_flask\\src\\common"
+        "src\\common"
     ],
     "[html]": {
         "editor.tabSize": 2,
