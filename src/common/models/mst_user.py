@@ -35,3 +35,9 @@ def get_data(engine, db: Database, offset: int, limit: int, condition: dict = No
         query = query.offset(offset).limit(limit)
         for cols in query:
             yield cols
+
+
+def get_user_by_username(engine, db: Database, username: str):
+    with session_scope(engine) as session:
+        user = session.query(db.mst_user).filter(db.mst_user.user_name == username).first()
+        return user
