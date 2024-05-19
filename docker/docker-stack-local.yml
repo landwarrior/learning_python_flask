@@ -2,6 +2,8 @@ version: '3.8'
 services:
   nginx:
     image: mynginx:latest
+    environment:
+      - TZ=Asia/Tokyo
     ports:
       - "80:80"
       - "5050:5050"
@@ -9,6 +11,8 @@ services:
       mode: global
   frontend:
     image: frontend:latest
+    environment:
+      - TZ=Asia/Tokyo
     deploy:
       mode: global
     ports:
@@ -18,6 +22,8 @@ services:
       - /var/app/flask/frontend:/var/app/flask/frontend
   backend:
     image: backend:latest
+    environment:
+      - TZ=Asia/Tokyo
     deploy:
       mode: global
     ports:

@@ -18,7 +18,11 @@ fi
 
 echo ""
 
-SCRIPT_DIR=$(cd $(dirname $0);pwd)
+# なぜ用意したのか覚えていない
+# SCRIPT_DIR=$(cd $(dirname $0);pwd)
+
+# タイムゾーンを日本にする
+timedatectl set-timezone Asia/Tokyo
 
 # chef 実行
 sudo echo yes | chef-client -z -c /vagrant/chef-repo/solo.rb -j /vagrant/chef-repo/nodes/flask_app.json
