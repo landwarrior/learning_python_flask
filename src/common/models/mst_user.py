@@ -5,6 +5,19 @@ from sqlalchemy.sql import func
 
 
 def get_data(engine, db: Database, offset: int, limit: int, condition: dict = None):
+    """
+    指定された条件に一致するユーザーデータをデータベースから取得します.
+
+    Args:
+        engine (Engine): SQLAlchemyのエンジン.
+        db (Database): データベースモデル.
+        offset (int): 取得を開始する位置.
+        limit (int): 取得する最大のレコード数.
+        condition (dict, optional): フィルタリング条件. Defaults to None.
+
+    Yields:
+        mst_user: 指定された条件に一致するユーザーデータ
+    """
     with session_scope(engine) as session:
         query = session.query(
             db.mst_user.user_id.label("user_id"),
@@ -38,6 +51,16 @@ def get_data(engine, db: Database, offset: int, limit: int, condition: dict = No
 
 
 def get_user_by_username(engine, db: Database, username: str):
+    """指定されたユーザー名に一致するユーザーをデータベースから取得します.
+
+    Args:
+        engine (Engine): SQLAlchemyのエンジン
+        db (Database): データベースモデル
+        username (str): ユーザー名
+
+    Returns:
+        mst_user: ユーザー名に一致するユーザー
+    """
     with session_scope(engine) as session:
         user = session.query(db.mst_user).filter(db.mst_user.user_name == username).first()
         return user

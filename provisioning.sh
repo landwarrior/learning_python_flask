@@ -13,7 +13,7 @@ if [[ $(rpm -qa | grep chef) ]]; then
     echo "  * skip installing chef"
 else
     echo "  - chef installing"
-    curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- -v 18.3.0
+    curl -L https://omnitruck.chef.io/install.sh | sudo bash -s --
 fi
 
 echo ""
