@@ -1,13 +1,13 @@
 from contextlib import contextmanager
 
-from sqlalchemy import create_engine
+from sqlalchemy import Engine, create_engine
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import NullPool
 
 
 @contextmanager
-def session_scope(engine):
+def session_scope(engine: Engine):
     """データベースセッションのスコープを提供するコンテキストマネージャ.
 
     このコンテキストマネージャを使用することで、セッションの開始から終了までの処理を自動で行うことができます。

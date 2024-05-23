@@ -1,10 +1,9 @@
-from flask import current_app
 from models import Database, session_scope
-from sqlalchemy import DATE, INTEGER
+from sqlalchemy import DATE, INTEGER, Engine
 from sqlalchemy.sql import func
 
 
-def get_data(engine, db: Database, offset: int, limit: int, condition: dict = None):
+def get_data(engine: Engine, db: Database, offset: int, limit: int, condition: dict = None):
     """
     指定された条件に一致するユーザーデータをデータベースから取得します.
 
@@ -39,18 +38,36 @@ def get_data(engine, db: Database, offset: int, limit: int, condition: dict = No
                     if isinstance(column_type, INTEGER) or isinstance(column_type, DATE):
                         query = query.filter(getattr(db.mst_user, key) == value)
                     else:
-                        current_app.logger.info(f"Column {key} type: {column_type}")
                         query = query.filter(getattr(db.mst_user, key).like(f"%{value}%"))
                 elif key.endswith("_from") and hasattr(db.mst_user, key[:-5]):
                     query = query.filter(getattr(db.mst_user, key[:-5]) >= value)
                 elif key.endswith("_to") and hasattr(db.mst_user, key[:-3]):
                     query = query.filter(getattr(db.mst_user, key[:-3]) <= value)
-        query = query.offset(offset).limit(limit)
-        for cols in query:
-            yield cols
+        if offset:
+            query = query.offset(offset)
+        if limit:
+            query = query.limit(limit)
+        for user in query:
+            yield user
 
 
-def get_user_by_username(engine, db: Database, username: str):
+def get_all_data(engine: Engine, db: Database):
+    """データベースからすべてのユーザーデータを取得します.
+
+    Args:
+        engine (Engine): SQLAlchemyのエンジン.
+        db (Database): データベースモデル.
+
+    Yields:
+        mst_user: データベースから取得したユーザーデータ
+    """
+    with session_scope(engine) as session:
+        query = session.query(db.mst_user)
+        for user in query:
+            yield user
+
+
+def get_user_by_username(engine: Engine, db: Database, username: str):
     """指定されたユーザー名に一致するユーザーをデータベースから取得します.
 
     Args:
