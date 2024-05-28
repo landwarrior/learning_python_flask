@@ -9,8 +9,7 @@ from flask import Flask, Response, g, jsonify, request, session, url_for
 from flask_minify import Minify
 from flask_wtf.csrf import CSRFError, CSRFProtect
 from mylogger import UniqueKeyFormatter
-from views.top import top_bp
-from views.users import users_bp
+from routes import init_blueprint
 
 app = Flask(__name__)
 
@@ -77,8 +76,9 @@ def handle_exception_error(e):
     return jsonify({"code": 401, "message": "Unauthorized"}), 401
 
 
-app.register_blueprint(top_bp)
-app.register_blueprint(users_bp)
+# blueprint の追加
+init_blueprint(app)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

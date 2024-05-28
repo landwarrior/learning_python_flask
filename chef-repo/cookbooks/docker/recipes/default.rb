@@ -4,6 +4,7 @@
 ].each do |pkg|
     dnf_package pkg do
         action :install
+        not_if "rpm -qa | grep #{pkg}"
     end
 end
 
@@ -22,6 +23,7 @@ end
     dnf_package docker do
         options "--enablerepo=docker-ce-stable"
         action :install
+        not_if "rpm -qa | grep #{docker}"
     end
 end
 
