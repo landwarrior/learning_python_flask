@@ -16,7 +16,7 @@ class UniqueKeyFormatter(logging.Formatter):
         try:
             from flask import g
 
-            self.has_g = True if g else False
+            self.has_g = True if g is not None else False
         except Exception:
             self.has_g = False
 
@@ -25,7 +25,10 @@ class UniqueKeyFormatter(logging.Formatter):
         if self.has_g:
             from flask import g
 
-            record.unique_key = f"[{g.unique_key}]"
+            if not hasattr(g, "count"):
+                g.count = 1
+            record.unique_key = f"[{g.unique_key}:{g.count:02}]"
+            g.count += 1
         else:
             record.unique_key = ""
         return super().format(record)

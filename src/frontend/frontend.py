@@ -5,7 +5,7 @@ import traceback
 import uuid
 
 from config import get_config
-from flask import Flask, Response, g, jsonify, request, session, url_for
+from flask import Flask, Response, g, jsonify, redirect, request, session, url_for
 from flask_minify import Minify
 from flask_wtf.csrf import CSRFError, CSRFProtect
 from mylogger import UniqueKeyFormatter
@@ -45,13 +45,16 @@ app.jinja_env.globals["url_for_with_mtime"] = static_file_with_mtime
 
 @app.before_request
 def before_request():
-    if "static" not in request.url:
+    if "static" not in request.url and "favicon.ico" not in request.url:
         g.start_time = time.time()
         # UUID4 を 16 進数にして、 7 文字分だけ使う
         g.unique_key = uuid.uuid4().hex[0:7]
+        g.count = 1
         data = request.get_json(silent=True)
         header = str(request.headers).strip().replace("\r", "").replace("\n", ", ")
         app.logger.info(f"[URL] {request.method} {request.url} [DATA] {data} [HEADER] {header}")
+        if "login_user" not in session and "login" not in request.url:
+            return redirect("/login")
 
 
 @app.after_request

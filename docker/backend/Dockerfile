@@ -1,4 +1,4 @@
-FROM python:3.12.2-slim-bookworm
+FROM python:3.12.3-slim-bookworm
 
 RUN mkdir -p /var/app 2> /dev/null
 RUN mkdir -p /var/app/flask 2> /dev/null

@@ -25,6 +25,12 @@ body {
     background-color: var(--bs-body-bg);
     color: var(--bs-body-color);
 }
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 .nav-space {
     height: 60px;
 }

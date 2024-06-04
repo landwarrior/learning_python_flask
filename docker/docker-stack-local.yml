@@ -13,6 +13,7 @@ services:
     image: frontend:latest
     environment:
       - TZ=Asia/Tokyo
+      - SESSION_ENCRYPTION_KEY=bGFuZHdhcnJpb3I=
     deploy:
       mode: global
     ports:
