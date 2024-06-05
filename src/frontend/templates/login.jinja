@@ -16,23 +16,34 @@
   <!-- Bootstrap JS (Popper.js も含まれると思う) -->
   <script defer src="{{ url_for_with_mtime('assets/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <title>ログイン｜Flaskアプリのサンプル</title>
+  <script defer src="{{ url_for_with_mtime('assets/js/login.js') }}"></script>
 </head>
 
 <body>
-  {% include 'layout/header.jinja' %}
-  <div class="nav-space"></div>
   <div class="login-container">
     <div class="container">
       <div class="card">
-        <div class="card-header">
-          <h1>ログイン</h1>
-        </div>
         <div class="card-body">
-          <form action="{{ url_for('login.login') }}" method="post">
-            <input type="text" name="user_id" class="form-control" placeholder="ログインID">
-            <input type="password" name="ignition_key" class="form-control" placeholder="パスワード">
-            <button type="submit" class="btn btn-primary">ログイン</button>
-          </form>
+          <div class="row align-items-center">
+            <div class="col-3">
+              <img src="{{ url_for('static', filename='assets/yu_mark.svg') }}" alt="Logo" width="100%" id="logo_light" class="d-inline-block align-text-top">
+              <img src="{{ url_for('static', filename='assets/yu_mark_hanten.svg') }}" alt="Logo" width="100%" id="logo_dark" class="d-none align-text-top">
+            </div>
+            <div class="col-9">
+              <h1>Flaskアプリのサンプル</h1>
+              <form action="{{ url_for('login.login') }}" method="post" id="login-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="text" name="login_id" class="form-control" placeholder="ログインID">
+                <input type="password" name="ignition_key" class="form-control" placeholder="パスワード">
+                <div class="pt-3 text-center">
+                  <button type="submit" class="btn btn-primary"><i class="bi bi-door-open"></i> ログイン</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <p class="text-center">&copy; 2024 Flaskアプリのサンプル</p>
         </div>
       </div>
     </div>

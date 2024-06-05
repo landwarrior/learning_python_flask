@@ -67,17 +67,17 @@ def get_all_data(engine: Engine, db: Database):
             yield user
 
 
-def get_user_by_username(engine: Engine, db: Database, username: str):
+def get_user_by_user_id(engine: Engine, db: Database, user_id: str):
     """指定されたユーザー名に一致するユーザーをデータベースから取得します.
 
     Args:
         engine (Engine): SQLAlchemyのエンジン
         db (Database): データベースモデル
-        username (str): ユーザー名
+        user_id (str): ユーザーID
 
     Returns:
-        mst_user: ユーザー名に一致するユーザー
+        mst_user: ユーザーIDに一致するユーザー
     """
     with session_scope(engine) as session:
-        user = session.query(db.mst_user).filter(db.mst_user.user_name == username).first()
+        user = session.query(db.mst_user).filter(db.mst_user.user_id == user_id).first()
         return user
