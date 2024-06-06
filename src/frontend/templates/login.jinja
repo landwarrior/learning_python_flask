@@ -35,6 +35,11 @@
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input type="text" name="login_id" class="form-control" placeholder="ログインID">
                 <input type="password" name="ignition_key" class="form-control" placeholder="パスワード">
+                {% if error %}
+                <div class="alert alert-danger pt-3" role="alert">
+                  <i class="bi bi-exclamation-triangle"></i> {{ error }}
+                </div>
+                {% endif %}
                 <div class="pt-3 text-center">
                   <button type="submit" class="btn btn-primary"><i class="bi bi-door-open"></i> ログイン</button>
                 </div>

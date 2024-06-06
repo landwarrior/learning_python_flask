@@ -1,12 +1,26 @@
 import requests
-from flask import Blueprint, current_app, redirect, render_template, request, session, url_for
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    get_flashed_messages,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 
 login_bp = Blueprint("login", __name__, url_prefix="/login")
 
 
 @login_bp.route("", methods=["GET"])
 def login_form():
-    return render_template("login.jinja")
+    error = get_flashed_messages(category_filter=["error"])
+    if isinstance(error, list) and len(error) > 0:
+        error = error[0]
+    current_app.logger.info(error)
+    return render_template("login.jinja", error=error)
 
 
 @login_bp.route("", methods=["POST"])
@@ -19,4 +33,5 @@ def login():
         session["login_user"] = data.json()["user_id"]
         return redirect(url_for("top"))
     else:
-        return render_template("login.jinja", error="ユーザーIDまたはパスワードが間違っています。")
+        flash("ログインIDまたはパスワードが間違っています。", "error")
+        return redirect(url_for("login.login_form"))

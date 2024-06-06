@@ -5,7 +5,7 @@ import traceback
 import uuid
 
 from config import get_config
-from flask import Flask, Response, g, jsonify, redirect, request, session, url_for
+from flask import Flask, Response, flash, g, jsonify, redirect, request, session, url_for
 from flask_minify import Minify
 from flask_wtf.csrf import CSRFError, CSRFProtect
 from mylogger import UniqueKeyFormatter
@@ -76,7 +76,10 @@ def handle_exception_error(e):
     app.logger.error(traceback.format_exc())
     app.logger.info(f"session: {session}")
     app.logger.info(f"Unhandled exception: {e}")
-    return jsonify({"code": 401, "message": "Unauthorized"}), 401
+    if "api" in request.url:
+        return jsonify({"code": 401, "message": "Unauthorized"}), 401
+    flash("セッションの有効期限が切れています。再ログインしてください。", "error")
+    return redirect(url_for("login.login_form"))
 
 
 # blueprint の追加
