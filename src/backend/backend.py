@@ -3,11 +3,11 @@ import time
 import traceback
 import uuid
 
-from api import api_bp
 from config import get_config
 from flask import Flask, Response, g, jsonify, request
 from models import Database
 from mylogger import UniqueKeyFormatter
+from routes import init_blueprint
 
 app = Flask(__name__)
 
@@ -58,6 +58,12 @@ def after_request(response: Response):
     return response
 
 
+@app.errorhandler(404)
+def handle_404_error(e):
+    app.logger.info(f"error response: {e}")
+    return jsonify({"code": 404, "message": "Not Found"}), 404
+
+
 @app.errorhandler(Exception)
 def handle_exception_error(e):
     app.logger.error(traceback.format_exc())
@@ -77,8 +83,7 @@ def handle_502_error(e):
     return jsonify({"code": 502, "message": "Internal Server Error"}), 502
 
 
-app.register_blueprint(api_bp)
-
+init_blueprint(app)
 
 if __name__ == "__main__":
     app.run(debug=True)
