@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-rm -fr /var/app/flask/backend
-rm -fr /var/app/flask/frontend
-rm -fr /var/app/batch
+rm -fr /var/app/flask/backend/*
+rm -fr /var/app/flask/frontend/*
+rm -fr /var/app/batch/*
 
 mkdir -p /var/app/flask/backend/logs
 mkdir -p /var/app/flask/frontend/logs

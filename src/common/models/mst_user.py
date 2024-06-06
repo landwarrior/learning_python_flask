@@ -1,13 +1,16 @@
+from copy import deepcopy
+
 from models import Database, session_scope
 from sqlalchemy import DATE, INTEGER, Engine
 from sqlalchemy.sql import func
 
 
-def get_data(engine: Engine, db: Database, offset: int, limit: int, condition: dict = None):
+def get_data(logger, engine: Engine, db: Database, offset: int, limit: int, condition: dict = None):
     """
     指定された条件に一致するユーザーデータをデータベースから取得します.
 
     Args:
+        logger (Logger): ロガー.
         engine (Engine): SQLAlchemyのエンジン.
         db (Database): データベースモデル.
         offset (int): 取得を開始する位置.
@@ -47,14 +50,16 @@ def get_data(engine: Engine, db: Database, offset: int, limit: int, condition: d
             query = query.offset(offset)
         if limit:
             query = query.limit(limit)
+        logger.debug(query)
         for user in query:
             yield user
 
 
-def get_all_data(engine: Engine, db: Database):
+def get_all_data(logger, engine: Engine, db: Database):
     """データベースからすべてのユーザーデータを取得します.
 
     Args:
+        logger (Logger): ロガー.
         engine (Engine): SQLAlchemyのエンジン.
         db (Database): データベースモデル.
 
@@ -63,14 +68,16 @@ def get_all_data(engine: Engine, db: Database):
     """
     with session_scope(engine) as session:
         query = session.query(db.mst_user)
+        logger.debug(query)
         for user in query:
             yield user
 
 
-def get_user_by_user_id(engine: Engine, db: Database, user_id: str):
+def get_user_by_user_id(logger, engine: Engine, db: Database, user_id: str):
     """指定されたユーザー名に一致するユーザーをデータベースから取得します.
 
     Args:
+        logger (Logger): ロガー.
         engine (Engine): SQLAlchemyのエンジン
         db (Database): データベースモデル
         user_id (str): ユーザーID
@@ -78,6 +85,9 @@ def get_user_by_user_id(engine: Engine, db: Database, user_id: str):
     Returns:
         mst_user: ユーザーIDに一致するユーザー
     """
+    user = None
     with session_scope(engine) as session:
-        user = session.query(db.mst_user).filter(db.mst_user.user_id == user_id).first()
-        return user
+        query = session.query(db.mst_user).filter(db.mst_user.user_id == user_id)
+        logger.debug(query)
+        user = deepcopy(query.first())
+    return user

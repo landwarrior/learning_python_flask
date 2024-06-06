@@ -19,7 +19,7 @@ def main():
     db.Base.prepare(autoload_with=db.engine)
     db.mst_user = db.Base.classes.mst_user
 
-    for user in mst_user.get_all_data(db.engine, db):
+    for user in mst_user.get_all_data(logger, db.engine, db):
         logger.info(f"ユーザーID: {user.user_id}")
         user.ignition_key = bcrypt.hashpw(new_password, bcrypt.gensalt())
 
