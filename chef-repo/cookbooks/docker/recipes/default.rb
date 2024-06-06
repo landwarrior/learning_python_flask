@@ -4,6 +4,7 @@
 ].each do |pkg|
     dnf_package pkg do
         action :install
+        not_if "rpm -qa | grep #{pkg}"
     end
 end
 
@@ -22,6 +23,7 @@ end
     dnf_package docker do
         options "--enablerepo=docker-ce-stable"
         action :install
+        not_if "rpm -qa | grep #{docker}"
     end
 end
 
@@ -29,13 +31,14 @@ service 'docker' do
     action [:start, :enable]
 end
 
-# create directory
+# ディレクトリを作っても結局使ってない
 %w[
     /var/app
     /var/app/docker
     /var/app/docker/backend
     /var/app/docker/frontend
     /var/app/docker/nginx
+    /var/app/docker/batch
 ].each do |path|
     directory path do
         owner 'root'

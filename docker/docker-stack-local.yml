@@ -13,6 +13,7 @@ services:
     image: frontend:latest
     environment:
       - TZ=Asia/Tokyo
+      - SESSION_ENCRYPTION_KEY=bGFuZHdhcnJpb3I=
     deploy:
       mode: global
     ports:
@@ -31,3 +32,12 @@ services:
     command: uwsgi --ini /var/app/flask/backend/uwsgi.ini
     volumes:
       - /var/app/flask/backend:/var/app/flask/backend
+  batch:
+    image: batch:latest
+    environment:
+      - TZ=Asia/Tokyo
+    deploy:
+      mode: global
+    volumes:
+      - /var/app/batch:/var/app/batch
+    tty: true

@@ -2,6 +2,12 @@
 
 set -e
 
+# タイムゾーンを日本にする
+if ! [[ $(date | grep "JST") ]]; then
+    echo "  - timedatectl set-timezone Asia/Tokyo"
+    timedatectl set-timezone Asia/Tokyo
+fi
+
 # 補完してくれるやつ
 if ! [[ $(rpm -qa | grep bash-completion) ]] ; then
     echo "  - dnf install bash-completion"
@@ -13,16 +19,13 @@ if [[ $(rpm -qa | grep chef) ]]; then
     echo "  * skip installing chef"
 else
     echo "  - chef installing"
-    curl -L https://omnitruck.chef.io/install.sh | sudo bash -s -- -v 18.3.0
+    curl -L https://omnitruck.chef.io/install.sh | sudo bash -s --
 fi
 
 echo ""
 
 # なぜ用意したのか覚えていない
 # SCRIPT_DIR=$(cd $(dirname $0);pwd)
-
-# タイムゾーンを日本にする
-timedatectl set-timezone Asia/Tokyo
 
 # chef 実行
 sudo echo yes | chef-client -z -c /vagrant/chef-repo/solo.rb -j /vagrant/chef-repo/nodes/flask_app.json
@@ -48,6 +51,11 @@ fi
 if ! docker images | grep -q backend; then
     echo "  - docker build backend"
     docker build -t backend /vagrant/docker/backend
+fi
+
+if ! docker images | grep -q batch; then
+    echo "  - docker build batch"
+    docker build -t batch /vagrant/docker/batch
 fi
 
 if ! docker images | grep -q mynginx; then

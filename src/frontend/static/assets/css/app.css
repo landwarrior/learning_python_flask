@@ -1,17 +1,18 @@
-:root[data-bs-theme='dark'] {
-    --bs-body-color: #d0d0d0;
-    --bs-body-bg: #252525;
-    --shadow-lt: #444444;
-    --shadow-rb: #191919;
-    --bs-table-color: var(--bs-body-color);
-    --bs-emphasis-color: var(--bs-body-color);
-}
-:root[data-bs-theme='light'] {
+:root[data-bs-theme='light'], :root[data-bs-theme='auto'] {
     --bs-body-color: #4e5253;
     --bs-body-bg: #e0e0e0;
     --bs-border-color: #b8b8b8;
     --shadow-lt: #f3f3f3;
     --shadow-rb: #bebebe;
+    --bs-table-color: var(--bs-body-color);
+    --bs-emphasis-color: var(--bs-body-color);
+}
+
+:root[data-bs-theme='dark'] {
+    --bs-body-color: #d0d0d0;
+    --bs-body-bg: #252525;
+    --shadow-lt: #444444;
+    --shadow-rb: #191919;
     --bs-table-color: var(--bs-body-color);
     --bs-emphasis-color: var(--bs-body-color);
 }
@@ -23,6 +24,12 @@ body {
     letter-spacing: 0.06rem;
     background-color: var(--bs-body-bg);
     color: var(--bs-body-color);
+}
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 .nav-space {
     height: 60px;

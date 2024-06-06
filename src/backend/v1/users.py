@@ -3,15 +3,15 @@ import datetime
 from flask import Blueprint, Response, current_app, jsonify, request
 from models import mst_user
 
-api_bp = Blueprint("api", __name__)
+users_bp = Blueprint("users", __name__)
 
 
-@api_bp.route("/", methods=["GET"])
+@users_bp.route("/", methods=["GET"])
 def hello_world():
     return jsonify({"status": "ok"})
 
 
-@api_bp.route("/users", methods=["GET"])
+@users_bp.route("/users", methods=["GET"])
 def get_users() -> Response:
     """ユーザーデータの取得.
 
@@ -32,22 +32,22 @@ def get_users() -> Response:
         "data": [],
     }
 
-    for cols in mst_user.get_data(current_app.db.engine, current_app.db, offset, limit, condition):
+    for user in mst_user.get_data(current_app.logger, current_app.db.engine, current_app.db, offset, limit, condition):
         data["data"].append(
             {
-                "user_id": cols.user_id,
-                "user_name": cols.user_name,
-                "user_name_kana": cols.user_name_kana,
-                "email": cols.email,
-                "gender": cols.gender,
-                "age": cols.age,
-                "birth_day": cols.birth_day.strftime("%Y%m%d") if cols.birth_day else None,
-                "blood_type": cols.blood_type,
-                "prefecture": cols.prefecture,
-                "curry": cols.curry,
+                "user_id": user.user_id,
+                "user_name": user.user_name,
+                "user_name_kana": user.user_name_kana,
+                "email": user.email,
+                "gender": user.gender,
+                "age": user.age,
+                "birth_day": user.birth_day.strftime("%Y%m%d") if user.birth_day else None,
+                "blood_type": user.blood_type,
+                "prefecture": user.prefecture,
+                "curry": user.curry,
             }
         )
-        data["total"] = cols.total
+        data["total"] = user.total
     return jsonify(data)
 
 
