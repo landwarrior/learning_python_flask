@@ -35,33 +35,22 @@ bash /vagrant/fileput.sh
 
 
 # docker swarm init 実行 NOTE: Vagrantfile に記載された IP アドレスと同じものを指定する
-if ! [[ $(docker node ls -q) ]]; then
+if docker node ls -q > /dev/null 2>&1; then
+    echo "  * skip docker swarm init"
+else
     echo "  - docker swarm init"
     docker swarm init --advertise-addr 192.168.33.33
-else
-    echo "  * skip docker swarm init"
 fi
 
 # docker build
-if ! docker images | grep -q frontend; then
-    echo "  - docker build frontend"
-    docker build -t frontend /vagrant/docker/frontend
-fi
-
-if ! docker images | grep -q backend; then
-    echo "  - docker build backend"
-    docker build -t backend /vagrant/docker/backend
-fi
-
-if ! docker images | grep -q batch; then
-    echo "  - docker build batch"
-    docker build -t batch /vagrant/docker/batch
-fi
-
-if ! docker images | grep -q mynginx; then
-    echo "  - docker build mynginx"
-    docker build -t mynginx /vagrant/docker/nginx
-fi
+for image in frontend backend batch mynginx myfluentd; do
+    if ! docker images --format "{{.Repository}}" | grep -q $image; then
+        echo "  - docker build $image"
+        docker build -t $image /vagrant/docker/$image
+    else
+        echo "  * skip docker build $image"
+    fi
+done
 
 # docker stack deploy
 if ! docker stack ls | grep -q test; then

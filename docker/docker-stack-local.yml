@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   nginx:
     image: mynginx:latest
@@ -9,6 +9,11 @@ services:
       - "5050:5050"
     deploy:
       mode: global
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.nginx.service
   frontend:
     image: frontend:latest
     environment:
@@ -21,6 +26,11 @@ services:
     command: uwsgi --ini /var/app/flask/frontend/uwsgi.ini
     volumes:
       - /var/app/flask/frontend:/var/app/flask/frontend
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.frontend.service
   backend:
     image: backend:latest
     environment:
@@ -32,6 +42,11 @@ services:
     command: uwsgi --ini /var/app/flask/backend/uwsgi.ini
     volumes:
       - /var/app/flask/backend:/var/app/flask/backend
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.backend.service
   batch:
     image: batch:latest
     environment:
@@ -40,4 +55,19 @@ services:
       mode: global
     volumes:
       - /var/app/batch:/var/app/batch
-    tty: true
+    stdin_open: true
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.batch.service
+  fluentd:
+    image: myfluentd
+    volumes:
+      - /var/log/fluent:/var/log/fluent
+    command:
+      - fluentd
+      - -c
+      - /fluentd/etc/fluent.yml
+    ports:
+      - "24224:24224"

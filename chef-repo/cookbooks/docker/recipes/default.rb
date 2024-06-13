@@ -33,17 +33,12 @@ end
 
 # ディレクトリを作っても結局使ってない
 %w[
-    /var/app
-    /var/app/docker
-    /var/app/docker/backend
-    /var/app/docker/frontend
-    /var/app/docker/nginx
-    /var/app/docker/batch
+    /var/log/fluent
 ].each do |path|
     directory path do
         owner 'root'
         group 'root'
-        mode '0755'
+        mode '0777'
         action :create
     end
 end

@@ -1,0 +1,27 @@
+config:
+  - source:
+      $type: forward
+      port: 24224
+      bind: 0.0.0.0
+      $label: "@mainstream"
+
+  - filter:
+      $type: stdout
+
+  - label:
+      $name: "@mainstream"
+      config:
+        - match:
+            $type: file
+            # ログファイルのパス( docker.yyyymmdd.log となる)
+            path: /var/log/fluent/docker
+            append: true
+            time_slice_format: "%Y%m%d"
+            time_slice_wait: 1m
+            time_format: "%Y%m%dT%H%M%S%z"
+            buffer:
+              timekey: 1d
+              timekey_wait: 10m
+              total_limit_size: 30m
+              rotate_age: 30
+              flush_interval: 10s
