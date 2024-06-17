@@ -28,10 +28,16 @@ echo ""
 # SCRIPT_DIR=$(cd $(dirname $0);pwd)
 
 # chef 実行
-sudo echo yes | chef-client -z -c /vagrant/chef-repo/solo.rb -j /vagrant/chef-repo/nodes/flask_app.json
-
+if [[ -f /vagrant/chef-repo/nodes/flask_app.json ]]; then
+    sudo echo yes | chef-client -z -c /vagrant/chef-repo/solo.rb -j /vagrant/chef-repo/nodes/flask_app.json
+else
+    echo "  * skip chef-client"
+fi
 # file 配置
-bash /vagrant/fileput.sh
+if [[ $(ls /vagrant/fileput.sh) ]]; then
+    echo "  - fileput.sh"
+    bash /vagrant/fileput.sh
+fi
 
 
 # docker swarm init 実行 NOTE: Vagrantfile に記載された IP アドレスと同じものを指定する

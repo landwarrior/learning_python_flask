@@ -12,7 +12,7 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: 192.168.33.33:24224
         tag: docker.nginx.service
   frontend:
     image: frontend:latest
@@ -29,7 +29,7 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: 192.168.33.33:24224
         tag: docker.frontend.service
   backend:
     image: backend:latest
@@ -45,7 +45,7 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: 192.168.33.33:24224
         tag: docker.backend.service
   batch:
     image: batch:latest
@@ -59,7 +59,7 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: 192.168.33.33:24224
         tag: docker.batch.service
   fluentd:
     image: myfluentd
