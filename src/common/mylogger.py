@@ -5,6 +5,7 @@ Flask 環境でなければ、ユニークキーを使わずにログ出力す�
 """
 
 import logging
+import uuid
 
 
 class UniqueKeyFormatter(logging.Formatter):
@@ -27,6 +28,8 @@ class UniqueKeyFormatter(logging.Formatter):
 
             if not hasattr(g, "count"):
                 g.count = 1
+            if not hasattr(g, "unique_key"):
+                g.unique_key = uuid.uuid4().hex[0:7]
             record.unique_key = f"[{g.unique_key}:{g.count:02}]"
             g.count += 1
         else:

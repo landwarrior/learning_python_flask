@@ -28,42 +28,49 @@ echo ""
 # SCRIPT_DIR=$(cd $(dirname $0);pwd)
 
 # chef 実行
-sudo echo yes | chef-client -z -c /vagrant/chef-repo/solo.rb -j /vagrant/chef-repo/nodes/flask_app.json
-
+if [[ -f /vagrant/chef-repo/nodes/flask_app.json ]]; then
+    sudo echo yes | chef-client -z -c /vagrant/chef-repo/solo.rb -j /vagrant/chef-repo/nodes/flask_app.json
+else
+    echo "  * skip chef-client"
+fi
 # file 配置
-bash /vagrant/fileput.sh
+if [[ $(ls /vagrant/fileput.sh) ]]; then
+    echo "  - fileput.sh"
+    bash /vagrant/fileput.sh
+fi
 
 
 # docker swarm init 実行 NOTE: Vagrantfile に記載された IP アドレスと同じものを指定する
-if ! [[ $(docker node ls -q) ]]; then
+if docker node ls -q > /dev/null 2>&1; then
+    echo "  * skip docker swarm init"
+else
     echo "  - docker swarm init"
     docker swarm init --advertise-addr 192.168.33.33
-else
-    echo "  * skip docker swarm init"
 fi
 
 # docker build
-if ! docker images | grep -q frontend; then
-    echo "  - docker build frontend"
-    docker build -t frontend /vagrant/docker/frontend
-fi
-
-if ! docker images | grep -q backend; then
-    echo "  - docker build backend"
-    docker build -t backend /vagrant/docker/backend
-fi
-
-if ! docker images | grep -q batch; then
-    echo "  - docker build batch"
-    docker build -t batch /vagrant/docker/batch
-fi
-
-if ! docker images | grep -q mynginx; then
-    echo "  - docker build mynginx"
-    docker build -t mynginx /vagrant/docker/nginx
-fi
+for image in frontend backend batch mynginx myfluentd; do
+    if ! docker images --format "{{.Repository}}" | grep -q $image; then
+        echo "  - docker build $image"
+        docker build -t $image /vagrant/docker/$image
+    else
+        echo "  * skip docker build $image"
+    fi
+done
 
 # docker stack deploy
 if ! docker stack ls | grep -q test; then
     docker stack deploy -c /vagrant/docker/docker-stack-local.yml test
 fi
+
+# メモ書き
+rm -f /etc/logrotate.d/fluentd
+touch /etc/logrotate.d/fluentd
+echo "/var/log/fluent/fluentd.log {" >> /etc/logrotate.d/fluentd
+echo "    daily" >> /etc/logrotate.d/fluentd
+echo "    rotate 30" >> /etc/logrotate.d/fluentd
+echo "    compress" >> /etc/logrotate.d/fluentd
+echo "    missingok" >> /etc/logrotate.d/fluentd
+echo "    notifempty" >> /etc/logrotate.d/fluentd
+echo "    copytruncate" >> /etc/logrotate.d/fluentd
+echo "}" >> /etc/logrotate.d/fluentd

@@ -18,7 +18,8 @@ def get_config():
 
 class Config:
     # セッションやCSRF保護に使用される秘密鍵
-    SECRET_KEY = secrets.token_hex()
+    # python -c 'import secrets; print(secrets.token_hex())'
+    SECRET_KEY = "c7c8404a9f646389892066653645993e3cef05171a91ea6d2ed698e9026b2d05"
     # セッションクッキーの名前
     SESSION_COOKIE_NAME = "landwarrior"
     # クッキーのSameSite属性をStrictに設定し、クロスサイトリクエストでの送信を防ぐ
@@ -30,7 +31,8 @@ class Config:
     # CSRF保護を有効化
     WTF_CSRF_ENABLED = True
     # CSRFトークンのための秘密鍵
-    WTF_CSRF_SECRET_KEY = secrets.token_hex(16)
+    # python -c 'import secrets; print(secrets.token_hex(16))'
+    WTF_CSRF_SECRET_KEY = "0aa0ff26473e8ed28898c21cbdebc645"
     # CSRF保護を適用するHTTPメソッド
     WTF_CSRF_METHODS = ["POST", "PUT", "PATCH", "DELETE"]
     # CSRFトークンの有効期限を秒で設定（14400秒 = 4時間）

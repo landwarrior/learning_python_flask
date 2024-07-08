@@ -1,0 +1,59 @@
+config:
+  - source:
+      $type: forward
+      port: 24224
+      bind: 0.0.0.0
+      $label: "@mainstream"
+
+  - filter:
+      $type: stdout
+
+  - label:
+      $name: "@mainstream"
+      config:
+        - filter:
+            $tag: docker.**
+            $type: record_transformer
+            enable_ruby: true
+            renew_record: true
+            record:
+              container_name: ${record["container_name"]}
+              log: ${record["log"]}
+        - match:
+            $type: file
+            path: /var/log/fluent/docker
+            format: ltsv
+            append: true
+            time_slice_format: "%Y%m%d"
+            time_key: "@timestamp"
+            time_format: "%Y%m%dT%H%M%S%z"
+            buffer:
+              flush_mode: interval
+              timekey: 1d
+              timekey_wait: 10m
+              flush_interval: 1s
+              total_limit_size: 30m
+              chunk_limit_size: 1m
+              timekey_use_utc: true
+              timekey_zone: "+0900"
+
+  - label:
+      $name: "@FLUENT_LOG"
+      config:
+        - match:
+            $type: file
+            path: /var/log/fluent/fluentd
+            format: out_file
+            append: true
+            time_slice_format: "%Y%m%d"
+            time_key: "@timestamp"
+            time_format: "%Y%m%dT%H%M%S%z"
+            buffer:
+              flush_mode: interval
+              timekey: 1d
+              timekey_wait: 10m
+              flush_interval: 1s
+              total_limit_size: 30m
+              chunk_limit_size: 1m
+              timekey_use_utc: true
+              timekey_zone: "+0900"

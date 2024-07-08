@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -ex
+
 rm -fr /var/app/flask/backend/*
 rm -fr /var/app/flask/frontend/*
 rm -fr /var/app/batch/*
