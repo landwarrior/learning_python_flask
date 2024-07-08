@@ -62,3 +62,15 @@ done
 if ! docker stack ls | grep -q test; then
     docker stack deploy -c /vagrant/docker/docker-stack-local.yml test
 fi
+
+# メモ書き
+rm -f /etc/logrotate.d/fluentd
+touch /etc/logrotate.d/fluentd
+echo "/var/log/fluent/fluentd.log {" >> /etc/logrotate.d/fluentd
+echo "    daily" >> /etc/logrotate.d/fluentd
+echo "    rotate 30" >> /etc/logrotate.d/fluentd
+echo "    compress" >> /etc/logrotate.d/fluentd
+echo "    missingok" >> /etc/logrotate.d/fluentd
+echo "    notifempty" >> /etc/logrotate.d/fluentd
+echo "    copytruncate" >> /etc/logrotate.d/fluentd
+echo "}" >> /etc/logrotate.d/fluentd
