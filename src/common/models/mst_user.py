@@ -1,8 +1,9 @@
 from copy import deepcopy
 
-from models import Database, session_scope
 from sqlalchemy import DATE, INTEGER, Engine
 from sqlalchemy.sql import func
+
+from models import Database, session_scope
 
 
 def get_data(logger, engine: Engine, db: Database, offset: int, limit: int, condition: dict = None):

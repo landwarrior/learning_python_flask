@@ -2,6 +2,7 @@ import logging
 import os
 
 import bcrypt
+
 from models import Database, mst_user
 from mylogger import UniqueKeyFormatter
 

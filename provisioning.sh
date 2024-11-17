@@ -2,12 +2,6 @@
 
 set -e
 
-# タイムゾーンを日本にする
-if ! [[ $(date | grep "JST") ]]; then
-    echo "  - timedatectl set-timezone Asia/Tokyo"
-    timedatectl set-timezone Asia/Tokyo
-fi
-
 # 補完してくれるやつ
 if ! [[ $(rpm -qa | grep bash-completion) ]] ; then
     echo "  - dnf install bash-completion"

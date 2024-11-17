@@ -4,10 +4,11 @@ import time
 import traceback
 import uuid
 
-from config import get_config
 from flask import Flask, Response, flash, g, jsonify, redirect, request, session, url_for
 from flask_minify import Minify
 from flask_wtf.csrf import CSRFError, CSRFProtect
+
+from config import get_config
 from mylogger import UniqueKeyFormatter
 from routes import init_blueprint
 
@@ -15,6 +16,14 @@ app = Flask(__name__)
 
 
 def prepare_logging(app: Flask):
+    """アプリケーションのロギング設定を準備する.
+
+    Args:
+        app (Flask): Flaskアプリケーションインスタンス
+
+    Returns:
+        None
+    """
     app.logger.handlers = []
     app.logger.setLevel(logging.DEBUG)
     handler = logging.StreamHandler()
@@ -30,6 +39,14 @@ prepare_logging(app)
 
 
 def static_file_with_mtime(filename):
+    """静的ファイルのURLに最終更新時刻を付与する.
+
+    Args:
+        filename (str): 静的ファイルのファイル名
+
+    Returns:
+        str: 最終更新時刻を付与した静的ファイルのURL
+    """
     file_path = os.path.join(app.root_path, "static", filename)
     try:
         mtime = os.path.getmtime(file_path)
@@ -45,6 +62,16 @@ app.jinja_env.globals["url_for_with_mtime"] = static_file_with_mtime
 
 @app.before_request
 def before_request():
+    """リクエスト前の処理を行う.
+
+    - リクエスト開始時刻の記録
+    - ユニークキーの生成
+    - リクエスト情報のロギング
+    - ログインチェック
+
+    Returns:
+        None または リダイレクトレスポンス
+    """
     if "static" not in request.url and "favicon.ico" not in request.url:
         g.start_time = time.time()
         # UUID4 を 16 進数にして、 7 文字分だけ使う
@@ -59,6 +86,16 @@ def before_request():
 
 @app.after_request
 def after_request(response: Response):
+    """リクエスト後の処理を行う.
+
+    - レスポンス情報のロギング
+
+    Args:
+        response (Response): レスポンスオブジェクト
+
+    Returns:
+        Response: レスポンスオブジェクト
+    """
     try:
         duration = time.time() - g.start_time
         app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {response.json} [{duration: .5f} sec]")
@@ -73,6 +110,14 @@ CSRFProtect(app)
 
 @app.errorhandler(CSRFError)
 def handle_exception_error(e):
+    """CSRFエラーのハンドリングを行う.
+
+    Args:
+        e (CSRFError): CSRFエラーオブジェクト
+
+    Returns:
+        JSON レスポンス または リダイレクトレスポンス
+    """
     app.logger.error(traceback.format_exc())
     app.logger.info(f"session: {session}")
     app.logger.info(f"Unhandled exception: {e}")

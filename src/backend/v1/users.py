@@ -1,6 +1,7 @@
 import datetime
 
 from flask import Blueprint, Response, current_app, jsonify, request
+
 from models import mst_user
 
 users_bp = Blueprint("users", __name__)

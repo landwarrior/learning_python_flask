@@ -1,4 +1,5 @@
 from flask import Flask
+
 from v1.login import login_bp
 from v1.users import users_bp
 

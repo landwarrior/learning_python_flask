@@ -3,8 +3,9 @@ import time
 import traceback
 import uuid
 
-from config import get_config
 from flask import Flask, Response, g, jsonify, request
+
+from config import get_config
 from models import Database
 from mylogger import UniqueKeyFormatter
 from routes import init_blueprint

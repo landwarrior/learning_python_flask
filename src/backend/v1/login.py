@@ -1,5 +1,6 @@
 import bcrypt
 from flask import Blueprint, current_app, jsonify, request
+
 from models import mst_user
 
 login_bp = Blueprint("login", __name__)

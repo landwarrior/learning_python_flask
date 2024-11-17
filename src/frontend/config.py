@@ -1,6 +1,5 @@
 import datetime
 import os
-import secrets
 
 
 def get_config():
