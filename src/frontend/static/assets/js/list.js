@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
             /**
              * トーストを表示する
              */
-            showTaost() {
+            showToast() {
                 const toastElList = document.querySelectorAll('.toast');
                 const toastList = [...toastElList].map((toastEl) => new bootstrap.Toast(toastEl, {}));
                 for (const toast of toastList) {

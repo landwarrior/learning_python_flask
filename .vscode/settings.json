@@ -49,5 +49,15 @@
     "[jinja-html]": {
         "editor.tabSize": 2,
         "editor.defaultFormatter": "vscode.html-language-features"
-    }
+    },
+    "cursorpyright.analysis.extraPaths": [
+        "src\\common"
+    ],
+    "cSpell.words": [
+        "axios",
+        "flatpickr",
+        "htmlhint",
+        "maxlength",
+        "stylesheet"
+    ]
 }
