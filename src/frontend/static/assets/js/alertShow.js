@@ -1,3 +1,4 @@
+/* exported showAlert */
 /**
  * アラート表示する
  * @param {HTMLElement} parentNode 親要素
