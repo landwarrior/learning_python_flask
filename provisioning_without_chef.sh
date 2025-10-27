@@ -53,6 +53,9 @@ EOF
     dnf makecache
     dnf install -y MariaDB-server MariaDB-client
     systemctl enable --now mariadb
+
+    mysql -e "create database if not exists mydb"
+    mysql -Dmydb < /vagrant/chef-repo/cookbooks/mariadb/files/init.sql
 else
     echo "  * skip installing mariadb"
 fi
