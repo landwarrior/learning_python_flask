@@ -25,7 +25,13 @@ cd C:\Users\user\git_src\learning_python_flask
 vagrant up
 ```
 
-Vagrantfile に記載された内容で VM がセットアップされ立ち上がります。
+Vagrantfile に記載された内容で VM がセットアップされ立ち上がります。  
+Vagrantfile で SELinux の無効化をしていますが、再起動しないと反映されないためここで再起動しておきます。  
+コマンドは以下です。
+
+```bash
+vagrant reload
+```
 
 ## プロビジョニングする
 

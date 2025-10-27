@@ -8,17 +8,14 @@ Vagrant.configure("2") do |config|
     flask_app.vm.network "private_network", ip: "192.168.33.33"
 
     flask_app.vm.provider "virtualbox" do |vb|
-      # Display the VirtualBox GUI when booting the machine
-      vb.gui = true
-
-      # Customize the amount of memory on the VM:
-      vb.memory = "2048"
-      vb.cpus = 2
+      vb.memory = "1024"
+      vb.cpus = 1
     end
+
+    # 初期設定
     flask_app.vm.provision "shell", inline: <<-SHELL
-      # タイムゾーンを日本にする
       sudo timedatectl set-timezone Asia/Tokyo
+      sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
     SHELL
   end
-
 end

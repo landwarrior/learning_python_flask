@@ -2,21 +2,30 @@
 # These groups are read by MariaDB server.
 # Use it for options that only the server (but not clients) should see
 #
-# See the examples of server my.cnf files in /usr/share/mysql/
-#
 
 # this is read by the standalone daemon and embedded servers
 [server]
 
-# this is only for the mysqld standalone daemon
-# Settings user and group are ignored when systemd is used.
-# If you need to run mysqld under a different user or group,
-# customize your systemd unit file for mysqld/mariadb according to the
-# instructions in http://fedoraproject.org/wiki/Systemd
+# This group is only read by MariaDB servers, not by MySQL.
+# If you use the same .cnf file for MySQL and MariaDB,
+# you can put MariaDB-only options here
+[mariadb]
+
+#
+# * Enable the Feedback plugin and submit anonymous usage information
+#
+# Feedback plugin collects basic anonymous statistical information that can be
+# used by the developers to improve MariaDB. This is an easy way to help with
+# MariaDB development. Collected statistics can be viewed at
+# http://mariadb.org/feedback-plugin
+#feedback=ON
+
+# This group is read by both MariaDB and MySQL servers
 [mysqld]
 datadir=/var/lib/mysql
 socket=/var/lib/mysql/mysql.sock
 log-error=/var/log/mariadb/mariadb.log
+# pid ファイルは systemd 環境の場合は /run 配下に作成されるため、それに合わせて設定しておく
 pid-file=/run/mariadb/mariadb.pid
 
 character_set_server = utf8mb4
@@ -53,7 +62,7 @@ general_log_file=/var/log/mysql/query.log
 # you can put MariaDB-only options here
 [mariadb]
 
-# This group is only read by MariaDB-10.5 servers.
+# This group is only read by MariaDB-12.0 servers.
 # If you use the same .cnf file for MariaDB of different versions,
 # use this group for options that older servers don't understand
-[mariadb-10.5]
+[mariadb-12.0]

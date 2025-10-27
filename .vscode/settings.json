@@ -19,9 +19,6 @@
         "titleBar.inactiveForeground": "#e7e7e799"
     },
     "peacock.color": "#dd0531",
-    "python.analysis.extraPaths": [
-        "src\\common"
-    ],
     "python.autoComplete.extraPaths": [
         "src\\common"
     ],
@@ -55,6 +52,7 @@
     ],
     "cSpell.words": [
         "axios",
+        "enablerepo",
         "flatpickr",
         "htmlhint",
         "maxlength",

@@ -1,10 +1,20 @@
-# install MariaDB
-package 'mariadb-server' do
+# Add MariaDB official repository for RockyLinux 9 (RHEL 9 compatible)
+yum_repository 'MariaDB' do
+    description 'MariaDB Repository'
+    baseurl 'http://yum.mariadb.org/12.0/rhel8-amd64'
+    gpgkey 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB'
+    gpgcheck true
+    enabled true
+    action :create
+end
+
+# install MariaDB 12.0.2
+package 'MariaDB-server' do
     action :install
 end
 
-template '/etc/my.cnf.d/mariadb-server.cnf' do
-    source 'mariadb-server.cnf.erb'
+template '/etc/my.cnf.d/server.cnf' do
+    source 'server.cnf.erb'
     owner 'root'
     group 'root'
     mode '0644'
@@ -22,6 +32,7 @@ end
 # create directory
 %w[
     /var/log/mysql
+    /run/mariadb
 ].each do |path|
     directory path do
         owner 'root'
@@ -32,7 +43,7 @@ end
 end
 
 service 'mariadb' do
-  action [:enable, :start]
+    action [:enable, :start]
 end
 
 # set up MariaDB

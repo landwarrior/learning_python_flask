@@ -1,18 +1,38 @@
-# install docker-ce
+# 古いパッケージなどがあったらアンインストールしてからインストールする
 %w[
-    yum-utils
+    docker
+    docker-client
+    docker-client-latest
+    docker-common
+    docker-latest
+    docker-latest-logrotate
+    docker-logrotate
+    docker-engine
+    podman
+    runc
 ].each do |pkg|
-    dnf_package pkg do
-        action :install
-        not_if "rpm -qa | grep #{pkg}"
+    package pkg do
+        action :remove
     end
 end
 
-execute 'add docker-ce.repo' do
-    command "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
-    not_if do File.exist?("/etc/yum.repos.d/docker-ce.repo") end
+# dnf-plugins-core のインストール
+package 'dnf-plugins-core' do
+    action :install
 end
 
+execute 'add docker-ce.repo' do
+    command "dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+    not_if { File.exist?("/etc/yum.repos.d/docker-ce.repo") }
+end
+
+# パッケージキャッシュを更新
+execute 'update package cache' do
+    command 'dnf makecache'
+    action :run
+end
+
+# Dockerパッケージのインストール（最新バージョンをインストールする）
 %w[
     docker-ce
     docker-ce-cli
@@ -21,17 +41,17 @@ end
     docker-compose-plugin
 ].each do |docker|
     dnf_package docker do
+        # enablerepo を書かないと、初回実行がうまくいかないので書いておく
         options "--enablerepo=docker-ce-stable"
         action :install
-        not_if "rpm -qa | grep #{docker}"
     end
 end
 
+# Dockerサービスの起動
 service 'docker' do
     action [:start, :enable]
 end
 
-# ディレクトリを作っても結局使ってない
 %w[
     /var/log/fluent
 ].each do |path|

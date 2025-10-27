@@ -5,7 +5,7 @@ set -e
 # 補完してくれるやつ
 if ! [[ $(rpm -qa | grep bash-completion) ]] ; then
     echo "  - dnf install bash-completion"
-    sudo dnf install -y bash-completion
+    dnf install -y bash-completion
 fi
 
 # chef インストール
@@ -13,6 +13,7 @@ if [[ $(rpm -qa | grep chef) ]]; then
     echo "  * skip installing chef"
 else
     echo "  - chef installing"
+    # AlmaLinux8で利用可能な最新の安定版chefをインストール
     curl -L https://omnitruck.chef.io/install.sh | sudo bash -s --
 fi
 
@@ -20,6 +21,10 @@ echo ""
 
 # なぜ用意したのか覚えていない
 # SCRIPT_DIR=$(cd $(dirname $0);pwd)
+
+# firewalld 無効化
+echo "  - disable and stop firewalld"
+systemctl disable firewalld --now
 
 # chef 実行
 if [[ -f /vagrant/chef-repo/nodes/flask_app.json ]]; then
