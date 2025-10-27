@@ -13,7 +13,6 @@ if [[ $(rpm -qa | grep chef) ]]; then
     echo "  * skip installing chef"
 else
     echo "  - chef installing"
-    # AlmaLinux8で利用可能な最新の安定版chefをインストール
     curl -L https://omnitruck.chef.io/install.sh | sudo bash -s --
 fi
 
