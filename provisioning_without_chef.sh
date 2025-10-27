@@ -85,6 +85,10 @@ for image in frontend backend batch mynginx myfluentd; do
     fi
 done
 
+mkdir -p /var/log/fluent
+chown -R root:root /var/log/fluent
+chmod -R 777 /var/log/fluent
+
 # docker stack deploy
 if ! docker stack ls | grep -q test; then
     docker stack deploy -c /vagrant/docker/docker-stack-local.yml test
