@@ -2,6 +2,8 @@
 
 set -e
 
+IP=$(ip -4 addr show dev enp0s8 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+
 # 補完してくれるやつ
 if ! [[ $(rpm -qa | grep bash-completion) ]] ; then
     echo "  - dnf install bash-completion"
@@ -43,7 +45,7 @@ if docker node ls -q > /dev/null 2>&1; then
     echo "  * skip docker swarm init"
 else
     echo "  - docker swarm init"
-    docker swarm init --advertise-addr 192.168.33.33
+    docker swarm init --advertise-addr $IP
 fi
 
 # docker build
