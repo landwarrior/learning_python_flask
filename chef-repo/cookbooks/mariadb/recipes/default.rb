@@ -1,7 +1,7 @@
 # Add MariaDB official repository for RockyLinux 9 (RHEL 9 compatible)
 yum_repository 'MariaDB' do
     description 'MariaDB Repository'
-    baseurl 'http://yum.mariadb.org/12.0/rhel8-amd64'
+    baseurl 'http://yum.mariadb.org/12.0/rhel9-amd64'
     gpgkey 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB'
     gpgcheck true
     enabled true

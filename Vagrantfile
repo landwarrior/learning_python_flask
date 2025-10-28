@@ -3,7 +3,7 @@
 
 Vagrant.configure("2") do |config|
   config.vm.define "flask-app" do |flask_app|
-    flask_app.vm.box = "bento/almalinux-8"
+    flask_app.vm.box = "bento/almalinux-9"
     flask_app.vm.hostname = "flask-app.local"
     flask_app.vm.network "private_network", ip: "192.168.33.33"
 
