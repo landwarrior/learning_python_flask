@@ -22,6 +22,12 @@
     "python.autoComplete.extraPaths": [
         "src\\common"
     ],
+    "python.analysis.extraPaths": [
+        "src\\common"
+    ],
+    "cursorpyright.analysis.extraPaths": [
+        "src\\common"
+    ],
     "[html]": {
         "editor.tabSize": 2,
         "editor.defaultFormatter": "vscode.html-language-features"
@@ -47,15 +53,14 @@
         "editor.tabSize": 2,
         "editor.defaultFormatter": "vscode.html-language-features"
     },
-    "cursorpyright.analysis.extraPaths": [
-        "src\\common"
-    ],
     "cSpell.words": [
+        "automap",
         "axios",
         "enablerepo",
         "flatpickr",
         "htmlhint",
         "maxlength",
+        "poolclass",
         "stylesheet"
     ]
 }

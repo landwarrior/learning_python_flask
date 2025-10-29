@@ -4,13 +4,13 @@ import time
 import traceback
 import uuid
 
+from config import get_config
 from flask import Flask, Response, flash, g, jsonify, redirect, request, session, url_for
 from flask_minify import Minify
 from flask_wtf.csrf import CSRFError, CSRFProtect
-
-from config import get_config
 from mylogger import UniqueKeyFormatter
 from routes import init_blueprint
+
 
 app = Flask(__name__)
 
