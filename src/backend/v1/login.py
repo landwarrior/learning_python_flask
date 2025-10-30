@@ -81,7 +81,7 @@ def initialize_password() -> tuple[Response, int]:
     if not user:
         return jsonify({"message": "Invalid username"}), 400
 
-    user.ignition_key = bcrypt.hashpw("password".encode("utf-8"), bcrypt.gensalt())
+    user.ignition_key = bcrypt.hashpw(b"password", bcrypt.gensalt())
     current_app.db.session.commit()
 
     return jsonify({"message": "Password initialized successfully"}), 200

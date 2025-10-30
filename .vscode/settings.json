@@ -56,8 +56,10 @@
     "cSpell.words": [
         "automap",
         "axios",
+        "checkpw",
         "enablerepo",
         "flatpickr",
+        "gensalt",
         "hashpw",
         "htmlhint",
         "isort",
