@@ -7,6 +7,9 @@ target-version = ['py313']
 line-length = 120
 target-version = "py313"
 
+# 自動修正を有効にする
+fix = true
+
 # 除外するディレクトリ
 exclude = [
     ".git",
