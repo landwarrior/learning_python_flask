@@ -1,19 +1,29 @@
+"""Flask アプリケーションのバックエンドサービス."""
+
 import logging
 import time
 import traceback
 import uuid
 
-from flask import Flask, Response, g, jsonify, request
-
 from config import get_config
+from flask import Flask, Response, g, jsonify, request
 from models import Database
 from mylogger import UniqueKeyFormatter
 from routes import init_blueprint
+
 
 app = Flask(__name__)
 
 
 def prepare_logging(app: Flask) -> None:
+    """アプリケーションのロギング設定を準備する.
+
+    Args:
+        app (Flask): Flaskアプリケーションインスタンス
+
+    Returns:
+        None
+    """
     app.logger.handlers = []
     app.logger.setLevel(logging.DEBUG)
     handler = logging.StreamHandler()
@@ -23,6 +33,14 @@ def prepare_logging(app: Flask) -> None:
 
 
 def prepare_db(app: Flask) -> None:
+    """データベースの設定を準備する.
+
+    Args:
+        app (Flask): Flaskアプリケーションインスタンス
+
+    Returns:
+        None
+    """
     if not hasattr(app, "db"):
         app.db = Database(app.config.get("SQLALCHEMY_DATABASE_URI", ""))
     app.db.Base.prepare(autoload_with=app.db.engine)
@@ -37,11 +55,17 @@ prepare_db(app)
 
 @app.route("/status")
 def home():
+    """ステータスの確認."""
     return "200 OK"
 
 
 @app.before_request
 def before_request():
+    """リクエスト前の処理を行う.
+
+    Returns:
+        None
+    """
     g.start_time = time.time()
     # UUID4 を 16 進数にして、 7 文字分だけ使う
     g.unique_key = uuid.uuid4().hex[0:7]
@@ -52,6 +76,14 @@ def before_request():
 
 @app.after_request
 def after_request(response: Response):
+    """リクエスト後の処理を行う.
+
+    Args:
+        response (Response): レスポンスオブジェクト
+
+    Returns:
+        Response: レスポンスオブジェクト
+    """
     duration = time.time() - g.start_time
     app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {response.json} [{duration: .5f} sec]")
     if "application/json" in response.content_type:
@@ -61,12 +93,14 @@ def after_request(response: Response):
 
 @app.errorhandler(404)
 def handle_404_error(e):
+    """404 エラーの処理."""
     app.logger.info(f"error response: {e}")
     return jsonify({"code": 404, "message": "Not Found"}), 404
 
 
 @app.errorhandler(Exception)
 def handle_exception_error(e):
+    """例外エラーの処理."""
     app.logger.error(traceback.format_exc())
     app.logger.info(f"Unhandled exception: {e}")
     return jsonify({"code": 500, "message": "Internal Server Error"}), 500
@@ -74,12 +108,14 @@ def handle_exception_error(e):
 
 @app.errorhandler(500)
 def handle_500_error(e):
+    """500 エラーの処理."""
     app.logger.info(f"error response: {e}")
     return jsonify({"code": 500, "message": "Internal Server Error"}), 500
 
 
 @app.errorhandler(502)
 def handle_502_error(e):
+    """502 エラーの処理."""
     app.logger.info(f"error response: {e}")
     return jsonify({"code": 502, "message": "Internal Server Error"}), 502
 

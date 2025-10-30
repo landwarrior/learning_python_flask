@@ -47,7 +47,8 @@ select = [
 
 # 無視するルール
 ignore = [
-    "E203",  # whitespace before ':'
+    "E203",  # E203: whitespace before ':' (pycodestyle)
+    "D413",  # D413: missing blank line after last section (pydocstyle)
 ]
 
 [tool.ruff.lint.isort]
@@ -72,3 +73,7 @@ warn_unused_ignores = true
 warn_no_return = true
 warn_unreachable = true
 warn_no_explicit_any = true
+
+# 動的に追加されたメンバ変数へのアクセスを許可
+# Flaskのapp.dbやcurrent_app.dbのように、実行時に属性が追加される場合に使用
+disable_error_code = ["attr-defined"]

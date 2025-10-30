@@ -1,23 +1,26 @@
+"""ユーザー管理API."""
+
 import datetime
 
 from flask import Blueprint, Response, current_app, jsonify, request
-
 from models import mst_user
+
 
 users_bp = Blueprint("users", __name__)
 
 
 @users_bp.route("/", methods=["GET"])
-def hello_world():
+def hello_world() -> Response:
+    """Hello World."""
     return jsonify({"status": "ok"})
 
 
 @users_bp.route("/users", methods=["GET"])
-def get_users() -> Response:
+def get_users() -> tuple[Response, int]:
     """ユーザーデータの取得.
 
     Returns:
-        Response: レスポンスデータ.
+        tuple[Response, int]: レスポンスデータとステータスコード.
     """
     offset = request.args.get("offset", default=0, type=int)
     limit = request.args.get("limit", default=1000, type=int)
@@ -49,7 +52,7 @@ def get_users() -> Response:
             }
         )
         data["total"] = user.total
-    return jsonify(data)
+    return jsonify(data), 200
 
 
 def _param_to_condition():

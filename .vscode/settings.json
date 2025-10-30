@@ -58,9 +58,22 @@
         "axios",
         "enablerepo",
         "flatpickr",
+        "hashpw",
         "htmlhint",
+        "isort",
+        "jsonify",
         "maxlength",
+        "mccabe",
+        "mylogger",
+        "mypy",
         "poolclass",
-        "stylesheet"
+        "pycache",
+        "pycodestyle",
+        "pydocstyle",
+        "pyflakes",
+        "pylint",
+        "pyupgrade",
+        "stylesheet",
+        "venv"
     ]
 }
