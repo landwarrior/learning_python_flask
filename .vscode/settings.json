@@ -76,6 +76,8 @@
         "pylint",
         "pyupgrade",
         "stylesheet",
+        "trixie",
+        "uwsgi",
         "venv"
     ]
 }

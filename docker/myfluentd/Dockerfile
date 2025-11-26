@@ -1,4 +1,4 @@
-FROM fluentd:v1.16.2-debian-1.1
+FROM fluentd:v1.19.0-debian-1.0
 
 RUN rm -f /fluentd/etc/fluent.conf
 COPY ./conf/* /fluentd/etc/

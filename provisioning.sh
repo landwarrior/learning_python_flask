@@ -26,6 +26,15 @@ echo ""
 # firewalld 無効化
 echo "  - disable and stop firewalld"
 systemctl disable firewalld --now
+# docker と競合するパッケージを削除
+if [[ $(rpm -qa | grep podman) ]]; then
+    echo "  - remove podman packages"
+    dnf remove -y podman
+fi
+if [[ $(rpm -qa | grep runc) ]]; then
+    echo "  - remove runc packages"
+    dnf remove -y runc
+fi
 
 # chef 実行
 if [[ -f /vagrant/chef-repo/nodes/flask_app.json ]]; then

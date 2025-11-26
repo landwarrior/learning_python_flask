@@ -1,4 +1,4 @@
-FROM python:3.13.9-slim-bookworm
+FROM python:3.14.0-slim-trixie
 
 RUN mkdir -p /var/app/batch 2> /dev/null
 RUN apt update

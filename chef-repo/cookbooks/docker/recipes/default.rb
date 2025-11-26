@@ -1,21 +1,3 @@
-# 古いパッケージなどがあったらアンインストールしてからインストールする
-%w[
-    docker
-    docker-client
-    docker-client-latest
-    docker-common
-    docker-latest
-    docker-latest-logrotate
-    docker-logrotate
-    docker-engine
-    podman
-    runc
-].each do |pkg|
-    package pkg do
-        action :remove
-    end
-end
-
 # dnf-plugins-core のインストール
 package 'dnf-plugins-core' do
     action :install
