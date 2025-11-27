@@ -24,8 +24,10 @@ echo ""
 # SCRIPT_DIR=$(cd $(dirname $0);pwd)
 
 # firewalld 無効化
-echo "  - disable and stop firewalld"
-systemctl disable firewalld --now
+if [[ $(systemctl is-enabled firewalld) == "enabled" ]]; then
+    echo "  - disable and stop firewalld"
+    systemctl disable firewalld --now
+fi
 # docker と競合するパッケージを削除
 if [[ $(rpm -qa | grep podman) ]]; then
     echo "  - remove podman packages"

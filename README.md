@@ -52,3 +52,18 @@ sudo su
 ```
 
 chef infra client により docker がインストールされ、 docker が使えるようになったと思います。
+
+## パスワードの初期化をする
+
+```bash
+docker exec -it `docker ps -q --filter name=batch` python /var/app/batch/init_password.py
+```
+
+## ログインしてみる
+
+http://192.168.33.33/login にアクセスするとログイン画面が開くので、例えば以下でログインします。
+
+- ログインID
+    - abe_masami
+- パスワード
+    - password

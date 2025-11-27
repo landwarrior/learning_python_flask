@@ -38,20 +38,22 @@ def main():
     logger.info("初期パスワード設定を開始します...")
     updated_count = 0
 
-    for user in mst_user.get_all_data(logger, db.engine, db):
-        # パスワードが空または未設定のユーザーのみ更新
-        if not user.ignition_key or user.ignition_key == "":
-            logger.info(f"ユーザーID: {user.user_id} に初期パスワードを設定します")
-            user.ignition_key = ph.hash(new_password)
-            updated_count += 1
-        else:
-            logger.info(f"ユーザーID: {user.user_id} は既にパスワードが設定されています(スキップ)")
+    # データ取得と更新を同じトランザクション内で実行
+    with db.session_scope() as session:
+        for user in mst_user.get_all_data(logger, db, session=session):
+            # パスワードが空または未設定のユーザーのみ更新
+            if not user.ignition_key or user.ignition_key == "":
+                logger.info(f"ユーザーID: {user.user_id} に初期パスワードを設定します")
+                user.ignition_key = ph.hash(new_password)
+                updated_count += 1
+            else:
+                logger.info(f"ユーザーID: {user.user_id} は既にパスワードが設定されています(スキップ)")
 
-    if updated_count > 0:
-        db.session.commit()
-        logger.info(f"初期パスワード設定が完了しました。更新ユーザー数: {updated_count}")
-    else:
-        logger.info("パスワードを設定するユーザーはありませんでした。")
+        if updated_count > 0:
+            logger.info(f"初期パスワード設定が完了しました。更新ユーザー数: {updated_count}")
+        else:
+            logger.info("パスワードを設定するユーザーはありませんでした。")
+        # session_scope のコンテキストを抜ける際に自動的にコミットされる
 
 
 if __name__ == "__main__":

@@ -1,18 +1,20 @@
-from copy import deepcopy
+"""ユーザーモデル."""
 
-from sqlalchemy import DATE, INTEGER, Engine
+from copy import deepcopy
+from typing import cast
+
+from sqlalchemy import DATE, INTEGER
+from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
-from models import Database, session_scope
+from models import Database
 
 
-def get_data(logger, engine: Engine, db: Database, offset: int, limit: int, condition: dict = None):
-    """
-    指定された条件に一致するユーザーデータをデータベースから取得します.
+def get_data(logger, db: Database, offset: int, limit: int, condition: dict | None = None):
+    """指定された条件に一致するユーザーデータをデータベースから取得します.
 
     Args:
         logger (Logger): ロガー.
-        engine (Engine): SQLAlchemyのエンジン.
         db (Database): データベースモデル.
         offset (int): 取得を開始する位置.
         limit (int): 取得する最大のレコード数.
@@ -21,7 +23,7 @@ def get_data(logger, engine: Engine, db: Database, offset: int, limit: int, cond
     Yields:
         mst_user: 指定された条件に一致するユーザーデータ
     """
-    with session_scope(engine) as session:
+    with db.session_scope() as session:
         query = session.query(
             db.mst_user.user_id.label("user_id"),
             db.mst_user.user_name.label("user_name"),
@@ -39,7 +41,7 @@ def get_data(logger, engine: Engine, db: Database, offset: int, limit: int, cond
             for key, value in condition.items():
                 if hasattr(db.mst_user, key):
                     column_type = getattr(db.mst_user, key).type
-                    if isinstance(column_type, INTEGER) or isinstance(column_type, DATE):
+                    if isinstance(column_type, (INTEGER, DATE)):
                         query = query.filter(getattr(db.mst_user, key) == value)
                     else:
                         query = query.filter(getattr(db.mst_user, key).like(f"%{value}%"))
@@ -52,42 +54,50 @@ def get_data(logger, engine: Engine, db: Database, offset: int, limit: int, cond
         if limit:
             query = query.limit(limit)
         logger.debug(query)
-        for user in query:
-            yield user
+        yield from query
 
 
-def get_all_data(logger, engine: Engine, db: Database):
+def get_all_data(logger, db: Database, session: Session | None = None):
     """データベースからすべてのユーザーデータを取得します.
 
     Args:
         logger (Logger): ロガー.
-        engine (Engine): SQLAlchemyのエンジン.
         db (Database): データベースモデル.
+        session (Session | None, optional): 既存のセッション.
+            指定された場合はそれを使用します(同じトランザクション内で操作する場合).
 
     Yields:
         mst_user: データベースから取得したユーザーデータ
     """
-    with session_scope(engine) as session:
-        query = session.query(db.mst_user)
+    # 既存のセッションが渡された場合はそれを使用
+    if session is not None:
+        # session は None でないことが保証されているが、型チェッカーが認識しないため cast を使用
+        active_session: Session = cast("Session", session)
+        # db.mst_user は実行時に設定されるため、型チェッカーには None の可能性があると判断される
+        query = active_session.query(db.mst_user)  # type: ignore
         logger.debug(query)
-        for user in query:
-            yield user
+        yield from query
+    else:
+        # 新しいセッションを作成
+        with db.session_scope() as new_session:
+            query = new_session.query(db.mst_user)
+            logger.debug(query)
+            yield from query
 
 
-def get_user_by_user_id(logger, engine: Engine, db: Database, user_id: str):
-    """指定されたユーザー名に一致するユーザーをデータベースから取得します.
+def get_user_by_user_id(logger, db: Database, user_id: str):
+    """指定されたユーザーIDに一致するユーザーをデータベースから取得します.
 
     Args:
         logger (Logger): ロガー.
-        engine (Engine): SQLAlchemyのエンジン
-        db (Database): データベースモデル
-        user_id (str): ユーザーID
+        db (Database): データベースモデル.
+        user_id (str): ユーザーID.
 
     Returns:
-        mst_user: ユーザーIDに一致するユーザー
+        mst_user: ユーザーIDに一致するユーザー. 見つからない場合は None.
     """
     user = None
-    with session_scope(engine) as session:
+    with db.session_scope() as session:
         query = session.query(db.mst_user).filter(db.mst_user.user_id == user_id)
         logger.debug(query)
         user = deepcopy(query.first())

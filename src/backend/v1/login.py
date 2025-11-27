@@ -32,7 +32,7 @@ def login() -> tuple[Response, int]:
     if not login_id or not ignition_key:
         return jsonify({"message": "Invalid username or password"}), 400
 
-    user = mst_user.get_user_by_user_id(current_app.logger, current_app.db.engine, current_app.db, login_id)
+    user = mst_user.get_user_by_user_id(current_app.logger, current_app.db, login_id)
     if not user:
         return jsonify({"message": "password not match"}), 400
 
@@ -63,7 +63,7 @@ def change_password() -> tuple[Response, int]:
     if not user_id or not old_password or not new_password:
         return jsonify({"message": "Invalid username or password"}), 400
 
-    user = mst_user.get_user_by_user_id(current_app.logger, current_app.db.engine, current_app.db, user_id)
+    user = mst_user.get_user_by_user_id(current_app.logger, current_app.db, user_id)
 
     if not user:
         return jsonify({"message": "Invalid username or password"}), 400
@@ -98,7 +98,7 @@ def initialize_password() -> tuple[Response, int]:
     if not user_id:
         return jsonify({"message": "Invalid username"}), 400
 
-    user = mst_user.get_user_by_user_id(current_app.logger, current_app.db.engine, current_app.db, user_id)
+    user = mst_user.get_user_by_user_id(current_app.logger, current_app.db, user_id)
 
     if not user:
         return jsonify({"message": "Invalid username"}), 400

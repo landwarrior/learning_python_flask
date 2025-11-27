@@ -36,7 +36,7 @@ def get_users() -> tuple[Response, int]:
         "data": [],
     }
 
-    for user in mst_user.get_data(current_app.logger, current_app.db.engine, current_app.db, offset, limit, condition):
+    for user in mst_user.get_data(current_app.logger, current_app.db, offset, limit, condition):
         data["data"].append(
             {
                 "user_id": user.user_id,
