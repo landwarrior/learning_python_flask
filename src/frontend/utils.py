@@ -1,3 +1,5 @@
+"""ユーティリティ関数."""
+
 import datetime
 
 

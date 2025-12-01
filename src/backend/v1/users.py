@@ -55,7 +55,12 @@ def get_users() -> tuple[Response, int]:
     return jsonify(data), 200
 
 
-def _param_to_condition():
+def _param_to_condition() -> dict | None:
+    """パラメータを条件に変換する.
+
+    Returns:
+        dict | None: 条件.
+    """
     user_id = request.args.get("user_id", default="", type=str)
     user_name = request.args.get("user_name", default="", type=str)
     user_name_kana = request.args.get("user_name_kana", default="", type=str)

@@ -1,13 +1,17 @@
+"""CSV API."""
+
 import csv
 import io
 
 from flask import Blueprint, send_file
+
 
 csv_bp = Blueprint("csv", __name__)
 
 
 @csv_bp.route("/download-csv", methods=["GET"])
 def download_csv():
+    """CSVダウンロード."""
     # メモリ上にCSVデータを作成
     output = io.StringIO()
     writer = csv.writer(output, quoting=csv.QUOTE_ALL, lineterminator="\r\n")
@@ -23,8 +27,7 @@ def download_csv():
 
     return send_file(
         io.BytesIO(encoded_data),
-        mimetype="text/csv",
+        mimetype="text/csv; charset=shift_jis",
         as_attachment=True,
         download_name="output.csv",
-        charset="shift_jis",
     )

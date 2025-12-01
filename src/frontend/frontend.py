@@ -1,3 +1,5 @@
+"""Flaskアプリケーションのフロントエンドサービス."""
+
 import logging
 import os
 import time
@@ -15,14 +17,14 @@ from routes import init_blueprint
 app = Flask(__name__)
 
 
-def prepare_logging(app: Flask):
+def prepare_logging(app: Flask) -> None:
     """アプリケーションのロギング設定を準備する.
 
     Args:
         app (Flask): Flaskアプリケーションインスタンス
 
     Returns:
-        None
+        None: 何も返さない
     """
     app.logger.handlers = []
     app.logger.setLevel(logging.DEBUG)
@@ -85,7 +87,7 @@ def before_request():
 
 
 @app.after_request
-def after_request(response: Response):
+def after_request(response: Response) -> Response:
     """リクエスト後の処理を行う.
 
     - レスポンス情報のロギング
@@ -99,10 +101,9 @@ def after_request(response: Response):
     try:
         duration = time.time() - g.start_time
         app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {response.json} [{duration: .5f} sec]")
-    except Exception:
-        pass
-    finally:
-        return response
+    except Exception as e:
+        app.logger.error(f"Error in after_request: {e}", exc_info=True)
+    return response
 
 
 CSRFProtect(app)
