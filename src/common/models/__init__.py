@@ -30,6 +30,8 @@ class Database:
 
         使用例:
             db = Database(connection_string)
+            db.Base.prepare(autoload_with=db.engine)
+            db.mst_user = db.Base.classes.mst_user
             with db.session_scope() as session:
                 # データ取得と更新を同じトランザクション内で実行
                 users = session.query(db.mst_user).all()
