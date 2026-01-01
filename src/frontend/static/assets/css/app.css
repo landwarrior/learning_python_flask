@@ -10,9 +10,9 @@
 
 :root[data-bs-theme='dark'] {
     --bs-body-color: #d0d0d0;
-    --bs-body-bg: #252525;
-    --shadow-lt: #444444;
-    --shadow-rb: #191919;
+    --bs-body-bg: #272727;
+    --shadow-lt: #3e3e3e;
+    --shadow-rb: #101010;
     --bs-table-color: var(--bs-body-color);
     --bs-emphasis-color: var(--bs-body-color);
 }
