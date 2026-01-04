@@ -1,0 +1,16 @@
+{
+    "recommendations": [
+        "njpwerner.autodocstring",
+        "aaron-bond.better-comments",
+        "samuelcolvin.jinjahtml",
+        "biomejs.biome",
+        "ms-python.black-formatter",
+        "streetsidesoftware.code-spell-checker",
+        "wholroyd.jinja",
+        "ms-python.mypy-type-checker",
+        "christian-kohler.path-intellisense",
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "Vue.volar"
+    ]
+}

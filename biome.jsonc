@@ -1,0 +1,480 @@
+{
+    // Biome設定ファイルのスキーマバージョン（IDEの補完やバリデーションに使用）
+    "$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
+
+    // バージョン管理システム（VCS）の設定
+    "vcs": {
+        "enabled": true, // VCS統合を有効化（Gitの設定を自動検出）
+        "clientKind": "git", // 使用するVCSクライアントの種類
+        "useIgnoreFile": true // .gitignoreファイルを利用してファイルを無視
+    },
+
+    // ファイル処理の設定
+    "files": {
+        "ignoreUnknown": false // 未知のファイルタイプを無視しない（エラーとして扱う）
+    },
+
+    // フォーマッターの設定（コード整形のルール）
+    "formatter": {
+        "enabled": true, // フォーマッターを有効化
+        "formatWithErrors": false, // エラーがある場合でもフォーマットしない
+        "indentStyle": "space", // インデントスタイル: "space"（スペース）または "tab"（タブ）
+        "indentWidth": 4, // インデントの幅（スペース数）
+        "lineEnding": "lf", // 改行コード: "lf"（Unix）、"crlf"（Windows）、"cr"（Mac）
+        "lineWidth": 200, // 1行の最大文字数
+        "attributePosition": "auto", // HTML/JSX属性の位置: "auto"（自動）、"multiline"（複数行）
+        "bracketSameLine": false, // 開始ブラケットを同じ行に配置しない
+        "bracketSpacing": true, // オブジェクトリテラルのブラケット内にスペースを入れる
+        "expand": "auto", // 配列やオブジェクトの展開: "auto"（自動）、"always"（常に）、"never"（しない）
+        "useEditorconfig": true // .editorconfigファイルの設定を読み込む
+    },
+    // リンターの設定（コードの品質チェックルール）
+    "linter": {
+        "enabled": true, // リンターを有効化
+        "rules": {
+            "recommended": false, // 推奨ルールセットを無効化（個別に設定するため）
+
+            // 複雑度に関するルール（コードの複雑さを減らす）
+            "complexity": {
+                "noAdjacentSpacesInRegex": "error", // 正規表現内の連続するスペースを禁止
+                "noExtraBooleanCast": "error", // 不要な真偽値へのキャストを禁止
+                "noUselessCatch": "error", // 無意味なcatchブロックを禁止
+                "noUselessEscapeInRegex": "error" // 正規表現内の不要なエスケープを禁止
+            },
+
+            // 正確性に関するルール（バグやエラーを防ぐ）
+            "correctness": {
+                "noConstAssign": "error", // const変数の再代入を禁止
+                "noConstantCondition": "error", // 常に真/偽になる条件式を禁止
+                "noEmptyCharacterClassInRegex": "error", // 空の文字クラスを禁止
+                "noEmptyPattern": "error", // 空のパターンを禁止
+                "noGlobalObjectCalls": "error", // グローバルオブジェクトの直接呼び出しを禁止
+                "noInvalidBuiltinInstantiation": "error", // 無効な組み込みオブジェクトのインスタンス化を禁止
+                "noInvalidConstructorSuper": "error", // 無効なconstructor内のsuper呼び出しを禁止
+                "noNonoctalDecimalEscape": "error", // 8進数エスケープシーケンスを禁止
+                "noPrecisionLoss": "error", // 精度の損失を禁止
+                "noSelfAssign": "error", // 自己代入を禁止
+                "noSetterReturn": "error", // setterのreturn文を禁止
+                "noSwitchDeclarations": "error", // switch文内の宣言を禁止
+                "noUndeclaredVariables": "error", // 未宣言変数の使用を禁止
+                "noUnreachable": "error", // 到達不能なコードを禁止
+                "noUnreachableSuper": "error", // 到達不能なsuper呼び出しを禁止
+                "noUnsafeFinally": "error", // 安全でないfinallyブロックを禁止
+                "noUnsafeOptionalChaining": "error", // 安全でないオプショナルチェーンを禁止
+                "noUnusedLabels": "error", // 未使用のラベルを禁止
+                "noUnusedPrivateClassMembers": "error", // 未使用のプライベートクラスメンバーを禁止
+                "noUnusedVariables": "error", // 未使用変数を禁止
+                "useIsNan": "error", // NaNチェックにはisNaN()を使用
+                "useValidForDirection": "error", // 有効なforループの方向を使用
+                "useValidTypeof": "error", // 有効なtypeof演算子を使用
+                "useYield": "error" // ジェネレータ関数ではyieldを使用
+            },
+
+            // 疑わしいコードパターンに関するルール（潜在的なバグを検出）
+            "suspicious": {
+                "noAssignInExpressions": "error", // 式内での代入を禁止
+                "noAsyncPromiseExecutor": "error", // 非同期Promiseエグゼキューターを禁止
+                "noCatchAssign": "error", // catch句での変数代入を禁止
+                "noClassAssign": "error", // クラスの再代入を禁止
+                "noCompareNegZero": "error", // -0との比較を禁止
+                "noConstantBinaryExpressions": "error", // 定数の二項式を禁止
+                "noControlCharactersInRegex": "error", // 正規表現内の制御文字を禁止
+                "noDebugger": "error", // debugger文を禁止
+                "noDuplicateCase": "error", // switch文の重複したcaseを禁止
+                "noDuplicateClassMembers": "error", // 重複したクラスメンバーを禁止
+                "noDuplicateElseIf": "error", // 重複したelse ifを禁止
+                "noDuplicateObjectKeys": "error", // 重複したオブジェクトキーを禁止
+                "noDuplicateParameters": "error", // 重複したパラメータを禁止
+                "noEmptyBlockStatements": "error", // 空のブロック文を禁止
+                "noFallthroughSwitchClause": "error", // switch文のフォールスルーを禁止
+                "noFunctionAssign": "error", // 関数の再代入を禁止
+                "noGlobalAssign": "error", // グローバル変数の代入を禁止
+                "noImportAssign": "error", // importの再代入を禁止
+                "noIrregularWhitespace": "error", // 不正な空白文字を禁止
+                "noMisleadingCharacterClass": "error", // 誤解を招く文字クラスを禁止
+                "noPrototypeBuiltins": "error", // プロトタイプの組み込みメソッドを禁止
+                "noRedeclare": "error", // 再宣言を禁止
+                "noShadowRestrictedNames": "error", // 制限された名前のシャドウを禁止
+                "noSparseArray": "error", // スパース配列を禁止
+                "noUnsafeNegation": "error", // 安全でない否定を禁止
+                "noUselessRegexBackrefs": "error", // 無意味な正規表現の後方参照を禁止
+                "noWith": "error", // with文を禁止
+                "useGetterReturn": "error" // getterでreturn文を使用
+            }
+        },
+        // リンターを適用するファイルのパターン
+        "includes": ["**", "!node_modules/**", "!dist/**", "!build/**", "!*.min.js"]
+    },
+    // JavaScript固有のフォーマッター設定
+    "javascript": {
+        "formatter": {
+            "jsxQuoteStyle": "double", // JSX属性のクォートスタイル: "double"（ダブルクォート）
+            "quoteProperties": "asNeeded", // オブジェクトプロパティのクォート: "asNeeded"（必要な場合のみ）
+            "trailingCommas": "es5", // 末尾のカンマ: "es5"（ES5互換）、"all"（常に）、"none"（なし）
+            "semicolons": "always", // セミコロン: "always"（常に）、"asNeeded"（必要な場合のみ）
+            "arrowParentheses": "always", // アロー関数の括弧: "always"（常に）、"asNeeded"（必要な場合のみ）
+            "bracketSameLine": false, // 開始ブラケットを同じ行に配置しない
+            "quoteStyle": "single", // 文字列のクォートスタイル: "single"（シングルクォート）
+            "attributePosition": "auto", // JSX属性の位置: "auto"（自動）
+            "bracketSpacing": true // オブジェクトリテラルのブラケット内にスペースを入れる
+        }
+    },
+
+    // HTML固有のフォーマッター設定
+    "html": {
+        "formatter": {
+            "indentScriptAndStyle": false, // <script>と<style>タグ内をインデントしない
+            "selfCloseVoidElements": "always" // 空要素を常に自己閉じタグにする（例: <br />）
+        }
+    },
+    // 特定のファイルやパスに対する設定の上書き
+    "overrides": [
+        // alertShow.jsファイル専用の設定
+        {
+            "includes": ["src/frontend/static/assets/js/alertShow.js"],
+            // グローバル変数の定義（未宣言エラーを回避するため）
+            "javascript": {
+                "globals": [
+                    "onanimationend",
+                    "bootstrap",
+                    "ongamepadconnected",
+                    "onlostpointercapture",
+                    "onanimationiteration",
+                    "onkeyup",
+                    "onmousedown",
+                    "onanimationstart",
+                    "onslotchange",
+                    "onprogress",
+                    "ontransitionstart",
+                    "onpause",
+                    "onended",
+                    "onpointerover",
+                    "onscrollend",
+                    "onformdata",
+                    "ontransitionrun",
+                    "onanimationcancel",
+                    "ondrag",
+                    "onchange",
+                    "onbeforeinstallprompt",
+                    "onbeforexrselect",
+                    "onmessage",
+                    "ontransitioncancel",
+                    "onpointerdown",
+                    "onabort",
+                    "onpointerout",
+                    "oncuechange",
+                    "ongotpointercapture",
+                    "onscrollsnapchanging",
+                    "onsearch",
+                    "onsubmit",
+                    "Vue",
+                    "flatpickr",
+                    "onstalled",
+                    "onsuspend",
+                    "onreset",
+                    "onerror",
+                    "onmouseenter",
+                    "ongamepaddisconnected",
+                    "onresize",
+                    "ondragover",
+                    "onbeforetoggle",
+                    "onmouseover",
+                    "onpagehide",
+                    "onmousemove",
+                    "onratechange",
+                    "oncommand",
+                    "onmessageerror",
+                    "onwheel",
+                    "ondevicemotion",
+                    "onauxclick",
+                    "ontransitionend",
+                    "onpaste",
+                    "onpageswap",
+                    "ononline",
+                    "ondeviceorientationabsolute",
+                    "onkeydown",
+                    "onclose",
+                    "onselect",
+                    "onpageshow",
+                    "onpointercancel",
+                    "onbeforematch",
+                    "onpointerrawupdate",
+                    "ondragleave",
+                    "onscrollsnapchange",
+                    "onseeked",
+                    "onwaiting",
+                    "axios",
+                    "onbeforeunload",
+                    "onplaying",
+                    "onvolumechange",
+                    "ondragend",
+                    "onstorage",
+                    "onloadeddata",
+                    "onfocus",
+                    "onoffline",
+                    "onplay",
+                    "onafterprint",
+                    "onclick",
+                    "oncut",
+                    "onmouseout",
+                    "ondblclick",
+                    "oncanplay",
+                    "onloadstart",
+                    "onappinstalled",
+                    "onpointermove",
+                    "ontoggle",
+                    "oncontextmenu",
+                    "onblur",
+                    "oncancel",
+                    "onbeforeprint",
+                    "oncontextrestored",
+                    "onloadedmetadata",
+                    "onpointerup",
+                    "onlanguagechange",
+                    "oncopy",
+                    "onselectstart",
+                    "onscroll",
+                    "onload",
+                    "ondragstart",
+                    "onbeforeinput",
+                    "oncanplaythrough",
+                    "oninput",
+                    "oninvalid",
+                    "ontimeupdate",
+                    "ondurationchange",
+                    "onselectionchange",
+                    "onmouseup",
+                    "location",
+                    "onkeypress",
+                    "onpointerleave",
+                    "oncontextlost",
+                    "ondrop",
+                    "onsecuritypolicyviolation",
+                    "oncontentvisibilityautostatechange",
+                    "ondeviceorientation",
+                    "onseeking",
+                    "onrejectionhandled",
+                    "onunload",
+                    "onmouseleave",
+                    "onhashchange",
+                    "onpointerenter",
+                    "onmousewheel",
+                    "onpagereveal",
+                    "onunhandledrejection",
+                    "ondragenter",
+                    "onpopstate",
+                    "onemptied"
+                ]
+            },
+            // alertShow.js専用のリンタールール
+            "linter": {
+                "rules": {
+                    "complexity": {
+                        "noArguments": "error", // argumentsオブジェクトの使用を禁止
+                        "noUselessConstructor": "error", // 無意味なコンストラクタを禁止
+                        "noUselessRename": "error", // 無意味な名前の変更を禁止
+                        "useLiteralKeys": "error" // リテラルキーの使用を強制
+                    },
+                    "correctness": {
+                        "noUndeclaredVariables": "error", // 未宣言変数を禁止
+                        "noUnusedVariables": "error" // 未使用変数を禁止
+                    },
+                    "style": {
+                        "useConst": "error" // constの使用を強制（再代入されない変数）
+                    },
+                    "suspicious": {
+                        "noConsole": "warn", // consoleの使用を警告（エラーではない）
+                        "noGlobalAssign": "error" // グローバル変数の代入を禁止
+                    }
+                }
+            }
+        },
+        // src配下のJavaScriptファイル（alertShow.jsを除く）専用の設定
+        {
+            "includes": ["src/**/*.js", "!src/frontend/static/assets/js/alertShow.js"],
+            // グローバル変数の定義（ブラウザAPIやライブラリなど）
+            "javascript": {
+                "globals": [
+                    "onanimationend",
+                    "bootstrap",
+                    "ongamepadconnected",
+                    "onlostpointercapture",
+                    "onanimationiteration",
+                    "onkeyup",
+                    "onmousedown",
+                    "onanimationstart",
+                    "onslotchange",
+                    "onprogress",
+                    "ontransitionstart",
+                    "onpause",
+                    "onended",
+                    "onpointerover",
+                    "onscrollend",
+                    "onformdata",
+                    "ontransitionrun",
+                    "onanimationcancel",
+                    "ondrag",
+                    "onchange",
+                    "onbeforeinstallprompt",
+                    "onbeforexrselect",
+                    "onmessage",
+                    "ontransitioncancel",
+                    "onpointerdown",
+                    "onabort",
+                    "onpointerout",
+                    "oncuechange",
+                    "ongotpointercapture",
+                    "onscrollsnapchanging",
+                    "onsearch",
+                    "onsubmit",
+                    "Vue",
+                    "flatpickr",
+                    "onstalled",
+                    "onsuspend",
+                    "onreset",
+                    "onerror",
+                    "onmouseenter",
+                    "ongamepaddisconnected",
+                    "onresize",
+                    "ondragover",
+                    "onbeforetoggle",
+                    "onmouseover",
+                    "onpagehide",
+                    "onmousemove",
+                    "onratechange",
+                    "oncommand",
+                    "onmessageerror",
+                    "onwheel",
+                    "ondevicemotion",
+                    "onauxclick",
+                    "ontransitionend",
+                    "onpaste",
+                    "onpageswap",
+                    "ononline",
+                    "ondeviceorientationabsolute",
+                    "onkeydown",
+                    "onclose",
+                    "onselect",
+                    "onpageshow",
+                    "onpointercancel",
+                    "onbeforematch",
+                    "onpointerrawupdate",
+                    "ondragleave",
+                    "onscrollsnapchange",
+                    "onseeked",
+                    "onwaiting",
+                    "axios",
+                    "onbeforeunload",
+                    "onplaying",
+                    "onvolumechange",
+                    "ondragend",
+                    "onstorage",
+                    "onloadeddata",
+                    "onfocus",
+                    "onoffline",
+                    "onplay",
+                    "onafterprint",
+                    "onclick",
+                    "oncut",
+                    "onmouseout",
+                    "ondblclick",
+                    "oncanplay",
+                    "onloadstart",
+                    "onappinstalled",
+                    "onpointermove",
+                    "ontoggle",
+                    "oncontextmenu",
+                    "onblur",
+                    "oncancel",
+                    "onbeforeprint",
+                    "showAlert",
+                    "oncontextrestored",
+                    "onloadedmetadata",
+                    "onpointerup",
+                    "onlanguagechange",
+                    "oncopy",
+                    "onselectstart",
+                    "onscroll",
+                    "onload",
+                    "ondragstart",
+                    "onbeforeinput",
+                    "oncanplaythrough",
+                    "oninput",
+                    "oninvalid",
+                    "ontimeupdate",
+                    "ondurationchange",
+                    "onselectionchange",
+                    "onmouseup",
+                    "location",
+                    "onkeypress",
+                    "onpointerleave",
+                    "oncontextlost",
+                    "ondrop",
+                    "onsecuritypolicyviolation",
+                    "oncontentvisibilityautostatechange",
+                    "ondeviceorientation",
+                    "onseeking",
+                    "onrejectionhandled",
+                    "onunload",
+                    "onmouseleave",
+                    "onhashchange",
+                    "onpointerenter",
+                    "onmousewheel",
+                    "onpagereveal",
+                    "onunhandledrejection",
+                    "ondragenter",
+                    "onpopstate",
+                    "onemptied"
+                ]
+            },
+            // src配下のJavaScriptファイル専用のリンタールール
+            "linter": {
+                "rules": {
+                    "complexity": {
+                        "noArguments": "error", // argumentsオブジェクトの使用を禁止
+                        "noUselessConstructor": "error", // 無意味なコンストラクタを禁止
+                        "noUselessRename": "error", // 無意味な名前の変更を禁止
+                        "useLiteralKeys": "error" // リテラルキーの使用を強制
+                    },
+                    "correctness": {
+                        "noUndeclaredVariables": "error", // 未宣言変数を禁止
+                        "noUnusedVariables": "error" // 未使用変数を禁止
+                    },
+                    "style": {
+                        "useConst": "error" // constの使用を強制（再代入されない変数）
+                    },
+                    "suspicious": {
+                        "noConsole": "warn", // consoleの使用を警告（エラーではない）
+                        "noGlobalAssign": "error" // グローバル変数の代入を禁止
+                    }
+                }
+            }
+        },
+        // ルートディレクトリのJavaScriptファイル専用の設定
+        {
+            "includes": ["*.js"],
+            "javascript": {
+                "formatter": {
+                    "semicolons": "always" // セミコロンを常に使用
+                }
+            }
+        },
+        // HTMLファイル専用の設定
+        {
+            "includes": ["*.html"],
+            "formatter": {
+                "indentWidth": 2 // HTMLファイルのインデント幅を2に設定
+            }
+        }
+    ],
+
+    // アシスト機能の設定（IDE統合機能）
+    "assist": {
+        "enabled": true, // アシスト機能を有効化
+        "actions": {
+            "source": {
+                "organizeImports": "on" // インポート文の自動整理を有効化
+            }
+        }
+    }
+}

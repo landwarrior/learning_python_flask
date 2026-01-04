@@ -67,3 +67,51 @@ http://192.168.33.33/login にアクセスするとログイン画面が開く�
     - abe_masami
 - パスワード
     - password
+
+# VS Code (Cursor) の設定
+
+## 拡張機能
+
+extensions.json を用意したので最低限必要だと思うものはインストールされると思います。
+
+## biome のインストールと設定ファイルの作成
+
+package.json は無くていいです。
+
+```bash
+npm install --save-dev --save-exact @biomejs/biome
+```
+
+設定ファイルは以下のコマンドで作成します。
+
+```bash
+npx @biomejs/biome init --jsonc
+```
+
+### ESLint と prettier からのマイグレーション
+
+eslint.config.js から biome の設定に変換します。  
+そのためには `@eslint/js` と `globals` が入っていないと移行ができないので入っていなければインストールします。  
+※ eslint.config.js で使っているものをインストールするはずです
+
+```bash
+npm install -D @eslint/js globals
+```
+
+そうしたら、 ESLint のマイグレーションを以下コマンドで実行します。
+
+```bash
+# インスパイアされたルールも移行する
+npx @biomejs/biome migrate eslint --write --include-inspired
+```
+
+biome.jsonc が更新されました。  
+次に Prettier の移行を以下コマンドで実行します。
+
+```bash
+npx @biomejs/biome migrate prettier --write
+```
+
+これで Prettier の設定も移行されました。
+
+biome はインストールしておかないと動かないですが、それ以外は不要なので移行が終わったら整理した方がいいかも。

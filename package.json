@@ -1,24 +1,5 @@
 {
-  "name": "learning_python_flask",
-  "version": "1.0.0",
-  "description": "Flaskの勉強のため作ったやつ。  \r Visual Studio 2017 Communityで生成したものからやろうかと思ったが、うまくいかなくて放置してたら時間がたちすぎたので改めて作り直す。",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/landwarrior/learning_python_flask.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/landwarrior/learning_python_flask/issues"
-  },
-  "homepage": "https://github.com/landwarrior/learning_python_flask#readme",
   "devDependencies": {
-    "eslint": "^9.37.0",
-    "globals": "^16.4.0",
-    "htmlhint": "^1.7.1"
+    "@biomejs/biome": "2.3.11"
   }
 }
