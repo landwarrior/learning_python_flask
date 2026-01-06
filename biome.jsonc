@@ -124,7 +124,7 @@
     "html": {
         "formatter": {
             "indentScriptAndStyle": false, // <script>と<style>タグ内をインデントしない
-            "selfCloseVoidElements": "always" // 空要素を常に自己閉じタグにする（例: <br />）
+            "selfCloseVoidElements": "never" // 空要素を常に自己閉じタグにしない（<br>のまま）
         }
     },
     // 特定のファイルやパスに対する設定の上書き
@@ -467,7 +467,6 @@
             }
         }
     ],
-
     // アシスト機能の設定（IDE統合機能）
     "assist": {
         "enabled": true, // アシスト機能を有効化
