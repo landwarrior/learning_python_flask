@@ -1,3 +1,38 @@
 {
-    "doctype-first": false
+    // DOCTYPE宣言を最初に必須にするかどうか
+    "doctype-first": false,
+    // タグ名を小文字に統一
+    "tagname-lowercase": true,
+    // 属性名を小文字に統一
+    "attr-lowercase": true,
+    // 属性値をダブルクォートで囲む
+    "attr-value-double-quotes": true,
+    // 属性値を空にしない（false: 許可）
+    "attr-value-not-empty": false,
+    // 属性の重複を禁止
+    "attr-no-duplication": true,
+    // ID属性の重複を禁止
+    "id-unique": true,
+    // src属性を空にしない
+    "src-not-empty": true,
+    // タグのペア（開始タグと終了タグ）を強制
+    "tag-pair": true,
+    // 自己閉じタグの使用を強制（false: 許可しない）
+    "tag-self-close": false,
+    // head内のscriptタグを禁止（false: 許可）
+    "head-script-disabled": false,
+    // styleタグを禁止（false: 許可）
+    "style-disabled": false,
+    // titleタグを必須にする
+    "title-require": true,
+    // imgタグにalt属性を必須にする
+    "alt-require": true,
+    // インラインスタイルを禁止（false: 許可）
+    "inline-style-disabled": false,
+    // インラインスクリプトを禁止（false: 許可）
+    "inline-script-disabled": false,
+    // スペースとタブの混在を禁止（"space": スペースに統一）
+    "space-tab-mixed-disabled": "space",
+    // idとclassの値の命名規則（"dash": ダッシュ区切り）
+    "id-class-value": "dash"
 }
