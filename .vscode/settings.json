@@ -19,9 +19,15 @@
         "titleBar.inactiveForeground": "#e7e7e799"
     },
     "peacock.color": "#dd0531",
-    "python.autoComplete.extraPaths": ["src\\common"],
-    "python.analysis.extraPaths": ["src\\common"],
-    "cursorpyright.analysis.extraPaths": ["src\\common"],
+    "python.autoComplete.extraPaths": [
+        "src\\common"
+    ],
+    "python.analysis.extraPaths": [
+        "src\\common"
+    ],
+    "cursorpyright.analysis.extraPaths": [
+        "src\\common"
+    ],
     "[html]": {
         "editor.tabSize": 2,
         "editor.defaultFormatter": "vscode.html-language-features"

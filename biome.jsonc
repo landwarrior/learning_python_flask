@@ -37,6 +37,10 @@
 
             // 複雑度に関するルール（コードの複雑さを減らす）
             "complexity": {
+                "noArguments": "error", // argumentsオブジェクトの使用を禁止
+                "noUselessConstructor": "error", // 無意味なコンストラクタを禁止
+                "noUselessRename": "error", // 無意味な名前の変更を禁止
+                "useLiteralKeys": "error", // リテラルキーの使用を強制
                 "noAdjacentSpacesInRegex": "error", // 正規表現内の連続するスペースを禁止
                 "noExtraBooleanCast": "error", // 不要な真偽値へのキャストを禁止
                 "noUselessCatch": "error", // 無意味なcatchブロックを禁止
@@ -71,6 +75,11 @@
                 "useYield": "error" // ジェネレータ関数ではyieldを使用
             },
 
+            // コードの一貫性やスタイルに関するルールを有効化する項目
+            "style": {
+                "useConst": "error" // constの使用を強制（再代入されない変数）
+            },
+
             // 疑わしいコードパターンに関するルール（潜在的なバグを検出）
             "suspicious": {
                 "noAssignInExpressions": "error", // 式内での代入を禁止
@@ -89,6 +98,7 @@
                 "noEmptyBlockStatements": "error", // 空のブロック文を禁止
                 "noFallthroughSwitchClause": "error", // switch文のフォールスルーを禁止
                 "noFunctionAssign": "error", // 関数の再代入を禁止
+                "noConsole": "warn", // consoleの使用を警告（エラーではない）
                 "noGlobalAssign": "error", // グローバル変数の代入を禁止
                 "noImportAssign": "error", // importの再代入を禁止
                 "noIrregularWhitespace": "error", // 不正な空白文字を禁止
@@ -135,159 +145,7 @@
             "includes": ["src/frontend/static/assets/js/alertShow.js"],
             // グローバル変数の定義（未宣言エラーを回避するため）
             "javascript": {
-                "globals": [
-                    "onanimationend",
-                    "bootstrap",
-                    "ongamepadconnected",
-                    "onlostpointercapture",
-                    "onanimationiteration",
-                    "onkeyup",
-                    "onmousedown",
-                    "onanimationstart",
-                    "onslotchange",
-                    "onprogress",
-                    "ontransitionstart",
-                    "onpause",
-                    "onended",
-                    "onpointerover",
-                    "onscrollend",
-                    "onformdata",
-                    "ontransitionrun",
-                    "onanimationcancel",
-                    "ondrag",
-                    "onchange",
-                    "onbeforeinstallprompt",
-                    "onbeforexrselect",
-                    "onmessage",
-                    "ontransitioncancel",
-                    "onpointerdown",
-                    "onabort",
-                    "onpointerout",
-                    "oncuechange",
-                    "ongotpointercapture",
-                    "onscrollsnapchanging",
-                    "onsearch",
-                    "onsubmit",
-                    "Vue",
-                    "flatpickr",
-                    "onstalled",
-                    "onsuspend",
-                    "onreset",
-                    "onerror",
-                    "onmouseenter",
-                    "ongamepaddisconnected",
-                    "onresize",
-                    "ondragover",
-                    "onbeforetoggle",
-                    "onmouseover",
-                    "onpagehide",
-                    "onmousemove",
-                    "onratechange",
-                    "oncommand",
-                    "onmessageerror",
-                    "onwheel",
-                    "ondevicemotion",
-                    "onauxclick",
-                    "ontransitionend",
-                    "onpaste",
-                    "onpageswap",
-                    "ononline",
-                    "ondeviceorientationabsolute",
-                    "onkeydown",
-                    "onclose",
-                    "onselect",
-                    "onpageshow",
-                    "onpointercancel",
-                    "onbeforematch",
-                    "onpointerrawupdate",
-                    "ondragleave",
-                    "onscrollsnapchange",
-                    "onseeked",
-                    "onwaiting",
-                    "axios",
-                    "onbeforeunload",
-                    "onplaying",
-                    "onvolumechange",
-                    "ondragend",
-                    "onstorage",
-                    "onloadeddata",
-                    "onfocus",
-                    "onoffline",
-                    "onplay",
-                    "onafterprint",
-                    "onclick",
-                    "oncut",
-                    "onmouseout",
-                    "ondblclick",
-                    "oncanplay",
-                    "onloadstart",
-                    "onappinstalled",
-                    "onpointermove",
-                    "ontoggle",
-                    "oncontextmenu",
-                    "onblur",
-                    "oncancel",
-                    "onbeforeprint",
-                    "oncontextrestored",
-                    "onloadedmetadata",
-                    "onpointerup",
-                    "onlanguagechange",
-                    "oncopy",
-                    "onselectstart",
-                    "onscroll",
-                    "onload",
-                    "ondragstart",
-                    "onbeforeinput",
-                    "oncanplaythrough",
-                    "oninput",
-                    "oninvalid",
-                    "ontimeupdate",
-                    "ondurationchange",
-                    "onselectionchange",
-                    "onmouseup",
-                    "location",
-                    "onkeypress",
-                    "onpointerleave",
-                    "oncontextlost",
-                    "ondrop",
-                    "onsecuritypolicyviolation",
-                    "oncontentvisibilityautostatechange",
-                    "ondeviceorientation",
-                    "onseeking",
-                    "onrejectionhandled",
-                    "onunload",
-                    "onmouseleave",
-                    "onhashchange",
-                    "onpointerenter",
-                    "onmousewheel",
-                    "onpagereveal",
-                    "onunhandledrejection",
-                    "ondragenter",
-                    "onpopstate",
-                    "onemptied"
-                ]
-            },
-            // alertShow.js専用のリンタールール
-            "linter": {
-                "rules": {
-                    "complexity": {
-                        "noArguments": "error", // argumentsオブジェクトの使用を禁止
-                        "noUselessConstructor": "error", // 無意味なコンストラクタを禁止
-                        "noUselessRename": "error", // 無意味な名前の変更を禁止
-                        "useLiteralKeys": "error" // リテラルキーの使用を強制
-                    },
-                    "correctness": {
-                        "noUndeclaredVariables": "error", // 未宣言変数を禁止
-                        "noUnusedVariables": "error" // 未使用変数を禁止
-                    },
-                    "style": {
-                        "useConst": "error" // constの使用を強制（再代入されない変数）
-                    },
-                    "suspicious": {
-                        "noConsole": "warn", // consoleの使用を警告（エラーではない）
-                        "noGlobalAssign": "error" // グローバル変数の代入を禁止
-                    }
-                }
+                "globals": ["bootstrap", "Vue", "flatpickr", "axios", "location"]
             }
         },
         // src配下のJavaScriptファイル（alertShow.jsを除く）専用の設定
@@ -295,160 +153,7 @@
             "includes": ["src/**/*.js", "!src/frontend/static/assets/js/alertShow.js"],
             // グローバル変数の定義（ブラウザAPIやライブラリなど）
             "javascript": {
-                "globals": [
-                    "onanimationend",
-                    "bootstrap",
-                    "ongamepadconnected",
-                    "onlostpointercapture",
-                    "onanimationiteration",
-                    "onkeyup",
-                    "onmousedown",
-                    "onanimationstart",
-                    "onslotchange",
-                    "onprogress",
-                    "ontransitionstart",
-                    "onpause",
-                    "onended",
-                    "onpointerover",
-                    "onscrollend",
-                    "onformdata",
-                    "ontransitionrun",
-                    "onanimationcancel",
-                    "ondrag",
-                    "onchange",
-                    "onbeforeinstallprompt",
-                    "onbeforexrselect",
-                    "onmessage",
-                    "ontransitioncancel",
-                    "onpointerdown",
-                    "onabort",
-                    "onpointerout",
-                    "oncuechange",
-                    "ongotpointercapture",
-                    "onscrollsnapchanging",
-                    "onsearch",
-                    "onsubmit",
-                    "Vue",
-                    "flatpickr",
-                    "onstalled",
-                    "onsuspend",
-                    "onreset",
-                    "onerror",
-                    "onmouseenter",
-                    "ongamepaddisconnected",
-                    "onresize",
-                    "ondragover",
-                    "onbeforetoggle",
-                    "onmouseover",
-                    "onpagehide",
-                    "onmousemove",
-                    "onratechange",
-                    "oncommand",
-                    "onmessageerror",
-                    "onwheel",
-                    "ondevicemotion",
-                    "onauxclick",
-                    "ontransitionend",
-                    "onpaste",
-                    "onpageswap",
-                    "ononline",
-                    "ondeviceorientationabsolute",
-                    "onkeydown",
-                    "onclose",
-                    "onselect",
-                    "onpageshow",
-                    "onpointercancel",
-                    "onbeforematch",
-                    "onpointerrawupdate",
-                    "ondragleave",
-                    "onscrollsnapchange",
-                    "onseeked",
-                    "onwaiting",
-                    "axios",
-                    "onbeforeunload",
-                    "onplaying",
-                    "onvolumechange",
-                    "ondragend",
-                    "onstorage",
-                    "onloadeddata",
-                    "onfocus",
-                    "onoffline",
-                    "onplay",
-                    "onafterprint",
-                    "onclick",
-                    "oncut",
-                    "onmouseout",
-                    "ondblclick",
-                    "oncanplay",
-                    "onloadstart",
-                    "onappinstalled",
-                    "onpointermove",
-                    "ontoggle",
-                    "oncontextmenu",
-                    "onblur",
-                    "oncancel",
-                    "onbeforeprint",
-                    "showAlert",
-                    "oncontextrestored",
-                    "onloadedmetadata",
-                    "onpointerup",
-                    "onlanguagechange",
-                    "oncopy",
-                    "onselectstart",
-                    "onscroll",
-                    "onload",
-                    "ondragstart",
-                    "onbeforeinput",
-                    "oncanplaythrough",
-                    "oninput",
-                    "oninvalid",
-                    "ontimeupdate",
-                    "ondurationchange",
-                    "onselectionchange",
-                    "onmouseup",
-                    "location",
-                    "onkeypress",
-                    "onpointerleave",
-                    "oncontextlost",
-                    "ondrop",
-                    "onsecuritypolicyviolation",
-                    "oncontentvisibilityautostatechange",
-                    "ondeviceorientation",
-                    "onseeking",
-                    "onrejectionhandled",
-                    "onunload",
-                    "onmouseleave",
-                    "onhashchange",
-                    "onpointerenter",
-                    "onmousewheel",
-                    "onpagereveal",
-                    "onunhandledrejection",
-                    "ondragenter",
-                    "onpopstate",
-                    "onemptied"
-                ]
-            },
-            // src配下のJavaScriptファイル専用のリンタールール
-            "linter": {
-                "rules": {
-                    "complexity": {
-                        "noArguments": "error", // argumentsオブジェクトの使用を禁止
-                        "noUselessConstructor": "error", // 無意味なコンストラクタを禁止
-                        "noUselessRename": "error", // 無意味な名前の変更を禁止
-                        "useLiteralKeys": "error" // リテラルキーの使用を強制
-                    },
-                    "correctness": {
-                        "noUndeclaredVariables": "error", // 未宣言変数を禁止
-                        "noUnusedVariables": "error" // 未使用変数を禁止
-                    },
-                    "style": {
-                        "useConst": "error" // constの使用を強制（再代入されない変数）
-                    },
-                    "suspicious": {
-                        "noConsole": "warn", // consoleの使用を警告（エラーではない）
-                        "noGlobalAssign": "error" // グローバル変数の代入を禁止
-                    }
-                }
+                "globals": ["bootstrap", "Vue", "flatpickr", "axios", "showAlert", "location"]
             }
         },
         // HTMLファイル専用の設定

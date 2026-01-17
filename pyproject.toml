@@ -1,16 +1,16 @@
 [tool.black]
-line-length = 120
-target-version = ['py313']
+line-length = 120 # 1行の最大文字数
+target-version = ['py313'] # 対象とするPythonバージョン
 
 [tool.ruff]
 # 基本設定
-line-length = 120
-target-version = "py313"
+line-length = 120 # 1行の最大文字数
+target-version = "py313" # 対象とするPythonバージョン
 
 # 自動修正を有効にする
 fix = true
 
-# 除外するディレクトリ
+# 解析対象から除外するパス
 exclude = [
     ".git",
     ".venv",
@@ -21,58 +21,57 @@ exclude = [
     "docker",
 ]
 
-# 対象ディレクトリ
+# 解析対象のルートディレクトリ
 src = ["src"]
 
 [tool.ruff.lint]
 # 有効にするルールセット
 select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes
-    "I",   # isort
-    "B",   # flake8-bugbear
-    "C4",  # flake8-comprehensions
-    "C90", # mccabe
-    "D",   # pydocstyle
-    "UP",  # pyupgrade
-    "ARG", # flake8-unused-arguments
-    "SIM", # flake8-simplify
-    "TCH", # flake8-type-checking
-    "PIE", # flake8-pie
-    "TID", # flake8-tidy-imports
-    "Q",   # flake8-quotes
-    "RUF", # Ruff-specific rules
+    "E",   # pycodestyleのエラー
+    "W",   # pycodestyleの警告
+    "F",   # pyflakesによる検出
+    "I",   # isortによるインポート順序
+    "B",   # flake8-bugbearによるバグの検出
+    "C4",  # flake8-comprehensionsによる内包表記の改善
+    "C90", # mccabeによる循環的複雑度の検出
+    "D",   # pydocstyleによるドキュメンテーションスタイルの検出
+    "UP",  # pyupgradeによる最新構文へのアップグレード
+    "ARG", # flake8-unused-argumentsによる未使用引数の検出
+    "SIM", # flake8-simplifyによる単純化提案
+    "TCH", # flake8-type-checkingによる型チェックの最適化
+    "PIE", # flake8-pieによるPython標準の改善
+    "TID", # flake8-tidy-importsによるインポートの整理
+    "Q",   # flake8-quotesによるクォートスタイルの統一
+    "RUF", # Ruff固有のルール
 ]
 
 # 無視するルール
 ignore = [
-    "E203",  # E203: whitespace before ':' (pycodestyle)
-    "D413",  # D413: missing blank line after last section (pydocstyle)
+    "E203",  # E203: コロンの前に空白がある（pycodestyle）
+    "D413",  # D413: 最後のセクションの後に空行がない（pydocstyle）
 ]
 
 [tool.ruff.lint.isort]
 # importの並び順設定
-known-first-party = ["src"]
-force-single-line = false
-lines-after-imports = 2
+known-first-party = ["src"] # first-partyとして扱うモジュール
+force-single-line = false # importを1行1モジュールに強制しない
+lines-after-imports = 2 # import群の後に空ける行数
 
 [tool.ruff.lint.mccabe]
-max-complexity = 10
+max-complexity = 10 # 許容する循環的複雑度の上限
 
 [tool.ruff.lint.pylint]
-# 関数の引数の最大数
-max-args = 8
+max-args = 8 # 関数が受け取れる引数の上限
 
 [tool.mypy]
-python_version = "3.13"
-ignore_missing_imports = true
-disallow_untyped_defs = false
-check_untyped_defs = true
-warn_unused_ignores = true
-warn_no_return = true
-warn_unreachable = true
-warn_no_explicit_any = true
+python_version = "3.13" # 解析対象のPythonバージョン
+ignore_missing_imports = true # 依存が見つからないimportのエラーを無視
+disallow_untyped_defs = false # 型注釈のない関数定義を許可
+check_untyped_defs = true # 型注釈のない関数も型チェック
+warn_unused_ignores = true # 使われていないtype: ignoreを警告
+warn_no_return = true # 戻り値がない可能性を警告
+warn_unreachable = true # 到達不能コードを警告
+warn_no_explicit_any = true # 暗黙のAnyを警告
 
 # 動的に追加されたメンバ変数へのアクセスを許可
 # Flaskのapp.dbやcurrent_app.dbのように、実行時に属性が追加される場合に使用
