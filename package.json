@@ -1,6 +1,5 @@
 {
   "devDependencies": {
-    "@biomejs/biome": "2.3.11",
-    "htmlhint": "1.8.0"
+    "@biomejs/biome": "2.4.4"
   }
 }

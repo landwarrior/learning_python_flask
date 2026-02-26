@@ -1,6 +1,6 @@
 {
     // Biome設定ファイルのスキーマバージョン（IDEの補完やバリデーションに使用）
-    "$schema": "https://biomejs.dev/schemas/2.3.11/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.4.4/schema.json",
 
     // バージョン管理システム（VCS）の設定
     "vcs": {
