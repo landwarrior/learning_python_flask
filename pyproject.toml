@@ -76,3 +76,14 @@ warn_no_explicit_any = true # 暗黙のAnyを警告
 # 動的に追加されたメンバ変数へのアクセスを許可
 # Flaskのapp.dbやcurrent_app.dbのように、実行時に属性が追加される場合に使用
 disable_error_code = ["attr-defined"]
+
+
+[tool.pyright]
+pythonVersion = "3.13"
+typeCheckingMode = "basic"
+
+include = ["src"]
+exclude = ["**/__pycache__", "**/.venv", "tests"]
+
+reportMissingImports = true
+reportUnusedImport = "warning"
