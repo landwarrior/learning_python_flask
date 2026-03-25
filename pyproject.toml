@@ -1,15 +1,8 @@
-[tool.black]
-line-length = 120 # 1行の最大文字数
-target-version = ['py313'] # 対象とするPythonバージョン
-
 [tool.ruff]
 # 基本設定
 line-length = 120 # 1行の最大文字数
 target-version = "py313" # 対象とするPythonバージョン
-
-# 自動修正を有効にする
-fix = true
-
+fix = true # 自動修正を有効にする
 # 解析対象から除外するパス
 exclude = [
     ".git",
@@ -20,11 +13,12 @@ exclude = [
     "chef-repo",
     "docker",
 ]
-
 # 解析対象のルートディレクトリ
-src = ["src"]
+# src = ["src"]
 
 [tool.ruff.lint]
+# プレビュー段階の lint ルールや挙動を有効化する場合はコメントを解除する (余計な警告が出ることがあるので普段は無効)
+# preview = true
 # 有効にするルールセット
 select = [
     "E",   # pycodestyleのエラー
@@ -44,12 +38,16 @@ select = [
     "Q",   # flake8-quotesによるクォートスタイルの統一
     "RUF", # Ruff固有のルール
 ]
-
 # 無視するルール
 ignore = [
     "E203",  # E203: コロンの前に空白がある（pycodestyle）
-    "D413",  # D413: 最後のセクションの後に空行がない（pydocstyle）
+    "D403",  # D403: Docstring の先頭を大文字で始める（pydocstyle）
+    "D413",  # D413: Docstring の最後のセクションの後に空行がない（pydocstyle）
 ]
+
+# [tool.ruff.lint.per-file-ignores]
+# ファイルごとに ignore するルールを設定 (例えば以下みたいに書く)
+# "src/backend/v1/login.py" = ["E501"]
 
 [tool.ruff.lint.isort]
 # importの並び順設定
@@ -63,6 +61,7 @@ max-complexity = 10 # 許容する循環的複雑度の上限
 [tool.ruff.lint.pylint]
 max-args = 8 # 関数が受け取れる引数の上限
 
+# mypy ではなく pyright を使用する場合は以下の設定は不要だけど、残しておく
 [tool.mypy]
 python_version = "3.13" # 解析対象のPythonバージョン
 ignore_missing_imports = true # 依存が見つからないimportのエラーを無視
@@ -71,19 +70,17 @@ check_untyped_defs = true # 型注釈のない関数も型チェック
 warn_unused_ignores = true # 使われていないtype: ignoreを警告
 warn_no_return = true # 戻り値がない可能性を警告
 warn_unreachable = true # 到達不能コードを警告
-warn_no_explicit_any = true # 暗黙のAnyを警告
-
+# warn_no_explicit_any = true # 暗黙のAnyを警告 (Even Better TOML でエラーが出るのでコメントアウト)
+namespace_packages = true # 名前空間パッケージを許可
 # 動的に追加されたメンバ変数へのアクセスを許可
 # Flaskのapp.dbやcurrent_app.dbのように、実行時に属性が追加される場合に使用
-disable_error_code = ["attr-defined"]
+# disable_error_code = ["attr-defined"]
 
-
+# mypy ではなく pyright を使用して型チェックをする場合はこちら
 [tool.pyright]
 pythonVersion = "3.13"
-typeCheckingMode = "basic"
-
+typeCheckingMode = "basic" # 型チェックモード (basic: 基本的な型チェック, strict: 厳密な型チェック)
 include = ["src"]
 exclude = ["**/__pycache__", "**/.venv", "tests"]
-
 reportMissingImports = true
 reportUnusedImport = "warning"
