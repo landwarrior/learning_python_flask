@@ -85,6 +85,27 @@ def get_all_data(logger, db: Database, session: Session | None = None):
             yield from query
 
 
+def update_ignition_key(logger, db: Database, user_id: str, ignition_key_hash: str) -> bool:
+    """指定ユーザーの ignition_key を更新する.
+
+    Args:
+        logger: ロガー.
+        db: Database インスタンス.
+        user_id: ユーザーID.
+        ignition_key_hash: Argon2 等でハッシュ化したパスワード.
+
+    Returns:
+        bool: 更新できた場合 True、該当ユーザーがいなければ False.
+    """
+    with db.session_scope() as session:
+        user = session.query(MstUser).filter(MstUser.user_id == user_id).first()
+        if user is None:
+            return False
+        user.ignition_key = ignition_key_hash
+        logger.debug(f"update ignition_key for user_id={user_id}")
+        return True
+
+
 def get_user_by_user_id(logger, db: Database, user_id: str):
     """指定されたユーザーIDに一致するユーザーをデータベースから取得します.
 

@@ -4,6 +4,7 @@ from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from flask import Blueprint, Response, current_app, jsonify, request
 from models import mst_user
+from typed_flask import get_db
 
 
 login_bp = Blueprint("login", __name__)
@@ -32,7 +33,7 @@ def login() -> tuple[Response, int]:
     if not login_id or not ignition_key:
         return jsonify({"message": "Invalid username or password"}), 400
 
-    user = mst_user.get_user_by_user_id(current_app.logger, current_app.db, login_id)
+    user = mst_user.get_user_by_user_id(current_app.logger, get_db(), login_id)
     if not user:
         return jsonify({"message": "password not match"}), 400
 
@@ -63,7 +64,7 @@ def change_password() -> tuple[Response, int]:
     if not user_id or not old_password or not new_password:
         return jsonify({"message": "Invalid username or password"}), 400
 
-    user = mst_user.get_user_by_user_id(current_app.logger, current_app.db, user_id)
+    user = mst_user.get_user_by_user_id(current_app.logger, get_db(), user_id)
 
     if not user:
         return jsonify({"message": "Invalid username or password"}), 400
@@ -75,8 +76,9 @@ def change_password() -> tuple[Response, int]:
     except Exception:
         return jsonify({"message": "Invalid username or password"}), 400
 
-    user.ignition_key = ph.hash(new_password)
-    current_app.db.session.commit()
+    new_hash = ph.hash(new_password)
+    if not mst_user.update_ignition_key(current_app.logger, get_db(), user_id, new_hash):
+        return jsonify({"message": "Invalid username or password"}), 400
 
     return jsonify({"message": "Password changed successfully"}), 200
 
@@ -98,12 +100,13 @@ def initialize_password() -> tuple[Response, int]:
     if not user_id:
         return jsonify({"message": "Invalid username"}), 400
 
-    user = mst_user.get_user_by_user_id(current_app.logger, current_app.db, user_id)
+    user = mst_user.get_user_by_user_id(current_app.logger, get_db(), user_id)
 
     if not user:
         return jsonify({"message": "Invalid username"}), 400
 
-    user.ignition_key = ph.hash("password")
-    current_app.db.session.commit()
+    init_hash = ph.hash("password")
+    if not mst_user.update_ignition_key(current_app.logger, get_db(), user_id, init_hash):
+        return jsonify({"message": "Invalid username"}), 400
 
     return jsonify({"message": "Password initialized successfully"}), 200

@@ -4,6 +4,7 @@ import datetime
 
 from flask import Blueprint, Response, current_app, jsonify, request
 from models import mst_user
+from typed_flask import get_db
 
 
 users_bp = Blueprint("users", __name__)
@@ -36,7 +37,7 @@ def get_users() -> tuple[Response, int]:
         "data": [],
     }
 
-    for user in mst_user.get_data(current_app.logger, current_app.db, offset, limit, condition):
+    for user in mst_user.get_data(current_app.logger, get_db(), offset, limit, condition):
         data["data"].append(
             {
                 "user_id": user.user_id,

@@ -35,7 +35,7 @@ def prepare_logging(app: Flask) -> None:
 
 
 app.config.from_object(get_config())
-app.config["JSON_AS_ASCII"] = False
+app.json.ensure_ascii = False  # type: ignore
 Minify(app=app, html=True, js=True, cssless=True)
 prepare_logging(app)
 
@@ -100,7 +100,9 @@ def after_request(response: Response) -> Response:
     """
     try:
         duration = time.time() - g.start_time
-        app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {response.json} [{duration: .5f} sec]")
+        payload = response.get_json(silent=True)
+        json_for_log = app.json.dumps(payload) if payload is not None else ""
+        app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {json_for_log} [{duration: .5f} sec]")
     except Exception as e:
         app.logger.error(f"Error in after_request: {e}", exc_info=True)
     return response

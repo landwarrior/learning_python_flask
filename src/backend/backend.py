@@ -6,20 +6,21 @@ import traceback
 import uuid
 
 from config import get_config
-from flask import Flask, Response, g, jsonify, request
+from flask import Response, g, jsonify, request
 from models import Database
 from mylogger import UniqueKeyFormatter
 from routes import init_blueprint
+from typed_flask import FlaskApp
 
 
-app = Flask(__name__)
+app = FlaskApp(__name__)
 
 
-def prepare_logging(app: Flask) -> None:
+def prepare_logging(app: FlaskApp) -> None:
     """アプリケーションのロギング設定を準備する.
 
     Args:
-        app (Flask): Flaskアプリケーションインスタンス
+        app (FlaskApp): Flaskアプリケーションインスタンス
 
     Returns:
         None
@@ -32,21 +33,21 @@ def prepare_logging(app: Flask) -> None:
     app.logger.addHandler(handler)
 
 
-def prepare_db(app: Flask) -> None:
+def prepare_db(app: FlaskApp) -> None:
     """データベースの設定を準備する.
 
     Args:
-        app (Flask): Flaskアプリケーションインスタンス
+        app (FlaskApp): Flaskアプリケーションインスタンス
 
     Returns:
         None
     """
     if not hasattr(app, "db"):
-        app.db = Database(app.config.get("SQLALCHEMY_DATABASE_URI", ""))  # type: ignore
+        app.db = Database(app.config.get("SQLALCHEMY_DATABASE_URI", ""))
 
 
 app.config.from_object(get_config())
-app.config["JSON_AS_ASCII"] = False
+app.json.ensure_ascii = False  # type: ignore
 prepare_logging(app)
 prepare_db(app)
 
@@ -83,7 +84,10 @@ def after_request(response: Response):
         Response: レスポンスオブジェクト
     """
     duration = time.time() - g.start_time
-    app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {response.json} [{duration: .5f} sec]")
+    payload = response.get_json(silent=True)
+    # app.json は ensure_ascii=False。値が DB 等で \\u エスケープ列の文字列ならログにもそのまま出る。
+    json_for_log = app.json.dumps(payload) if payload is not None else ""
+    app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {json_for_log} [{duration: .5f} sec]")
     if "application/json" in response.content_type:
         response.headers["Content-Type"] = "application/json; charset=utf-8"
     return response
