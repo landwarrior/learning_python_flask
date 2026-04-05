@@ -100,9 +100,8 @@ def after_request(response: Response) -> Response:
     """
     try:
         duration = time.time() - g.start_time
-        payload = response.get_json(silent=True)
-        json_for_log = app.json.dumps(payload) if payload is not None else ""
-        app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {json_for_log} [{duration: .5f} sec]")
+        json_data = response.get_json(silent=True)
+        app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {json_data} [{duration: .5f} sec]")
     except Exception as e:
         app.logger.error(f"Error in after_request: {e}", exc_info=True)
     return response

@@ -84,10 +84,8 @@ def after_request(response: Response):
         Response: レスポンスオブジェクト
     """
     duration = time.time() - g.start_time
-    payload = response.get_json(silent=True)
-    # app.json は ensure_ascii=False。値が DB 等で \\u エスケープ列の文字列ならログにもそのまま出る。
-    json_for_log = app.json.dumps(payload) if payload is not None else ""
-    app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {json_for_log} [{duration: .5f} sec]")
+    json_data = response.get_json(silent=True)
+    app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {json_data} [{duration: .5f} sec]")
     if "application/json" in response.content_type:
         response.headers["Content-Type"] = "application/json; charset=utf-8"
     return response
