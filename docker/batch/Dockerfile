@@ -1,7 +1,13 @@
-FROM python:3.14.0-slim-trixie
+FROM python:3.14-slim-bookworm
 
-RUN mkdir -p /var/app/batch 2> /dev/null
-RUN apt update
-RUN apt install -y gcc
+RUN mkdir -p /var/app/batch
+
 COPY requirements.txt /var/app/batch/
-RUN pip install -r /var/app/batch/requirements.txt
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends build-essential \
+    && pip install --no-cache-dir -r /var/app/batch/requirements.txt \
+    && apt-get purge -y build-essential \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*

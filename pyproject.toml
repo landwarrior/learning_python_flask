@@ -1,7 +1,7 @@
 [tool.ruff]
 # 基本設定
 line-length = 120 # 1行の最大文字数
-target-version = "py313" # 対象とするPythonバージョン
+target-version = "py314" # 対象とするPythonバージョン
 fix = true # 自動修正を有効にする
 # 解析対象から除外するパス
 exclude = [
@@ -63,7 +63,7 @@ max-args = 8 # 関数が受け取れる引数の上限
 
 # mypy ではなく pyright を使用する場合は以下の設定は不要だけど、残しておく
 [tool.mypy]
-python_version = "3.13" # 解析対象のPythonバージョン
+python_version = "3.14" # 解析対象のPythonバージョン
 ignore_missing_imports = true # 依存が見つからないimportのエラーを無視
 disallow_untyped_defs = false # 型注釈のない関数定義を許可
 check_untyped_defs = true # 型注釈のない関数も型チェック
@@ -78,7 +78,7 @@ namespace_packages = true # 名前空間パッケージを許可
 
 # mypy ではなく pyright を使用して型チェックをする場合はこちら
 [tool.pyright]
-pythonVersion = "3.13"
+pythonVersion = "3.14"
 typeCheckingMode = "basic" # 型チェックモード (basic: 基本的な型チェック, strict: 厳密な型チェック)
 include = ["src"]
 exclude = ["**/__pycache__", "**/.venv", "tests"]

@@ -3,9 +3,11 @@
 from contextlib import contextmanager
 
 from sqlalchemy import create_engine
-from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import NullPool
+
+from .base import Base
+from .mst_user_model import MstUser
 
 
 class Database:
@@ -18,8 +20,6 @@ class Database:
             connection_string (str): データベース接続文字列.
         """
         self.engine = create_engine(connection_string, poolclass=NullPool)
-        self.Base = automap_base()
-        self.mst_user = None
 
     @contextmanager
     def session_scope(self, session: Session | None = None):
@@ -29,25 +29,26 @@ class Database:
         セッションスコープを提供します。ネストされた呼び出しもサポートしています。
 
         使用例:
+            from models import Database, MstUser
+
             db = Database(connection_string)
-            db.Base.prepare(autoload_with=db.engine)
-            db.mst_user = db.Base.classes.mst_user
             with db.session_scope() as session:
                 # データ取得と更新を同じトランザクション内で実行
-                users = session.query(db.mst_user).all()
+                users = session.query(MstUser).all()
                 for user in users:
                     user.ignition_key = new_password_hash
-                # 自動的にコミットされる
+                # ブロック正常終了時にコミットされる
 
             # ネストされた使用(既存のセッションを再利用)
             with db.session_scope() as outer_session:
-                # 既存のセッションを渡すことで、同じトランザクション内で操作
                 with db.session_scope(session=outer_session) as inner_session:
                     inner_session.add(another_object)
+                # inner はコミットしない。outer 終了時にコミットされる
 
-        このコンテキスト内で行われた変更は、例外が発生しなければコミットされます。
-        ネストされた場合、最も外側のコンテキストでコミットされます。
-        コンテキストを抜ける際に、セッションは自動的に閉じられ、エンジンの接続もクリーンアップされます。
+        新規セッションを開いた場合、例外がなければ ``commit`` し、finally で
+        セッションを閉じた後 ``engine.dispose()`` してプールを破棄します。
+        ``session`` 引数で既存セッションを渡した場合は yield するだけで、コミット・クローズは
+        外側の ``session_scope`` に任せます。
 
         Args:
             session (Session | None, optional): 既存のセッション.
@@ -73,3 +74,6 @@ class Database:
         finally:
             new_session.close()
             self.engine.dispose()
+
+
+__all__ = ["Base", "Database", "MstUser"]

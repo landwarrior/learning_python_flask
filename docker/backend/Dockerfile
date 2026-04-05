@@ -1,11 +1,16 @@
-FROM python:3.14.0-slim-trixie
+FROM python:3.14-slim-bookworm
 
-RUN mkdir -p /var/app 2> /dev/null
-RUN mkdir -p /var/app/flask 2> /dev/null
-RUN apt update
-RUN apt install -y gcc
+RUN mkdir -p /var/app /var/app/flask
+
 COPY requirements.txt /var/app/flask/
-RUN pip install -r /var/app/flask/requirements.txt
+
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends build-essential \
+    && pip install --no-cache-dir -r /var/app/flask/requirements.txt \
+    && apt-get purge -y build-essential \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5000
 

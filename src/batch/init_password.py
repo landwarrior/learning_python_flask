@@ -32,8 +32,6 @@ def main():
     )
 
     db = Database("mysql+mysqlconnector://myaccount:myaccount@192.168.33.33/mydb")
-    db.Base.prepare(autoload_with=db.engine)
-    db.mst_user = db.Base.classes.mst_user
 
     logger.info("初期パスワード設定を開始します...")
     updated_count = 0

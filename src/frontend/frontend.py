@@ -35,7 +35,7 @@ def prepare_logging(app: Flask) -> None:
 
 
 app.config.from_object(get_config())
-app.json.ensure_ascii = False
+app.config["JSON_AS_ASCII"] = False
 Minify(app=app, html=True, js=True, cssless=True)
 prepare_logging(app)
 

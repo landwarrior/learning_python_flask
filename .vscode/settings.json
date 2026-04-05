@@ -22,7 +22,7 @@
     "cursorpyright.analysis.extraPaths": ["src\\common"],
     "[html]": {
         "editor.tabSize": 2,
-        "editor.defaultFormatter": "vscode.html-language-features"
+        "editor.defaultFormatter": "biomejs.biome"
     },
     "html.format.wrapLineLength": 0,
     "[javascript]": {
@@ -49,7 +49,6 @@
         "editor.formatOnSave": true
     },
     "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true,
         "editor.formatOnType": true
     },

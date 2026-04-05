@@ -42,13 +42,11 @@ def prepare_db(app: Flask) -> None:
         None
     """
     if not hasattr(app, "db"):
-        app.db = Database(app.config.get("SQLALCHEMY_DATABASE_URI", ""))
-    app.db.Base.prepare(autoload_with=app.db.engine)
-    app.db.mst_user = app.db.Base.classes.mst_user
+        app.db = Database(app.config.get("SQLALCHEMY_DATABASE_URI", ""))  # type: ignore
 
 
 app.config.from_object(get_config())
-app.json.ensure_ascii = False
+app.config["JSON_AS_ASCII"] = False
 prepare_logging(app)
 prepare_db(app)
 
