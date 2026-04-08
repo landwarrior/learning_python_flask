@@ -81,6 +81,7 @@ namespace_packages = true # 名前空間パッケージを許可
 pythonVersion = "3.14"
 typeCheckingMode = "basic" # 型チェックモード (basic: 基本的な型チェック, strict: 厳密な型チェック)
 include = ["src"]
+extraPaths = ["src/common"]
 exclude = ["**/__pycache__", "**/.venv", "tests"]
 reportMissingImports = true
 reportUnusedImport = "warning"

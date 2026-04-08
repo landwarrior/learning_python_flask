@@ -19,12 +19,10 @@
         "titleBar.inactiveForeground": "#e7e7e799"
     },
     "peacock.color": "#dd0531",
-    "cursorpyright.analysis.extraPaths": ["src\\common"],
     "[html]": {
         "editor.tabSize": 2,
         "editor.defaultFormatter": "biomejs.biome"
     },
-    "html.format.wrapLineLength": 0,
     "[javascript]": {
         "editor.tabSize": 4,
         "editor.insertSpaces": true,
