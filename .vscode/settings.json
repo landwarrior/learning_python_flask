@@ -59,32 +59,5 @@
     "editor.codeActionsOnSave": {
         "quickfix.biome": "explicit",
         "source.organizeImports.biome": "explicit"
-    },
-    "cSpell.words": [
-        "automap",
-        "axios",
-        "checkpw",
-        "enablerepo",
-        "flatpickr",
-        "gensalt",
-        "hashpw",
-        "htmlhint",
-        "isort",
-        "jsonify",
-        "maxlength",
-        "mccabe",
-        "mylogger",
-        "mypy",
-        "poolclass",
-        "pycache",
-        "pycodestyle",
-        "pydocstyle",
-        "pyflakes",
-        "pylint",
-        "pyupgrade",
-        "stylesheet",
-        "trixie",
-        "uwsgi",
-        "venv"
-    ]
+    }
 }
