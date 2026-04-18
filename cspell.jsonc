@@ -9,7 +9,7 @@
   // flagWords - 常に誤りとみなされる単語のリスト
   // これは、不適切な言葉やよくあるスペルミスに対処するのに役立ちます。
   // 例えば、「hte」は「the」とみなされるべきです。
-  "flagWords": ["hte"],
+  // "flagWords": ["hte"]
   // 使用する辞書の名前の一覧。 https://cspell.org/docs/dictionaries を参照してください。
   // "dictionaries": ["python", "html", "bash"],
   // 各辞書を定義します：
@@ -23,7 +23,7 @@
   //   }
   // ],
   // 無視する単語のリスト（flagWordsに含まれている場合でも）。
-  "ignoreWords": [],
+  // "ignoreWords": []
   // 無視するファイルを指定するための glob の一覧。でも Zed だと正しく動いていなさそう
   "ignorePaths": ["node_modules", "package-lock.json", "package.json", ".vscode", "README.md", "Vagrantfile"]
 }
