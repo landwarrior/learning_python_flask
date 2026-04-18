@@ -11,17 +11,17 @@
   // 例えば、「hte」は「the」とみなされるべきです。
   "flagWords": ["hte"],
   // 使用する辞書の名前の一覧。 https://cspell.org/docs/dictionaries を参照してください。
-  "dictionaries": ["python", "html", "bash"],
+  // "dictionaries": ["python", "html", "bash"],
   // 各辞書を定義します：
   //  - 相対パスは設定ファイルを基準としています。
   //  - URLはHTTP GET経由で取得されます。
   // このリストには、使用するカスタム辞書が定義されています。このようにして、日本語などの他の言語を追加することができます。
-  "dictionaryDefinitions": [
-    {
-      "name": "japanese",
-      "path": "./japanese-words.txt"
-    }
-  ],
+  // "dictionaryDefinitions": [
+  //   {
+  //     "name": "japanese",
+  //     "path": "./japanese-words.txt"
+  //   }
+  // ],
   // 無視する単語のリスト（flagWordsに含まれている場合でも）。
   "ignoreWords": [],
   // 無視するファイルを指定するための glob の一覧。でも Zed だと正しく動いていなさそう
