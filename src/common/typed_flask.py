@@ -1,5 +1,6 @@
 """Flask アプリと current_app 用の型付きヘルパー."""
 
+# 型アノテーションを遅延評価し、前方参照や型定義時の依存を扱いやすくする。
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, cast

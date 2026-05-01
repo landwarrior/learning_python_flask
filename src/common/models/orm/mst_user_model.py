@@ -1,5 +1,6 @@
 """mst_user テーブルの ORM モデル."""
 
+# 型アノテーションを遅延評価し、前方参照や型定義時の依存を扱いやすくする
 from __future__ import annotations
 
 # Ruff の型チェックを無視しないと SQLAlchemy がエラーを出してしまう
@@ -9,7 +10,7 @@ from sqlalchemy import Date, DateTime, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 
-from .base import Base
+from models.base import Base
 
 
 class MstUser(Base):

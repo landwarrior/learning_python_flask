@@ -1,4 +1,4 @@
-"""ユーザーモデル."""
+"""ユーザー向けデータアクセス."""
 
 from copy import deepcopy
 from typing import TYPE_CHECKING
@@ -6,11 +6,13 @@ from typing import TYPE_CHECKING
 from sqlalchemy import DATE, INTEGER
 from sqlalchemy.sql import func
 
-from models import Database, MstUser
+from models.orm import MstUser
 
 
 if TYPE_CHECKING:
     from sqlalchemy.orm import Session
+
+    from models.database import Database
 
 
 def get_data(logger, db: Database, offset: int, limit: int, condition: dict | None = None):
@@ -72,13 +74,11 @@ def get_all_data(logger, db: Database, session: Session | None = None):
     Yields:
         MstUser: ORM マッピングされたユーザーレコード.
     """
-    # 既存のセッションが渡された場合はそれを使用
     if session is not None:
         query = session.query(MstUser)
         logger.debug(query)
         yield from query
     else:
-        # 新しいセッションを作成
         with db.session_scope() as new_session:
             query = new_session.query(MstUser)
             logger.debug(query)
