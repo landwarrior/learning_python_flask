@@ -5,25 +5,44 @@
   // 言語 - 現在有効なスペルチェック言語(en のままでいい)
   "language": "en",
   // 単語 - 常に正しいとみなされる単語の一覧
-  "words": ["hoge", "onupdate", "poolclass", "showable", "venv"],
+  "words": ["hoge", "onupdate", "venv"],
   // flagWords - 常に誤りとみなされる単語のリスト
   // これは、不適切な言葉やよくあるスペルミスに対処するのに役立ちます。
   // 例えば、「hte」は「the」とみなされるべきです。
   // "flagWords": ["hte"]
   // 使用する辞書の名前の一覧。 https://cspell.org/docs/dictionaries を参照してください。
-  // "dictionaries": ["python", "html", "bash"],
+  "dictionaries": ["python", "html", "bash", "node", "en_US", "css", "softwareTerms", "project-terms"],
   // 各辞書を定義します：
   //  - 相対パスは設定ファイルを基準としています。
   //  - URLはHTTP GET経由で取得されます。
   // このリストには、使用するカスタム辞書が定義されています。このようにして、日本語などの他の言語を追加することができます。
-  // "dictionaryDefinitions": [
-  //   {
-  //     "name": "japanese",
-  //     "path": "./japanese-words.txt"
-  //   }
-  // ],
+  "dictionaryDefinitions": [
+    {
+      "name": "project-terms",
+      "path": "./.cspell/project-terms.txt"
+    }
+  ],
+  // 正規表現ベースの除外ルール（必要になったらここに追加）
+  "ignoreRegExpList": [],
   // 無視する単語のリスト（flagWordsに含まれている場合でも）。
   // "ignoreWords": []
-  // 無視するファイルを指定するための glob の一覧。でも Zed だと正しく動いていなさそう
-  "ignorePaths": ["node_modules", "package-lock.json", "package.json", ".vscode", "README.md", "Vagrantfile"]
+  // 無視するファイルを指定するための glob の一覧
+  "ignorePaths": [
+    "node_modules",
+    "package-lock.json",
+    "package.json",
+    "biome.jsonc",
+    ".vscode",
+    ".vagrant",
+    ".venv",
+    "Vagrantfile",
+    "requirements.txt",
+    "pyproject.toml",
+    "axios.min.js",
+    "vue.global.prod.js",
+    "**/flatpickr/*",
+    "**/bootstrap/*",
+    "test.py",
+    "init.sql"
+  ]
 }

@@ -127,7 +127,8 @@
       "bracketSameLine": false, // 開始ブラケットを同じ行に配置しない
       "quoteStyle": "single", // 文字列のクォートスタイル: "single"（シングルクォート）
       "attributePosition": "auto", // JSX属性の位置: "auto"（自動）
-      "bracketSpacing": true // オブジェクトリテラルのブラケット内にスペースを入れる
+      "bracketSpacing": true, // オブジェクトリテラルのブラケット内にスペースを入れる
+      "lineWidth": 120 // 1行の最大文字数を120に設定
     }
   },
 
@@ -167,6 +168,7 @@
     {
       "includes": ["**/*.json", "**/*.jsonc"],
       "formatter": {
+        "lineWidth": 120,
         "indentWidth": 2 // JSON ファイルのインデント幅を2に設定
       }
     }
