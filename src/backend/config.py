@@ -17,7 +17,10 @@ def get_config():
 class Config:
     """設定."""
 
-    SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://myaccount:myaccount@192.168.33.33/mydb"
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        "SQLALCHEMY_DATABASE_URI",
+        "mysql+mysqlconnector://myaccount:myaccount@192.168.33.33/mydb",
+    )
 
 
 class LocalConfig(Config):

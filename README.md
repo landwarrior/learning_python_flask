@@ -64,9 +64,9 @@ docker exec -it `docker ps -q --filter name=batch` python /var/app/batch/init_pa
 http://192.168.33.33/login にアクセスするとログイン画面が開くので、例えば以下でログインします。
 
 - ログインID
-    - abe_masami
+  - abe_masami
 - パスワード
-    - password
+  - password
 
 ## ファイル配置をする場合
 
@@ -81,6 +81,7 @@ root で以下のコマンドを実行する
 ```bash
 docker rm -f `docker ps -q --filter name=frontend`
 ```
+
 ```bash
 docker rm -f `docker ps -q --filter name=backend`
 ```

@@ -20,9 +20,6 @@ fi
 
 echo ""
 
-# なぜ用意したのか覚えていない
-# SCRIPT_DIR=$(cd $(dirname $0);pwd)
-
 # firewalld 無効化
 if [[ $(systemctl is-enabled firewalld) == "enabled" ]]; then
     echo "  - disable and stop firewalld"
@@ -60,10 +57,10 @@ else
 fi
 
 # docker build
-for image in frontend backend batch mynginx myfluentd; do
+for image in frontend backend batch mynginx myfluentd database; do
     if ! docker images --format "{{.Repository}}" | grep -q $image; then
         echo "  - docker build $image"
-        docker build -t $image /vagrant/docker/$image
+        docker build -t $image /var/app/build/docker/$image
     else
         echo "  * skip docker build $image"
     fi

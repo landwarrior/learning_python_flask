@@ -46,8 +46,6 @@ services:
     ports:
       - "8080:8080"
     command: uwsgi --ini /var/app/flask/frontend/uwsgi.ini
-    volumes:
-      - /var/app/flask/frontend:/var/app/flask/frontend
     logging:
       driver: fluentd
       options:
@@ -64,8 +62,6 @@ services:
     ports:
       - "5000:5000"
     command: uwsgi --ini /var/app/flask/backend/uwsgi.ini
-    volumes:
-      - /var/app/flask/backend:/var/app/flask/backend
     logging:
       driver: fluentd
       options:
@@ -79,8 +75,6 @@ services:
       - SQLALCHEMY_DATABASE_URI=mysql+mysqlconnector://myaccount:myaccount@mariadb/mydb
     deploy:
       mode: global
-    volumes:
-      - /var/app/batch:/var/app/batch
     stdin_open: true
     logging:
       driver: fluentd

@@ -31,7 +31,12 @@ def main():
         parallelism=2,  # 並列度: 並列処理に使用するスレッド数。メモリ使用量に影響する
     )
 
-    db = Database("mysql+mysqlconnector://myaccount:myaccount@192.168.33.33/mydb")
+    db = Database(
+        os.environ.get(
+            "SQLALCHEMY_DATABASE_URI",
+            "mysql+mysqlconnector://myaccount:myaccount@192.168.33.33/mydb",
+        ),
+    )
 
     logger.info("初期パスワード設定を開始します...")
     updated_count = 0

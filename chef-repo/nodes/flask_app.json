@@ -1,6 +1,5 @@
 {
     "run_list": [
-        "recipe[docker]",
-        "recipe[mariadb]"
+        "recipe[docker]"
     ]
 }

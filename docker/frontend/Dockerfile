@@ -3,6 +3,8 @@ FROM python:3.14-slim-bookworm
 RUN mkdir -p /var/app /var/app/flask
 
 COPY requirements.txt /var/app/flask/
+COPY src/frontend/ /var/app/flask/backend/
+COPY src/common/ /var/app/flask/backend/
 
 RUN apt-get update \
     && apt-get upgrade -y \

@@ -1,59 +1,143 @@
 config:
+  # 各コンテナから forward プロトコルで送られるログを受信する入口
   - source:
+      # forward 入力プラグインを使用する
       $type: forward
+      # コンテナ側(logging driver: fluentd)が送信する受信ポート
       port: 24224
+      # すべてのネットワークIFで待ち受ける
       bind: 0.0.0.0
+      # 受信後のルーティング先ラベル
       $label: "@mainstream"
 
+  # Fluentd 自身の標準出力へも流して、デバッグしやすくする
   - filter:
+      # 受信したイベントを Fluentd の stdout に出力
       $type: stdout
 
+  # アプリケーションコンテナのログ処理本体
   - label:
       $name: "@mainstream"
       config:
+        # 受信レコードを必要項目だけに絞って保存形式を安定化する
         - filter:
+            # docker. で始まるタグのイベントを対象にする
             $tag: docker.**
+            # レコード内容を変換するフィルタ
             $type: record_transformer
+            # ${...} で Ruby 式を使えるようにする
             enable_ruby: true
+            # 元レコードを破棄し record: で定義した項目のみで再構成する
             renew_record: true
             record:
+              # ログ発生元のコンテナ名
               container_name: ${record["container_name"]}
+              # ログ本文
               log: ${record["log"]}
+        # 整形済みログを日次ファイルへ追記保存する
         - match:
+            # MariaDB コンテナのログを専用ファイルへ分離する
+            $tag: docker.mariadb.**
+            # ファイル出力プラグイン
             $type: file
-            path: /var/log/fluent/docker
+            # MariaDB ログの出力先プレフィックス
+            path: /var/log/fluent/mariadb
+            # 1行を key:value 形式で保存する
             format: ltsv
+            # 既存ファイルへ追記する
             append: true
+            # ファイル名の日付スライス書式(1日単位)
             time_slice_format: "%Y%m%d"
+            # レコード時刻として使うキー
             time_key: "@timestamp"
+            # time_key のパース書式
             time_format: "%Y%m%dT%H%M%S%z"
             buffer:
+              # 時間間隔ベースでフラッシュする
               flush_mode: interval
+              # 1日単位でバッファを区切る
               timekey: 1d
+              # timekey が閉じたあと遅延到着ログを待つ猶予時間
               timekey_wait: 10m
+              # フラッシュ実行間隔
               flush_interval: 1s
+              # バッファ総量の上限
               total_limit_size: 30m
+              # 1チャンクあたりの上限
               chunk_limit_size: 1m
+              # timekey 計算は UTC 基準で行う
               timekey_use_utc: true
+              # 出力ファイル側の時刻表示は JST(+0900)を使う
+              timekey_zone: "+0900"
+        - match:
+            # ファイル出力プラグイン
+            $type: file
+            # 出力先ファイルのプレフィックス
+            path: /var/log/fluent/docker
+            # 1行を key:value 形式で保存する
+            format: ltsv
+            # 既存ファイルへ追記する
+            append: true
+            # ファイル名の日付スライス書式(1日単位)
+            time_slice_format: "%Y%m%d"
+            # レコード時刻として使うキー
+            time_key: "@timestamp"
+            # time_key のパース書式
+            time_format: "%Y%m%dT%H%M%S%z"
+            buffer:
+              # バッファ設定: 小さめチャンクを短周期でフラッシュして遅延を抑える
+              # 時間間隔ベースでフラッシュする
+              flush_mode: interval
+              # 1日単位でバッファを区切る
+              timekey: 1d
+              # timekey が閉じたあと遅延到着ログを待つ猶予時間
+              timekey_wait: 10m
+              # フラッシュ実行間隔
+              flush_interval: 1s
+              # バッファ総量の上限
+              total_limit_size: 30m
+              # 1チャンクあたりの上限
+              chunk_limit_size: 1m
+              # timekey 計算は UTC 基準で行う
+              timekey_use_utc: true
+              # 出力ファイル側の時刻表示は JST(+0900)を使う
               timekey_zone: "+0900"
 
+  # Fluentd 自身の内部ログ(@FLUENT_LOG)の出力先
   - label:
       $name: "@FLUENT_LOG"
       config:
+        # Fluentd の動作ログを別ファイルに分離して保存する
         - match:
+            # ファイル出力プラグイン
             $type: file
+            # Fluentd 内部ログの出力先プレフィックス
             path: /var/log/fluent/fluentd
+            # Fluentd 標準の out_file フォーマットで保存
             format: out_file
+            # 既存ファイルへ追記する
             append: true
+            # ファイル名の日付スライス書式(1日単位)
             time_slice_format: "%Y%m%d"
+            # レコード時刻として使うキー
             time_key: "@timestamp"
+            # time_key のパース書式
             time_format: "%Y%m%dT%H%M%S%z"
             buffer:
+              # アプリログと同様のローテーション/バッファ方針
+              # 時間間隔ベースでフラッシュする
               flush_mode: interval
+              # 1日単位でバッファを区切る
               timekey: 1d
+              # 遅延到着ログの待機時間
               timekey_wait: 10m
+              # フラッシュ実行間隔
               flush_interval: 1s
+              # バッファ総量の上限
               total_limit_size: 30m
+              # 1チャンクあたりの上限
               chunk_limit_size: 1m
+              # timekey 計算は UTC 基準で行う
               timekey_use_utc: true
+              # 出力ファイル側の時刻表示は JST(+0900)を使う
               timekey_zone: "+0900"

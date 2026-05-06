@@ -3,6 +3,8 @@ FROM python:3.14-slim-bookworm
 RUN mkdir -p /var/app/batch
 
 COPY requirements.txt /var/app/batch/
+COPY src/batch/ /var/app/batch/
+COPY src/common/ /var/app/batch/
 
 RUN apt-get update \
     && apt-get upgrade -y \
