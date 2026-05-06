@@ -11,7 +11,7 @@ services:
       - --collation-server=utf8mb4_bin
     volumes:
       - mariadb_data:/var/lib/mysql
-      - /var/app/docker-volumes/mariadb/logs:/var/log/mysql
+      - /var/log/mariadb:/var/log/mysql
     ports:
       - "3306:3306"
     deploy:

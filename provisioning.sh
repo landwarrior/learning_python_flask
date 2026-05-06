@@ -47,6 +47,9 @@ if [[ $(ls /vagrant/fileput.sh) ]]; then
     bash /vagrant/fileput.sh
 fi
 
+# mariadb 用ディレクトリ作成
+mkdir -p /var/log/mariadb
+chmod -R 777 /var/log/mariadb
 
 # docker swarm init 実行 NOTE: Vagrantfile に記載された IP アドレスと同じものを指定する
 if docker node ls -q > /dev/null 2>&1; then
