@@ -53,6 +53,41 @@ sudo su
 
 chef infra client により docker がインストールされ、 docker が使えるようになったと思います。
 
+## Docker ボリュームの確認
+
+MariaDB のデータボリューム(`mariadb_data`)があるか確認する場合は、以下のコマンドを実行します。
+
+```bash
+# 一覧から確認
+docker volume ls
+
+# 詳細確認(一覧で確認したものを指定して実行する)
+docker volume inspect test_mariadb_data
+```
+
+MariaDB を初期化し直したい場合は、データボリュームを削除します。
+
+```bash
+# 未使用状態のボリュームを削除
+docker volume rm test_mariadb_data
+
+# 使用中でも強制削除する場合
+docker volume rm -f test_mariadb_data
+```
+
+docker stack を使っている場合の再作成手順例:
+
+```bash
+# スタックを削除
+docker stack rm local
+
+# スタックが下りるまで待ってからボリューム削除
+docker volume rm test_mariadb_data
+
+# 再デプロイ
+docker stack deploy -c /vagrant/docker/docker-stack-local.yml local
+```
+
 ## パスワードの初期化をする
 
 ```bash
