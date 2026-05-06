@@ -1,0 +1,15 @@
+---
+description: learning_python_flask の構成と実行前提
+alwaysApply: true
+---
+
+# Project Structure And Runtime
+
+- このプロジェクトは Windows 上で編集し、Vagrant VM 上の Docker で実行する。
+- `fileput.sh` により `src/common/*` は実行時に `/var/app/flask/backend` 直下へコピーされる。
+- backend の実行基点は `src/backend/uwsgi.ini` の `chdir = /var/app/flask/backend`。
+- 外部コードからは `from models import ...` を優先して利用する。
+- `models` は永続化レイヤーとして扱う。
+- `models/orm` は SQLAlchemy のテーブル定義を置く。
+- `models/repositories` は DB アクセス処理を置く。
+- 親方向の相対 import（`from ..`）は使わず、絶対 import を使う。
