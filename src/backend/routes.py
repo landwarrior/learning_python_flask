@@ -2,9 +2,9 @@
 
 from typing import TYPE_CHECKING
 
-from csv_api import csv_bp
-from login import login_bp
-from users import users_bp
+from apis.csv import csv_bp
+from apis.login import login_bp
+from apis.users import users_bp
 
 
 if TYPE_CHECKING:

@@ -47,11 +47,11 @@ ignore = [
 
 # [tool.ruff.lint.per-file-ignores]
 # ファイルごとに ignore するルールを設定 (例えば以下みたいに書く)
-# "src/backend/login.py" = ["E501"]
+# "src/backend/apis/login.py" = ["E501"]
 
 [tool.ruff.lint.isort]
 # importの並び順設定
-known-first-party = ["src"] # first-partyとして扱うモジュール
+known-first-party = ["src", "apis"] # first-partyとして扱うモジュール
 force-single-line = false # importを1行1モジュールに強制しない
 lines-after-imports = 2 # import群の後に空ける行数
 
