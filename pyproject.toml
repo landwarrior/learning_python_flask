@@ -47,7 +47,7 @@ ignore = [
 
 # [tool.ruff.lint.per-file-ignores]
 # ファイルごとに ignore するルールを設定 (例えば以下みたいに書く)
-# "src/backend/v1/login.py" = ["E501"]
+# "src/backend/login.py" = ["E501"]
 
 [tool.ruff.lint.isort]
 # importの並び順設定

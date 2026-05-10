@@ -3,8 +3,8 @@
 from typing import TYPE_CHECKING
 
 from csv_api import csv_bp
-from v1.login import login_bp
-from v1.users import users_bp
+from login import login_bp
+from users import users_bp
 
 
 if TYPE_CHECKING:
