@@ -1,6 +1,6 @@
 {
   // Biome設定ファイルのスキーマバージョン（IDEの補完やバリデーションに使用）
-  "$schema": "https://biomejs.dev/schemas/2.4.13/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
 
   // バージョン管理システム（VCS）の設定
   "vcs": {
@@ -33,7 +33,7 @@
   "linter": {
     "enabled": true, // リンターを有効化
     "rules": {
-      "recommended": false, // 推奨ルールセットを無効化（個別に設定するため）
+      "preset": "none", // プリセットを使用しない（すべてのルールを手動で指定）
 
       // 複雑度に関するルール（コードの複雑さを減らす）
       "complexity": {
@@ -128,7 +128,7 @@
       "quoteStyle": "single", // 文字列のクォートスタイル: "single"（シングルクォート）
       "attributePosition": "auto", // JSX属性の位置: "auto"（自動）
       "bracketSpacing": true, // オブジェクトリテラルのブラケット内にスペースを入れる
-      "lineWidth": 120 // 1行の最大文字数を120に設定
+      "lineWidth": 200 // 1行の最大文字数を200に設定
     }
   },
 
@@ -139,6 +139,18 @@
       "selfCloseVoidElements": "never" // 空要素を常に自己閉じタグにしない（<br>のまま）
     }
   },
+
+  // CSSの設定
+  "css": {
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space",
+      "indentWidth": 4,
+      "lineWidth": 120,
+      "quoteStyle": "double"
+    }
+  },
+
   // 特定のファイルやパスに対する設定の上書き
   "overrides": [
     // alertShow.jsファイル専用の設定

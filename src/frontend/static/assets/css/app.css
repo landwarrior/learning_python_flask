@@ -1,4 +1,5 @@
-:root[data-bs-theme='light'], :root[data-bs-theme='auto'] {
+:root[data-bs-theme="light"],
+:root[data-bs-theme="auto"] {
     --bs-body-color: #4e5253;
     --bs-body-bg: #e0e0e0;
     --bs-border-color: #b8b8b8;
@@ -8,7 +9,7 @@
     --bs-emphasis-color: var(--bs-body-color);
 }
 
-:root[data-bs-theme='dark'] {
+:root[data-bs-theme="dark"] {
     --bs-body-color: #d0d0d0;
     --bs-body-bg: #272727;
     --shadow-lt: #3e3e3e;
@@ -20,7 +21,7 @@
 html,
 body {
     /* フォントはいつもの */
-    font-family: 'Nunito Sans', 'Noto Sans JP', sans-serif;
+    font-family: "Nunito Sans", "Noto Sans JP", sans-serif;
     letter-spacing: 0.06rem;
     background-color: var(--bs-body-bg);
     color: var(--bs-body-color);
@@ -38,7 +39,9 @@ header > nav {
     backdrop-filter: blur(10px);
 }
 .card {
-    box-shadow: 0.3vw 0.25vw 0.6vw var(--shadow-rb), -0.3vw -0.25vw 0.6vw var(--shadow-lt);
+    box-shadow:
+        0.3vw 0.25vw 0.6vw var(--shadow-rb),
+        -0.3vw -0.25vw 0.6vw var(--shadow-lt);
     margin: 1.5vw 0;
     border: none;
 }
