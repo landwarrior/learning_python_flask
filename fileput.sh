@@ -24,3 +24,8 @@ cp -fr /vagrant/docker /var/app/build/
 cp -fr /vagrant/src /var/app/build/docker/backend
 cp -fr /vagrant/src /var/app/build/docker/frontend
 cp -fr /vagrant/src /var/app/build/docker/batch
+
+# テスト用 (リポジトリの tests/backend/ を /var/app/flask/tests/ 直下へ配置)
+rm -fr /var/app/flask/tests
+mkdir -p /var/app/flask/tests
+cp -fr /vagrant/tests/backend/* /var/app/flask/tests/

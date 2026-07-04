@@ -11,6 +11,8 @@ def get_config():
         return StgConfig
     elif os.environ.get("POSITION", "") == "DEV":
         return DevConfig
+    elif os.environ.get("POSITION", "") == "test":
+        return TestConfig
     return LocalConfig
 
 
@@ -45,3 +47,12 @@ class PrdConfig(Config):
     """本番環境の設定."""
 
     DEBUG = False
+
+
+class TestConfig(Config):
+    """pytest 用の設定."""
+
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        "SQLALCHEMY_DATABASE_URI",
+        "mysql+mysqlconnector://myaccount:myaccount@192.168.33.33/mydb_test",
+    )

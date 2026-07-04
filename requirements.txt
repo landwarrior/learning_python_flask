@@ -2,6 +2,8 @@ argon2-cffi
 Flask
 Flask-Minify
 Flask-WTF
+pytest
 requests
 SQLAlchemy
 types-requests
+pytest-sugar
