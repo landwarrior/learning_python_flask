@@ -1,0 +1,39 @@
+---
+- name: Install dnf-plugins-core
+  ansible.builtin.dnf:
+    name: dnf-plugins-core
+    state: present
+
+- name: Add Docker CE repository
+  ansible.builtin.command:
+    cmd: dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    creates: /etc/yum.repos.d/docker-ce.repo
+
+- name: Update DNF cache
+  ansible.builtin.command: dnf makecache
+  changed_when: true
+
+- name: Install Docker packages
+  ansible.builtin.dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    enablerepo: docker-ce-stable
+
+- name: Enable and start Docker service
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Create fluent log directory
+  ansible.builtin.file:
+    path: /var/log/fluent
+    state: directory
+    owner: root
+    group: root
+    mode: "0777"

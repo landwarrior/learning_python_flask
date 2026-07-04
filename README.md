@@ -51,7 +51,14 @@ sudo su
 /vagrant/provisioning.sh
 ```
 
-chef infra client により docker がインストールされ、 docker が使えるようになったと思います。
+Ansible により Docker のインストールとアプリのデプロイが行われ、 docker が使えるようになったと思います。
+
+別ホストから同じ playbook を実行する場合は、制御ノードに Ansible をインストールしたうえで以下を実行します。
+
+```bash
+cd ansible
+ansible-playbook -i inventory/remote.ini site.yml
+```
 
 ## Docker ボリュームの確認
 

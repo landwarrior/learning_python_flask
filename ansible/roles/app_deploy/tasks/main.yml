@@ -1,0 +1,108 @@
+---
+- name: Report fileput execution
+  ansible.builtin.debug:
+    msg: "  - fileput.sh"
+
+- name: Deploy application files
+  ansible.builtin.command: bash {{ vagrant_mount }}/fileput.sh
+  register: fileput_result
+  changed_when: true
+
+- name: Show fileput output
+  ansible.builtin.debug:
+    var: fileput_result.stdout_lines
+  when: fileput_result.stdout_lines | length > 0
+
+- name: Create MariaDB log directory
+  ansible.builtin.file:
+    path: /var/log/mariadb
+    state: directory
+    mode: "0777"
+
+- name: Get Swarm advertise address
+  ansible.builtin.shell: |
+    set -o pipefail
+    ip -4 addr show dev {{ swarm_interface }} | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+  args:
+    executable: /bin/bash
+  register: swarm_ip
+  changed_when: false
+
+- name: Check Docker Swarm status
+  ansible.builtin.command: docker node ls -q
+  register: swarm_nodes
+  changed_when: false
+  failed_when: false
+
+- name: Report Docker Swarm initialization plan
+  ansible.builtin.debug:
+    msg: "{{ '  - docker swarm init' if swarm_nodes.rc != 0 else '  * skip docker swarm init' }}"
+
+- name: Initialize Docker Swarm
+  ansible.builtin.command: docker swarm init --advertise-addr {{ swarm_ip.stdout }}
+  register: swarm_init_result
+  when: swarm_nodes.rc != 0
+
+- name: Show Docker Swarm initialization output
+  ansible.builtin.debug:
+    var: swarm_init_result.stdout_lines
+  when:
+    - swarm_nodes.rc != 0
+    - swarm_init_result.stdout_lines is defined
+    - swarm_init_result.stdout_lines | length > 0
+
+- name: List existing Docker images
+  ansible.builtin.command: docker images --format "{{ '{{' }}.Repository{{ '}}' }}"
+  register: existing_images
+  changed_when: false
+
+- name: Report Docker image build plan
+  ansible.builtin.debug:
+    msg: "{{ '  - docker build ' + item if item not in existing_images.stdout_lines else '  * skip docker build ' + item }}"
+  loop: "{{ docker_images }}"
+
+- name: Build Docker images
+  ansible.builtin.command: docker build -t {{ item }} /var/app/build/docker/{{ item }}
+  loop: "{{ docker_images }}"
+  register: docker_build_result
+  when: item not in existing_images.stdout_lines
+
+- name: Show Docker image build output
+  ansible.builtin.debug:
+    msg: "{{ item.stdout_lines }}"
+  loop: "{{ docker_build_result.results | default([]) }}"
+  when:
+    - item.stdout_lines is defined
+    - item.stdout_lines | length > 0
+    - not item.skipped | default(false)
+
+- name: List Docker stacks
+  ansible.builtin.command: docker stack ls
+  register: docker_stacks
+  changed_when: false
+
+- name: Report Docker stack deploy plan
+  ansible.builtin.debug:
+    msg: "{{ '  - docker stack deploy' if docker_stack_name not in docker_stacks.stdout else '  * skip docker stack deploy' }}"
+
+- name: Deploy Docker stack
+  ansible.builtin.command: >-
+    docker stack deploy -c {{ docker_stack_file }} {{ docker_stack_name }}
+  register: stack_deploy_result
+  when: docker_stack_name not in docker_stacks.stdout
+
+- name: Show Docker stack deploy output
+  ansible.builtin.debug:
+    var: stack_deploy_result.stdout_lines
+  when:
+    - docker_stack_name not in docker_stacks.stdout
+    - stack_deploy_result.stdout_lines is defined
+    - stack_deploy_result.stdout_lines | length > 0
+
+- name: Configure fluentd logrotate
+  ansible.builtin.template:
+    src: fluentd.logrotate.j2
+    dest: /etc/logrotate.d/fluentd
+    owner: root
+    group: root
+    mode: "0644"

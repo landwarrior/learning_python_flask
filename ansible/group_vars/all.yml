@@ -1,0 +1,11 @@
+vagrant_mount: /vagrant
+docker_images:
+  - frontend
+  - backend
+  - batch
+  - mynginx
+  - myfluentd
+  - database
+docker_stack_name: test
+docker_stack_file: "{{ vagrant_mount }}/docker/docker-stack-local.yml"
+swarm_interface: enp0s8

@@ -9,8 +9,8 @@ Vagrant.configure("2") do |config|
     flask_app.vm.network "private_network", ip: "192.168.33.33"
 
     flask_app.vm.provider "virtualbox" do |vb|
-      vb.memory = "1024"
-      vb.cpus = 1
+      vb.memory = "2048"
+      vb.cpus = 2
     end
 
     # 初期設定

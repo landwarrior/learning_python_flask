@@ -1,0 +1,7 @@
+---
+- name: Provision application host
+  hosts: app_servers
+  roles:
+    - common
+    - docker
+    - app_deploy
