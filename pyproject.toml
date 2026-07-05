@@ -83,6 +83,11 @@ typeCheckingMode = "basic" # 型チェックモード (basic: 基本的な型チ
 include = ["src"]
 # 参照しているモジュールの階層が異なる場合に追加で参照するディレクトリを指定する
 extraPaths = ["src/common"]
+# pytest 実行時は backend ディレクトリが sys.path に載るため、テスト側の import 解決用に環境を分ける
+executionEnvironments = [
+    { root = "tests/backend", extraPaths = ["src/backend", "src/common"] },
+    { root = "src/backend", extraPaths = ["src/common"] },
+]
 # pyright のチェックから除外するものを指定する
 exclude = ["**/__pycache__", "**/.venv", "tests"]
 reportMissingImports = true

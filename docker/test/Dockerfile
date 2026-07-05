@@ -2,11 +2,7 @@
 #
 #
 # 実行例 (VM 内、ホストのソースをマウント):
-#   docker run -it --rm \
-#     -v /var/app/flask/backend:/var/app/flask/backend:ro \
-#     -v /var/app/flask/common:/var/app/flask/common:ro \
-#     -v /var/app/flask/tests:/var/app/flask/tests:ro \
-#     test pytest
+# docker run -it --rm -v /var/app/flask/backend:/var/app/flask/backend:ro  -v /var/app/flask/common:/var/app/flask/common:ro -v /var/app/flask/tests:/var/app/flask/tests:ro test pytest
 
 FROM python:3.14-slim-bookworm
 
