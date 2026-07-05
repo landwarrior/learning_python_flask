@@ -1,33 +1,12 @@
 """GET /users エンドポイントのテスト."""
 
 from datetime import date
-from types import SimpleNamespace
-from unittest.mock import patch
+
+from conftest import insert_mst_user, insert_mst_users
 
 
-def _make_user(**kwargs):
-    defaults = {
-        "user_id": "abe_masami",
-        "user_name": "阿部 まさみ",
-        "user_name_kana": "あべ まさみ",
-        "email": "abe_masami@example.com",
-        "gender": "女",
-        "age": 58,
-        "birth_day": date(1965, 6, 8),
-        "blood_type": "AB型",
-        "prefecture": "群馬県",
-        "curry": "手前ルー・ルー攻め派",
-        "total": 1,
-    }
-    defaults.update(kwargs)
-    return SimpleNamespace(**defaults)
-
-
-@patch("apis.users.mst_user.get_data")
-def test_get_users_returns_200_with_empty_list(mock_get_data, client):
+def test_get_users_returns_200_with_empty_list(client):
     """ユーザーが存在しない場合、空の一覧を返す."""
-    mock_get_data.return_value = iter([])
-
     response = client.get("/users")
 
     assert response.status_code == 200
@@ -39,11 +18,9 @@ def test_get_users_returns_200_with_empty_list(mock_get_data, client):
     assert body["data"] == []
 
 
-@patch("apis.users.mst_user.get_data")
-def test_get_users_returns_user_data(mock_get_data, client):
+def test_get_users_returns_user_data(client, db):
     """ユーザーデータを正しい形式で返す."""
-    mock_get_data.return_value = iter([_make_user()])
-
+    insert_mst_user(db)
     response = client.get("/users")
 
     assert response.status_code == 200
@@ -64,43 +41,73 @@ def test_get_users_returns_user_data(mock_get_data, client):
     }
 
 
-@patch("apis.users.mst_user.get_data")
-def test_get_users_passes_offset_and_limit(mock_get_data, client):
-    """offset と limit クエリパラメータをリポジトリに渡す."""
-    mock_get_data.return_value = iter([])
+def test_get_users_passes_offset_and_limit(client, db):
+    """offset と limit クエリパラメータでページングする."""
+    insert_mst_users(
+        db,
+        [{"user_id": f"test_user_{i:02d}", "user_name": f"テスト {i:02d}"} for i in range(15)],
+    )
 
-    client.get("/users?offset=10&limit=5")
+    response = client.get("/users?offset=10&limit=5")
 
-    mock_get_data.assert_called_once()
-    _, _, offset, limit, condition = mock_get_data.call_args[0]
-    assert offset == 10
-    assert limit == 5
-    assert condition is None
-
-
-@patch("apis.users.mst_user.get_data")
-def test_get_users_passes_filter_condition(mock_get_data, client):
-    """検索条件クエリパラメータをリポジトリに渡す."""
-    mock_get_data.return_value = iter([])
-
-    client.get("/users?user_name=阿部&age=58")
-
-    _, _, _, _, condition = mock_get_data.call_args[0]
-    assert condition == {"user_name": "阿部", "age": 58}
+    assert response.status_code == 200
+    body = response.get_json()
+    assert body["total"] == 15
+    assert body["offset"] == 10
+    assert body["limit"] == 5
+    assert len(body["data"]) == 5
+    assert body["data"][0]["user_id"] == "test_user_10"
+    assert body["data"][-1]["user_id"] == "test_user_14"
 
 
-@patch("apis.users.mst_user.get_data")
-def test_get_users_passes_birth_day_range_condition(mock_get_data, client):
-    """生年月日の範囲検索条件をリポジトリに渡す."""
-    mock_get_data.return_value = iter([])
+def test_get_users_passes_filter_condition(client, db):
+    """検索条件クエリパラメータで絞り込む."""
+    insert_mst_user(db)
+    insert_mst_user(
+        db,
+        user_id="kumai_keita",
+        user_name="熊井 慶太",
+        user_name_kana="くまい けいた",
+        email="kumai_keita@example.com",
+        gender="男",
+        age=43,
+        birth_day=date(1980, 7, 6),
+        blood_type="A型",
+        prefecture="群馬県",
+    )
 
-    client.get("/users?birth_day_from=19650101&birth_day_to=19701231")
+    response = client.get("/users?user_name=阿部&age=58")
 
-    _, _, _, _, condition = mock_get_data.call_args[0]
-    assert condition == {
-        "birth_day_from": date(1965, 1, 1),
-        "birth_day_to": date(1970, 12, 31),
-    }
+    assert response.status_code == 200
+    body = response.get_json()
+    assert body["total"] == 1
+    assert len(body["data"]) == 1
+    assert body["data"][0]["user_id"] == "abe_masami"
+
+
+def test_get_users_passes_birth_day_range_condition(client, db):
+    """生年月日の範囲検索条件で絞り込む."""
+    insert_mst_user(db)
+    insert_mst_user(
+        db,
+        user_id="kumai_keita",
+        user_name="熊井 慶太",
+        user_name_kana="くまい けいた",
+        email="kumai_keita@example.com",
+        gender="男",
+        age=43,
+        birth_day=date(1980, 7, 6),
+        blood_type="A型",
+        prefecture="群馬県",
+    )
+
+    response = client.get("/users?birth_day_from=19650101&birth_day_to=19701231")
+
+    assert response.status_code == 200
+    body = response.get_json()
+    assert body["total"] == 1
+    assert len(body["data"]) == 1
+    assert body["data"][0]["user_id"] == "abe_masami"
 
 
 def test_get_users_invalid_birth_day_returns_400(client):
