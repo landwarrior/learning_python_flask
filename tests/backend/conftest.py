@@ -1,7 +1,6 @@
 """backend API テスト用フィクスチャ."""
 
 import os
-import sys
 from datetime import date
 
 import pytest
@@ -12,7 +11,8 @@ os.environ.setdefault("POSITION", "test")
 
 # WORKDIR が /var/app/flask/tests のとき、tests/backend/ が backend モジュールより先に
 # 解決されるのを防ぐ。
-sys.path.insert(0, "/var/app/flask/backend")
+# pytest.ini の testpaths で tests/backend/ を指定している場合は不要。
+# sys.path.insert(0, "/var/app/flask/backend")
 
 from models import MstUser
 
