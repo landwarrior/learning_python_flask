@@ -11,53 +11,19 @@
         "statusBar.background": "#dd0531",
         "statusBar.foreground": "#e7e7e7",
         "statusBarItem.hoverBackground": "#fa1b49",
-        "statusBarItem.remoteBackground": "#dd0531",
+        "statusBarItem.remoteBackground": "#0e3e01",
         "statusBarItem.remoteForeground": "#e7e7e7",
         "titleBar.activeBackground": "#dd0531",
-        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.activeForeground": "#595959",
         "titleBar.inactiveBackground": "#dd053199",
-        "titleBar.inactiveForeground": "#e7e7e799"
+        "titleBar.inactiveForeground": "#e7e7e799",
+        "activityBarTop.activeBackground": "#fa1b49",
+        "activityBarTop.background": "#fa1b49",
+        "activityBarTop.foreground": "#e7e7e7",
+        "activityBarTop.inactiveForeground": "#e7e7e799",
+        "commandCenter.foreground": "#595959",
+        "statusBar.debuggingBackground": "#dd0531",
+        "statusBar.debuggingForeground": "#e7e7e7"
     },
     "peacock.color": "#dd0531",
-    "[html]": {
-        "editor.tabSize": 2,
-        "editor.defaultFormatter": "biomejs.biome"
-    },
-    "[javascript]": {
-        "editor.tabSize": 4,
-        "editor.insertSpaces": true,
-        "editor.defaultFormatter": "biomejs.biome",
-        "editor.formatOnSave": true
-    },
-    "[json]": {
-        "editor.defaultFormatter": "biomejs.biome",
-        "editor.formatOnSave": true
-    },
-    "[jsonc]": {
-        "editor.defaultFormatter": "biomejs.biome",
-        "editor.formatOnSave": true
-    },
-    "files.associations": {
-        ".htmlhintrc": "jsonc",
-        "*.jinja": "html"
-    },
-    "css.lint.unknownAtRules": "ignore",
-    "[css]": {
-        "editor.defaultFormatter": "biomejs.biome",
-        "editor.formatOnSave": true
-    },
-    "[python]": {
-        "editor.formatOnSave": true,
-        "editor.formatOnType": true
-    },
-    "[jinja-html]": {
-        "editor.tabSize": 2,
-        "editor.defaultFormatter": "vscode.html-language-features"
-    },
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true,
-    "editor.codeActionsOnSave": {
-        "quickfix.biome": "explicit",
-        "source.organizeImports.biome": "explicit"
-    }
 }

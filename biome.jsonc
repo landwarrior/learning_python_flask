@@ -1,6 +1,6 @@
 {
   // Biome設定ファイルのスキーマバージョン（IDEの補完やバリデーションに使用）
-  "$schema": "https://biomejs.dev/schemas/2.5.8/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.11/schema.json",
 
   // バージョン管理システム（VCS）の設定
   "vcs": {
@@ -44,7 +44,8 @@
         "noAdjacentSpacesInRegex": "error", // 正規表現内の連続するスペースを禁止
         "noExtraBooleanCast": "error", // 不要な真偽値へのキャストを禁止
         "noUselessCatch": "error", // 無意味なcatchブロックを禁止
-        "noUselessEscapeInRegex": "error" // 正規表現内の不要なエスケープを禁止
+        "noUselessEscapeInRegex": "error", // 正規表現内の不要なエスケープを禁止
+        "noUselessFragments": "warn" // 不要なフラグメントを禁止
       },
 
       // 正確性に関するルール（バグやエラーを防ぐ）

@@ -70,11 +70,11 @@ check_untyped_defs = true # 型注釈のない関数も型チェック
 warn_unused_ignores = true # 使われていないtype: ignoreを警告
 warn_no_return = true # 戻り値がない可能性を警告
 warn_unreachable = true # 到達不能コードを警告
-# warn_no_explicit_any = true # 暗黙のAnyを警告 (Even Better TOML でエラーが出るのでコメントアウト)
+warn_no_explicit_any = true # 暗黙のAnyを警告
 namespace_packages = true # 名前空間パッケージを許可
 # 動的に追加されたメンバ変数へのアクセスを許可
 # Flaskのapp.dbやcurrent_app.dbのように、実行時に属性が追加される場合に使用
-# disable_error_code = ["attr-defined"]
+disable_error_code = ["attr-defined"]
 
 # mypy ではなく pyright を使用して型チェックをする場合はこちら
 [tool.pyright]
