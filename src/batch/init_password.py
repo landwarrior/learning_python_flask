@@ -9,7 +9,7 @@ import os
 
 from argon2 import PasswordHasher
 from models import Database, mst_user
-from mylogger import UniqueKeyFormatter
+from mylogger import build_stream_handler
 
 
 def main():
@@ -19,10 +19,7 @@ def main():
 
     logger = logging.getLogger(os.path.splitext(os.path.basename(__file__))[0])
     logger.setLevel(logging.DEBUG)
-    handler = logging.StreamHandler()
-    formatter = UniqueKeyFormatter()
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+    logger.addHandler(build_stream_handler())
 
     # Argon2 のパスワードハッシャーを初期化
     ph = PasswordHasher(

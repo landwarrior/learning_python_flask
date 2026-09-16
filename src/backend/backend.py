@@ -8,7 +8,7 @@ import uuid
 from config import get_config
 from flask import Response, g, jsonify, request
 from models import Database
-from mylogger import UniqueKeyFormatter
+from mylogger import build_stream_handler, mask_sensitive
 from routes import init_blueprint
 from typed_flask import FlaskApp
 
@@ -27,10 +27,7 @@ def prepare_logging(app: FlaskApp) -> None:
     """
     app.logger.handlers = []
     app.logger.setLevel(logging.DEBUG)
-    handler = logging.StreamHandler()
-    formatter = UniqueKeyFormatter()
-    handler.setFormatter(formatter)
-    app.logger.addHandler(handler)
+    app.logger.addHandler(build_stream_handler())
 
 
 def prepare_db(app: FlaskApp) -> None:
@@ -69,8 +66,10 @@ def before_request():
     # UUID4 を 16 進数にして、 7 文字分だけ使う
     g.unique_key = uuid.uuid4().hex[0:7]
     data = request.get_json(silent=True)
-    header = str(request.headers).strip().replace("\r", "").replace("\n", ", ")
-    app.logger.info(f"[URL] {request.method} {request.url} [DATA] {data} [HEADER] {header}")
+    headers = dict(request.headers)
+    app.logger.info(
+        f"[URL] {request.method} {request.url} [DATA] {mask_sensitive(data)} [HEADER] {mask_sensitive(headers)}"
+    )
 
 
 @app.after_request
@@ -85,7 +84,9 @@ def after_request(response: Response):
     """
     duration = time.time() - g.start_time
     json_data = response.get_json(silent=True)
-    app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {json_data} [{duration: .5f} sec]")
+    app.logger.info(
+        f"[RESPONSE] [STATUS] {response.status_code} [JSON] {mask_sensitive(json_data)} [{duration: .5f} sec]"
+    )
     if "application/json" in response.content_type:
         response.headers["Content-Type"] = "application/json; charset=utf-8"
     return response

@@ -12,6 +12,7 @@ from flask import (
     session,
     url_for,
 )
+from mylogger import mask_sensitive
 
 
 login_bp = Blueprint("login", __name__, url_prefix="/login")
@@ -31,9 +32,11 @@ def login_form():
 def login():
     """ログイン処理を行う."""
     request_data = {"login_id": request.form.get("login_id"), "ignition_key": request.form.get("ignition_key")}
-    current_app.logger.info(f"ACCESS: {current_app.config['BACKEND_URL'] + '/login'} DATA: {request_data}")
+    current_app.logger.info(
+        f"ACCESS: {current_app.config['BACKEND_URL'] + '/login'} DATA: {mask_sensitive(request_data)}"
+    )
     data = requests.post(current_app.config["BACKEND_URL"] + "/login", json=request_data)
-    current_app.logger.info(f"RESPONSE: {data.status_code} {data.json()}")
+    current_app.logger.info(f"RESPONSE: {data.status_code} {mask_sensitive(data.json())}")
     if data.status_code == 200:
         session["login_user"] = data.json()["user_id"]
         return redirect(url_for("top.home"))

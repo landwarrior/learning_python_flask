@@ -10,7 +10,7 @@ from config import get_config
 from flask import Flask, Response, flash, g, jsonify, redirect, request, session, url_for
 from flask_minify import Minify
 from flask_wtf.csrf import CSRFError, CSRFProtect
-from mylogger import UniqueKeyFormatter
+from mylogger import build_stream_handler, mask_sensitive
 from routes import init_blueprint
 
 
@@ -28,10 +28,7 @@ def prepare_logging(app: Flask) -> None:
     """
     app.logger.handlers = []
     app.logger.setLevel(logging.DEBUG)
-    handler = logging.StreamHandler()
-    formatter = UniqueKeyFormatter()
-    handler.setFormatter(formatter)
-    app.logger.addHandler(handler)
+    app.logger.addHandler(build_stream_handler())
 
 
 app.config.from_object(get_config())
@@ -80,8 +77,10 @@ def before_request():
         g.unique_key = uuid.uuid4().hex[0:7]
         g.count = 1
         data = request.get_json(silent=True)
-        header = str(request.headers).strip().replace("\r", "").replace("\n", ", ")
-        app.logger.info(f"[URL] {request.method} {request.url} [DATA] {data} [HEADER] {header}")
+        headers = dict(request.headers)
+        app.logger.info(
+            f"[URL] {request.method} {request.url} [DATA] {mask_sensitive(data)} [HEADER] {mask_sensitive(headers)}"
+        )
         if "login_user" not in session and "login" not in request.url:
             return redirect("/login")
 
@@ -101,7 +100,9 @@ def after_request(response: Response) -> Response:
     try:
         duration = time.time() - g.start_time
         json_data = response.get_json(silent=True)
-        app.logger.info(f"[RESPONSE] [STATUS] {response.status_code} [JSON] {json_data} [{duration: .5f} sec]")
+        app.logger.info(
+            f"[RESPONSE] [STATUS] {response.status_code} [JSON] {mask_sensitive(json_data)} [{duration: .5f} sec]"
+        )
     except Exception as e:
         app.logger.error(f"Error in after_request: {e}", exc_info=True)
     return response
@@ -121,7 +122,7 @@ def handle_exception_error(e):
         JSON レスポンス または リダイレクトレスポンス
     """
     app.logger.error(traceback.format_exc())
-    app.logger.info(f"session: {session}")
+    app.logger.info(f"session: {mask_sensitive(session)}")
     app.logger.info(f"Unhandled exception: {e}")
     if "api" in request.url:
         return jsonify({"code": 401, "message": "Unauthorized"}), 401
