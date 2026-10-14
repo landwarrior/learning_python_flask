@@ -1,0 +1,6 @@
+{
+  "permissions": {
+    "allow": ["Shell(ls)", "Read(**)"],
+    "deny": ["Read(.env*)", "Write(**/.env*)", "Write(**/*.key)"]
+  }
+}
