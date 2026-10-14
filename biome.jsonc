@@ -1,6 +1,6 @@
 {
   // Biome設定ファイルのスキーマバージョン（IDEの補完やバリデーションに使用）
-  "$schema": "https://biomejs.dev/schemas/2.5.11/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
 
   // バージョン管理システム（VCS）の設定
   "vcs": {
@@ -12,7 +12,7 @@
   // ファイル処理の設定
   "files": {
     // 処理対象とするファイルのパターン
-    "includes": ["**", "!node_modules/**", "!**/dist/**", "!**/build/**", "!**/*.min.js", "!**/*.jinja"]
+    "includes": ["**", "!node_modules", "!**/dist", "!**/build", "!**/*.min.js", "!**/*.jinja"]
   },
 
   // フォーマッターの設定（コード整形のルール）
@@ -115,7 +115,7 @@
       }
     },
     // リンターを適用するファイルのパターン
-    "includes": ["**", "!node_modules/**", "!**/dist/**", "!**/build/**", "!**/*.min.js"]
+    "includes": ["**", "!node_modules", "!**/dist", "!**/build", "!**/*.min.js"]
   },
   // JavaScript固有のフォーマッター設定
   "javascript": {

@@ -34,3 +34,7 @@ hgoe
 fuga
 foo
 bar
+nonoctal
+Backrefs
+conftest
+pyupgrade
