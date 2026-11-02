@@ -56,6 +56,7 @@ def static_file_with_mtime(filename):
     return full_path
 
 
+# pyrefly: ignore[unsupported-operation]
 app.jinja_env.globals["url_for_with_mtime"] = static_file_with_mtime
 
 
