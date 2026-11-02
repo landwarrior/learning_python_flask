@@ -1,8 +1,8 @@
 [tool.ruff]
 # 基本設定
-line-length = 120 # 1行の最大文字数
+line-length = 120        # 1行の最大文字数
 target-version = "py314" # 対象とするPythonバージョン
-fix = true # 自動修正を有効にする
+fix = true               # 自動修正を有効にする
 # 解析対象から除外するパス
 exclude = [
     ".git",
@@ -40,9 +40,9 @@ select = [
 ]
 # 無視するルール
 ignore = [
-    "E203",  # E203: コロンの前に空白がある（pycodestyle）
-    "D403",  # D403: Docstring の先頭を大文字で始める（pydocstyle）
-    "D413",  # D413: Docstring の最後のセクションの後に空行がない（pydocstyle）
+    "E203", # E203: コロンの前に空白がある（pycodestyle）
+    "D403", # D403: Docstring の先頭を大文字で始める（pydocstyle）
+    "D413", # D413: Docstring の最後のセクションの後に空行がない（pydocstyle）
 ]
 
 # [tool.ruff.lint.per-file-ignores]
@@ -52,8 +52,8 @@ ignore = [
 [tool.ruff.lint.isort]
 # importの並び順設定
 known-first-party = ["src", "apis"] # first-partyとして扱うモジュール
-force-single-line = false # importを1行1モジュールに強制しない
-lines-after-imports = 2 # import群の後に空ける行数
+force-single-line = false           # importを1行1モジュールに強制しない
+lines-after-imports = 2             # import群の後に空ける行数
 
 [tool.ruff.lint.mccabe]
 max-complexity = 10 # 許容する循環的複雑度の上限
@@ -63,15 +63,15 @@ max-args = 8 # 関数が受け取れる引数の上限
 
 # mypy ではなく pyright を使用する場合は以下の設定は不要だけど、残しておく
 [tool.mypy]
-python_version = "3.14" # 解析対象のPythonバージョン
+python_version = "3.14"       # 解析対象のPythonバージョン
 ignore_missing_imports = true # 依存が見つからないimportのエラーを無視
 disallow_untyped_defs = false # 型注釈のない関数定義を許可
-check_untyped_defs = true # 型注釈のない関数も型チェック
-warn_unused_ignores = true # 使われていないtype: ignoreを警告
-warn_no_return = true # 戻り値がない可能性を警告
-warn_unreachable = true # 到達不能コードを警告
-warn_no_explicit_any = true # 暗黙のAnyを警告
-namespace_packages = true # 名前空間パッケージを許可
+check_untyped_defs = true     # 型注釈のない関数も型チェック
+warn_unused_ignores = true    # 使われていないtype: ignoreを警告
+warn_no_return = true         # 戻り値がない可能性を警告
+warn_unreachable = true       # 到達不能コードを警告
+warn_no_explicit_any = true   # 暗黙のAnyを警告
+namespace_packages = true     # 名前空間パッケージを許可
 # 動的に追加されたメンバ変数へのアクセスを許可
 # Flaskのapp.dbやcurrent_app.dbのように、実行時に属性が追加される場合に使用
 disable_error_code = ["attr-defined"]
@@ -85,10 +85,31 @@ include = ["src"]
 extraPaths = ["src/common"]
 # pytest 実行時は backend ディレクトリが sys.path に載るため、テスト側の import 解決用に環境を分ける
 executionEnvironments = [
-    { root = "tests/backend", extraPaths = ["src/backend", "src/common"] },
-    { root = "src/backend", extraPaths = ["src/common"] },
+    { root = "tests/backend", extraPaths = [
+        "src/backend",
+        "src/common",
+    ] },
+    { root = "src/backend", extraPaths = [
+        "src/common",
+    ] },
 ]
 # pyright のチェックから除外するものを指定する
 exclude = ["**/__pycache__", "**/.venv", "tests"]
 reportMissingImports = true
 reportUnusedImport = "warning"
+
+[tool.pyrefly]
+project-includes = ["src"]
+project-excludes = ["**/__pycache__", "**/.venv", "tests"]
+search-path = ["src/common", "src/backend"]
+python-version = "3.14.10"
+infer-with-first-use = false
+
+[tool.pyrefly.errors]
+missing-import = "error"
+
+[[tool.pyrefly.sub-config]]
+matches = "src/backend"
+
+[[tool.pyrefly.sub-config]]
+matches = "tests/backend"
