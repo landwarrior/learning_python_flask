@@ -104,9 +104,17 @@ Vagrant.configure("2") do |config|
 
     # 初期設定。SELinux の無効化は設定ファイルを書き換えるだけで、反映は再起動後。
     # README の vagrant reload がそれにあたる。
+    #
+    # 公式 box は /swapfile（2GiB）を置いているが、fstab には載せていない。
+    # bento box はスワップパーティションが有効だったので、ここで有効にする。
+    # 行の追加と swapon は、provision を繰り返しても失敗しない。
     flask_app.vm.provision "shell", inline: <<-SHELL
       sudo timedatectl set-timezone Asia/Tokyo
       sudo sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+      if [ -f /swapfile ] && ! grep -q '^/swapfile[[:space:]]' /etc/fstab; then
+        echo '/swapfile none swap defaults 0 0' | sudo tee -a /etc/fstab >/dev/null
+      fi
+      sudo swapon -a
     SHELL
   end
 end
