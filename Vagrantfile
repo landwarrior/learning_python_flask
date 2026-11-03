@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
     # box 名に「/」を入れると Vagrant が HCP へ更新確認しに行く。
     # rocky-9 はローカルに保存するときの名前で、レジストリ上の名前ではない。
     # 版は URL のファイル名で 9.8-20260525.0 に固定し、公開されている SHA256 で検証する。
-    flask_app.vm.box = "rocky-9"
+    flask_app.vm.box = "rockylinux/9"
     flask_app.vm.box_url = "https://download.rockylinux.org/pub/rocky/9/images/x86_64/Rocky-9-Vagrant-Vbox-9.8-20260525.0.x86_64.vagrant.virtualbox.box"
     flask_app.vm.box_download_checksum_type = "sha256"
     flask_app.vm.box_download_checksum = "beace4853d89f5d1def29fca6eec8893564882d7db85841d3d9c287ac84fb9e4"
