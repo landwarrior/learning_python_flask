@@ -1,0 +1,3 @@
+extends = "../../pyproject.toml"
+project-includes = ["."]
+search-path = ["../common", "../batch"]

@@ -101,15 +101,9 @@ reportUnusedImport = "warning"
 [tool.pyrefly]
 project-includes = ["src"]
 project-excludes = ["**/__pycache__", "**/.venv", "tests"]
-search-path = ["src/common", "src/backend"]
+search-path = ["src/common"]
 python-version = "3.14.10"
 infer-with-first-use = false
 
 [tool.pyrefly.errors]
 missing-import = "error"
-
-[[tool.pyrefly.sub-config]]
-matches = "src/backend"
-
-[[tool.pyrefly.sub-config]]
-matches = "tests/backend"
